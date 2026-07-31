@@ -6,7 +6,8 @@ const slides = [
     highlight: "CONECTANDO AL PERÚ",
     subtitle: "Distribuidor Autorizado Claro comprometido con la excelencia, calidad y desarrollo de nuestras familias y empresas.",
     image: "/images/equipo/administracion_2.jpg",
-    focalPoint: "center 30%",
+    focalPoint: "center 45%",
+    bgSize: "cover",
     promoPill: "Compromiso, Calidad y Orgullo Nacional"
   },
   {
@@ -14,8 +15,9 @@ const slides = [
     title: "Instalación 100% Fibra",
     highlight: "EN MENOS DE 24 HORAS",
     subtitle: "Acércate a nuestro centro de atención y venta más cercano. Presencia en Real Plaza Puruchuco, Mall Plaza Surquillo, CC Mall Aventura SJL y más.",
-    image: "/images/banner_novasmart_1.png",
-    focalPoint: "center center",
+    image: "/images/equipo/tecnicos_1.jpg",
+    focalPoint: "center 22%",
+    bgSize: "cover",
     promoPill: "7 Centros de Atención a Nivel Lima"
   },
   {
@@ -23,8 +25,9 @@ const slides = [
     title: "Fibra Óptica + Claro TV+",
     highlight: "400 Mbps DESDE S/ 75",
     subtitle: "Velocidad de 400 Mbps por 6 meses con descuento por 4 meses. Incluye L1 MAX para que no te pierdas ningún partido.",
-    image: "/images/banner_novasmart_2.png",
-    focalPoint: "center center",
+    image: "/images/equipo/tienda_1.jpg",
+    focalPoint: "center 45%",
+    bgSize: "cover",
     promoPill: "Incluye L1 MAX + Claro TV+"
   },
   {
@@ -33,7 +36,8 @@ const slides = [
     highlight: "AL SERVICIO DE NUESTROS CLIENTES",
     subtitle: "Atención personalizada en tiendas, soporte telefónico continuo 24/7 y despliegue técnico a nivel nacional.",
     image: "/images/equipo/administracion_1.jpg",
-    focalPoint: "center 28%",
+    focalPoint: "center 48%",
+    bgSize: "cover",
     promoPill: "Atención Cercana y Soluciones Inmediatas"
   }
 ];
@@ -46,10 +50,16 @@ const slides = [
         class={`carousel-slide ${index === 0 ? 'active' : ''}`} 
         data-slide-index={index}
       >
+        <!-- Ambient Blur Background -->
+        <div 
+          class="slide-bg-blur" 
+          style={`background-image: url('${slide.image}');`}
+        ></div>
+
         <!-- Background Image -->
         <div 
           class="slide-bg-img" 
-          style={`background-image: url('${slide.image}'); background-position: ${slide.focalPoint};`}
+          style={`background-image: url('${slide.image}'); background-position: ${slide.focalPoint}; background-size: ${slide.bgSize || 'cover'};`}
         ></div>
 
         <!-- Gradient overlay -->
@@ -169,6 +179,19 @@ const slides = [
     opacity: 1;
   }
 
+  .slide-bg-blur {
+    position: absolute;
+    top: -5%;
+    left: -5%;
+    width: 110%;
+    height: 110%;
+    background-size: cover;
+    background-position: center;
+    filter: blur(25px) brightness(0.5);
+    opacity: 0.6;
+    z-index: 0;
+  }
+
   .slide-bg-img {
     position: absolute;
     top: 0;
@@ -193,10 +216,10 @@ const slides = [
     height: 100%;
     background:
       linear-gradient(90deg,
-        rgba(45, 3, 10, 0.94) 0%,
-        rgba(45, 3, 10, 0.80) 35%,
-        rgba(45, 3, 10, 0.50) 60%,
-        rgba(0, 0, 0, 0.25) 100%
+        rgba(35, 3, 8, 0.78) 0%,
+        rgba(35, 3, 8, 0.60) 35%,
+        rgba(20, 2, 5, 0.35) 65%,
+        rgba(0, 0, 0, 0.15) 100%
       );
     z-index: 2;
   }
