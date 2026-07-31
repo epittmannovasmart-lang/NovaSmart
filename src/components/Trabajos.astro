@@ -1,0 +1,492 @@
+---
+---
+
+<section id="trabajos" class="section-padding trabajos-section">
+  <div class="container">
+    <!-- Header & Culture Banner -->
+    <div class="talento-banner">
+      <div class="banner-text">
+        <span class="badge badge-red">Talento Nova Smart</span>
+        <h2>Sumamos Talento para Conectar el Perú</h2>
+        <p>
+          Forma parte de un equipo profesional y apasionado por la tecnología. Ofrecemos constante capacitación, grato ambiente laboral e ingreso a planilla en consorcio con Claro Perú.
+        </p>
+      </div>
+      <div class="banner-image">
+        <img src="/images/careers_team.jpg" alt="Equipo de Profesionales Nova Smart" />
+      </div>
+    </div>
+
+    <!-- Lista de Vacantes -->
+    <div class="jobs-section-header">
+      <h3>Vacantes Laborales Disponibles</h3>
+      <p>Selecciona una vacante para conocer los requisitos e ingresar tu postulación.</p>
+    </div>
+
+    <div class="jobs-grid">
+      <!-- Vacante 1 -->
+      <div class="job-card">
+        <div class="job-header">
+          <span class="badge badge-green">Convocatoria Activa</span>
+          <span class="job-type">Full Time • Campo</span>
+        </div>
+        <h4 class="job-title">Técnico Instalador FTTH / HFC</h4>
+        <p class="job-location">📍 Lima Metropolitano y Regiones</p>
+        <p class="job-desc">
+          Instalación de redes de fibra óptica en domicilios, atenuación y configuración de equipos Wi-Fi homologados.
+        </p>
+        <div class="job-tags">
+          <span class="j-tag">Sueldo Básico + Comisiones</span>
+          <span class="j-tag">Planilla Completa & SCTR</span>
+        </div>
+        <button class="btn btn-primary job-apply-btn" data-job="Técnico Instalador FTTH / HFC">
+          <span>Postular a esta Vacante</span>
+        </button>
+      </div>
+
+      <!-- Vacante 2 -->
+      <div class="job-card">
+        <div class="job-header">
+          <span class="badge badge-red">Bolsa Activa</span>
+          <span class="job-type">Comercial • Campo</span>
+        </div>
+        <h4 class="job-title">Asesor Comercial de Ventas</h4>
+        <p class="job-location">📍 Lima (Conos Norte, Este, Sur)</p>
+        <p class="job-desc">
+          Venta de servicios fijos y móviles de Claro Perú. Captación de clientes residenciales y negocios.
+        </p>
+        <div class="job-tags">
+          <span class="j-tag">Básico S/ 1,025 + Comisiones</span>
+          <span class="j-tag">Capacitación Homologada</span>
+        </div>
+        <button class="btn btn-primary job-apply-btn" data-job="Asesor Comercial de Ventas">
+          <span>Postular a esta Vacante</span>
+        </button>
+      </div>
+
+      <!-- Vacante 3 -->
+      <div class="job-card">
+        <div class="job-header">
+          <span class="badge badge-gray">Liderazgo</span>
+          <span class="job-type">Full Time • Campo</span>
+        </div>
+        <h4 class="job-title">Supervisor de Operaciones FTTH</h4>
+        <p class="job-location">📍 Sede Lima Central</p>
+        <p class="job-desc">
+          Supervisión de cuadrillas técnicas en sitio, control de calidad según normativa Claro y cumplimiento de KPIs.
+        </p>
+        <div class="job-tags">
+          <span class="j-tag">Sueldo Competitivo + Bonos</span>
+          <span class="j-tag">Movilidad Asignada</span>
+        </div>
+        <button class="btn btn-primary job-apply-btn" data-job="Supervisor de Operaciones FTTH">
+          <span>Postular a esta Vacante</span>
+        </button>
+      </div>
+
+      <!-- Vacante 4 -->
+      <div class="job-card">
+        <div class="job-header">
+          <span class="badge badge-green">Convocatoria Activa</span>
+          <span class="job-type">Full Time • Almacén</span>
+        </div>
+        <h4 class="job-title">Auxiliar de Almacén y Logística</h4>
+        <p class="job-location">📍 Sede Principal</p>
+        <p class="job-desc">
+          Control de inventarios de equipos ONTs, bobinas de fibra, conectores y asignación de materiales a técnicos.
+        </p>
+        <div class="job-tags">
+          <span class="j-tag">Planilla Completa</span>
+          <span class="j-tag">Línea de Carrera</span>
+        </div>
+        <button class="btn btn-primary job-apply-btn" data-job="Auxiliar de Almacén y Logística">
+          <span>Postular a esta Vacante</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Postulación Corporativo -->
+  <div class="modal-overlay" id="jobModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <span class="badge badge-red">Formulario de Postulación</span>
+          <h3 id="modalJobTitle">Técnico Instalador</h3>
+        </div>
+        <button class="modal-close" id="modalClose">&times;</button>
+      </div>
+
+      <form class="modal-form" id="applyForm">
+        <div class="form-group">
+          <label for="fullName">Nombre Completo *</label>
+          <input type="text" id="fullName" required placeholder="Ej: Carlos Mendoza" />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="dni">DNI / CE *</label>
+            <input type="text" id="dni" maxlength="12" required placeholder="8 dígitos" />
+          </div>
+          <div class="form-group">
+            <label for="phone">Teléfono / WhatsApp *</label>
+            <input type="tel" id="phone" required placeholder="987 654 321" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Correo Electrónico *</label>
+          <input type="email" id="email" required placeholder="carlos@correo.com" />
+        </div>
+
+        <div class="form-group">
+          <label for="experience">Experiencia en Telecomunicaciones *</label>
+          <select id="experience" required>
+            <option value="">Selecciona una opción...</option>
+            <option value="sin_experiencia">Sin experiencia (Deseo aprender)</option>
+            <option value="1_ano">Menos de 1 año</option>
+            <option value="1_3_anos">De 1 a 3 años</option>
+            <option value="mas_3_anos">Más de 3 años</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="cvFile">Adjuntar Curriculum Vitae (PDF / Word)</label>
+          <input type="file" id="cvFile" accept=".pdf,.doc,.docx" />
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-outline" id="modalCancel">Cancelar</button>
+          <button type="submit" class="btn btn-primary">
+            <span>Enviar Postulación</span>
+          </button>
+        </div>
+      </form>
+
+      <div class="success-message" id="successMsg">
+        <div class="success-icon">✓</div>
+        <h3>¡Postulación Recibida!</h3>
+        <p>Gracias por postular a Nova Smart. Tu perfil ha sido derivado a nuestro equipo de Selección de Personal.</p>
+        <button class="btn btn-primary" id="successClose">Entendido</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .trabajos-section {
+    background-color: #FFFFFF;
+  }
+
+  /* Culture Banner */
+  .talento-banner {
+    background-color: var(--color-bg-light);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+    padding: 3rem;
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 3rem;
+    align-items: center;
+    margin-bottom: 4rem;
+  }
+
+  .banner-text h2 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin: 0.75rem 0 1rem;
+  }
+
+  .banner-text p {
+    font-size: 1.05rem;
+    color: var(--color-text-body);
+    line-height: 1.65;
+  }
+
+  .banner-image img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+  }
+
+  .jobs-section-header {
+    margin-bottom: 2rem;
+  }
+
+  .jobs-section-header h3 {
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin-bottom: 0.25rem;
+  }
+
+  .jobs-section-header p {
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+  }
+
+  .jobs-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  .job-card {
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 2.25rem;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.25s ease;
+  }
+
+  .job-card:hover {
+    border-color: rgba(227, 6, 19, 0.3);
+    box-shadow: var(--shadow-md);
+  }
+
+  .job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .job-type {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+  }
+
+  .job-title {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--color-dark-heading);
+    margin-bottom: 0.35rem;
+  }
+
+  .job-location {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-bottom: 0.75rem;
+  }
+
+  .job-desc {
+    font-size: 0.95rem;
+    color: var(--color-text-body);
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+  }
+
+  .job-tags {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin-bottom: 1.5rem;
+    margin-top: auto;
+  }
+
+  .j-tag {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-dark);
+  }
+
+  .job-apply-btn {
+    width: 100%;
+  }
+
+  /* Modal Overlay */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(17, 24, 39, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    padding: 1.5rem;
+  }
+
+  .modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .modal-card {
+    background-color: #FFFFFF;
+    border-radius: var(--radius-lg);
+    width: 100%;
+    max-width: 520px;
+    padding: 2.25rem;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .modal-header h3 {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--color-dark-heading);
+    margin-top: 0.25rem;
+  }
+
+  .modal-close {
+    background: transparent;
+    border: none;
+    font-size: 1.75rem;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    line-height: 1;
+  }
+
+  .modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .form-group label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-dark);
+  }
+
+  .form-group input, .form-group select {
+    padding: 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    outline: none;
+  }
+
+  .form-group input:focus, .form-group select:focus {
+    border-color: var(--color-primary);
+  }
+
+  .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .success-message {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 2rem 1rem;
+  }
+
+  .success-message.active {
+    display: flex;
+  }
+
+  .success-icon {
+    width: 64px;
+    height: 64px;
+    background-color: #DEF7EC;
+    color: #03543F;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+
+  .success-message h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-dark);
+  }
+
+  .success-message p {
+    color: var(--color-text-body);
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+  }
+
+  @media (max-width: 992px) {
+    .talento-banner {
+      grid-template-columns: 1fr;
+    }
+    .jobs-grid {
+      grid-template-columns: 1fr;
+    }
+    .form-row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  const jobModal = document.getElementById('jobModal');
+  const modalJobTitle = document.getElementById('modalJobTitle');
+  const modalClose = document.getElementById('modalClose');
+  const modalCancel = document.getElementById('modalCancel');
+  const applyForm = document.getElementById('applyForm') as HTMLFormElement | null;
+  const successMsg = document.getElementById('successMsg');
+  const successClose = document.getElementById('successClose');
+
+  document.querySelectorAll('.job-apply-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const target = e.currentTarget as HTMLElement;
+      const jobName = target.getAttribute('data-job') || 'Puesto Laboral';
+      if (modalJobTitle) modalJobTitle.textContent = jobName;
+      if (applyForm) applyForm.style.display = 'flex';
+      if (successMsg) successMsg.classList.remove('active');
+      jobModal?.classList.add('active');
+    });
+  });
+
+  function closeModal() {
+    jobModal?.classList.remove('active');
+  }
+
+  modalClose?.addEventListener('click', closeModal);
+  modalCancel?.addEventListener('click', closeModal);
+  successClose?.addEventListener('click', closeModal);
+
+  applyForm?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (applyForm) applyForm.style.display = 'none';
+    if (successMsg) successMsg.classList.add('active');
+  });
+</script>

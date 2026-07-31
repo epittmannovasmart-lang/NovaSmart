@@ -1,0 +1,242 @@
+---
+---
+
+<section id="cobertura" class="section-padding cobertura-section">
+  <div class="container">
+    <div class="cobertura-box">
+      <div class="cobertura-header text-center">
+        <span class="badge badge-red">Cobertura Nacional</span>
+        <h2 class="section-title">Verifica la Disponibilidad de Fibra Óptica en tu Distrito</h2>
+        <p class="section-desc">
+          Ingresa tu ubicación para consultar el estado de red de Nova Smart y Consorcio Claro.
+        </p>
+      </div>
+
+      <div class="search-wrapper">
+        <div class="search-form">
+          <input 
+            type="text" 
+            id="districtInput" 
+            placeholder="Ej: Los Olivos, San Juan de Lurigancho, Surco, Ate..." 
+          />
+          <button class="btn btn-primary" id="btnCheckCoverage">
+            <span>Consultar Cobertura</span>
+          </button>
+        </div>
+
+        <div class="tags-row">
+          <span>Distritos sugeridos:</span>
+          <button class="chip" data-zone="San Juan de Lurigancho">San Juan de Lurigancho</button>
+          <button class="chip" data-zone="Los Olivos">Los Olivos</button>
+          <button class="chip" data-zone="Santiago de Surco">Surco</button>
+          <button class="chip" data-zone="Ate Vitarte">Ate</button>
+        </div>
+      </div>
+
+      <div class="result-card" id="coverageResult">
+        <div class="result-badge">
+          <span class="dot-green"></span>
+          <span>Red Coberturada Activa</span>
+        </div>
+        <h3 id="resultZoneTitle">San Juan de Lurigancho</h3>
+        <p class="result-desc">Servicio de Fibra Óptica de Alta Velocidad disponible para instalación prioritaria.</p>
+        
+        <div class="result-features">
+          <div class="feat">✓ Tecnología 100% Fibra Óptica (FTTH)</div>
+          <div class="feat">✓ Tiempos de instalación: 24 - 48 horas</div>
+          <div class="feat">✓ Equipo router Wi-Fi homologado por Claro</div>
+        </div>
+
+        <a href="#contacto" class="btn btn-primary">
+          <span>Solicitar Instalación</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cobertura-section {
+    background-color: var(--color-bg-light);
+  }
+
+  .cobertura-box {
+    background-color: #FFFFFF;
+    border-radius: var(--radius-lg);
+    padding: 3.5rem;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--color-border);
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .cobertura-header {
+    margin-bottom: 2rem;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .section-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin: 0.75rem 0;
+  }
+
+  .section-desc {
+    color: var(--color-text-muted);
+    font-size: 1.05rem;
+  }
+
+  .search-wrapper {
+    max-width: 680px;
+    margin: 0 auto 2rem;
+  }
+
+  .search-form {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .search-form input {
+    flex: 1;
+    padding: 0.85rem 1.25rem;
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-full);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .search-form input:focus {
+    border-color: var(--color-primary);
+  }
+
+  .tags-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    justify-content: center;
+  }
+
+  .chip {
+    background-color: var(--color-bg-light);
+    border: 1px solid var(--color-border);
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-full);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .chip:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  .result-card {
+    display: none;
+    background-color: var(--color-primary-light);
+    border: 1px solid rgba(227, 6, 19, 0.2);
+    border-radius: var(--radius-md);
+    padding: 2rem;
+    text-align: center;
+    margin-top: 2rem;
+    animation: fadeIn 0.4s ease;
+  }
+
+  .result-card.active {
+    display: block;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .result-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #03543F;
+    background-color: #DEF7EC;
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-full);
+    margin-bottom: 0.75rem;
+  }
+
+  .dot-green {
+    width: 6px;
+    height: 6px;
+    background-color: #0E9F6E;
+    border-radius: 50%;
+  }
+
+  .result-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-dark-heading);
+  }
+
+  .result-desc {
+    color: var(--color-text-body);
+    font-size: 0.95rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .result-features {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-dark);
+  }
+
+  @media (max-width: 640px) {
+    .search-form {
+      flex-direction: column;
+    }
+    .search-form input {
+      border-radius: var(--radius-md);
+    }
+    .cobertura-box {
+      padding: 2rem 1.5rem;
+    }
+  }
+</style>
+
+<script>
+  const input = document.getElementById('districtInput') as HTMLInputElement | null;
+  const btn = document.getElementById('btnCheckCoverage');
+  const result = document.getElementById('coverageResult');
+  const zoneTitle = document.getElementById('resultZoneTitle');
+
+  function checkZone(zone: string) {
+    if (!zone.trim()) zone = "San Juan de Lurigancho";
+    if (zoneTitle) zoneTitle.textContent = `${zone} — Cobertura Confirmada`;
+    if (result) result.classList.add('active');
+  }
+
+  btn?.addEventListener('click', () => {
+    checkZone(input?.value || '');
+  });
+
+  document.querySelectorAll('.chip').forEach(c => {
+    c.addEventListener('click', (e) => {
+      const z = (e.currentTarget as HTMLElement).getAttribute('data-zone') || '';
+      if (input) input.value = z;
+      checkZone(z);
+    });
+  });
+</script>
