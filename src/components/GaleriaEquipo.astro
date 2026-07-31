@@ -1,0 +1,322 @@
+---
+const areas = [
+  {
+    id: "modulos",
+    title: "Atención en Módulos y Tiendas Autorizadas",
+    category: "tienda",
+    categoryLabel: "Tiendas & Presencia",
+    image: "/images/equipo/tienda_4.jpg",
+    desc: "Atención presencial personalizada en nuestros centros oficiales Claro. Te asesoramos en la elección del plan de fibra óptica ideal, renovaciones de equipos y gestión inmediata de contratos.",
+    highlights: ["Asesoría comercial personalizada 1 a 1", "Trámites y contrataciones al instante", "Exposición de equipos Wi-Fi Dual Band de última generación"]
+  },
+  {
+    id: "callcenter",
+    title: "Plataforma de Call Center & Soporte 24/7",
+    category: "callcenter",
+    categoryLabel: "Atención Telefónica",
+    image: "/images/equipo/callcenter_2.jpg",
+    desc: "Central especializada de atención telefónica disponible las 24 horas. Validamos cobertura por coordenadas de tu domicilio y gestionamos asistencias técnicas con respuesta prioritaria.",
+    highlights: ["Validación de cobertura por mapa de calor en tiempo real", "Agendamiento de visitas técnicas en 24 a 48 horas", "Monitoreo continuo de calidad de servicio"]
+  },
+  {
+    id: "tecnicos-campo",
+    title: "Cuadrillas Técnicas FTTH en Campo",
+    category: "tecnicos",
+    categoryLabel: "Operaciones de Campo",
+    image: "/images/equipo/tecnicos_2.jpg",
+    desc: "Personal homologado y equipado con instrumentos de medición OTDR. Garantizamos instalaciones limpias, estéticas y con atenuación óptima para máxima velocidad simétrica.",
+    highlights: ["Técnicos certificados bajo estándares oficiales de Claro", "Instalación estética sin cables expuestos", "Prueba de velocidad en sitio antes de la entrega"]
+  },
+  {
+    id: "tecnicos-planta",
+    title: "Técnicos Especialistas en Fusiones de Fibra",
+    category: "tecnicos",
+    categoryLabel: "Operaciones de Campo",
+    image: "/images/equipo/tecnicos_3.jpg",
+    desc: "Técnicos expertos en tendido de planta exterior, empalmes de fibra óptica por fusión y mantenimiento preventivo de cajas NAP para asegurar la estabilidad de la conexión.",
+    highlights: ["Empalmes por fusión con baja pérdida de señal (< 0.02 dB)", "Mantenimiento preventivo y correctivo en campo", "Respuesta inmediata ante emergencias de corte de fibra"]
+  },
+  {
+    id: "administracion",
+    title: "Coordinación Operativa & Logística Central",
+    category: "administracion",
+    categoryLabel: "Administración",
+    image: "/images/equipo/administracion_2.jpg",
+    desc: "Gestión administrativa centralizada que coordina el stock de ONTs, suministros y programación de rutas para que cada cliente reciba su instalación a tiempo.",
+    highlights: ["Control estricto de inventario de equipos de alta gama", "Despacho continuo de materiales a cuadrillas en Lima y provincias", "Gestión transparente de contratos y facturación"]
+  }
+];
+---
+
+<section id="galeria" class="section-padding galeria-section">
+  <div class="container">
+    <div class="section-header text-center reveal">
+      <span class="badge badge-red">Nuestra Gente y Operaciones</span>
+      <h2 class="section-title">El Equipo Humano Detrás de Nova Smart</h2>
+      <p class="section-description">
+        Conoce a nuestro personal en sus distintas áreas operativas, administrativas y de atención en campo a nivel nacional.
+      </p>
+    </div>
+
+    <!-- Filter Buttons -->
+    <div class="galeria-filters reveal reveal-delay-1" id="galeriaFilters">
+      <button class="filter-chip active" data-filter="all">Todos ({areas.length})</button>
+      <button class="filter-chip" data-filter="tienda">Tiendas</button>
+      <button class="filter-chip" data-filter="callcenter">Call Center</button>
+      <button class="filter-chip" data-filter="tecnicos">Técnicos FTTH</button>
+      <button class="filter-chip" data-filter="administracion">Administración</button>
+    </div>
+
+    <div class="galeria-grid reveal reveal-delay-2">
+      {areas.map((item) => (
+        <div class="galeria-card" data-category={item.category}>
+          <div class="galeria-img-box">
+            <img src={item.image} alt={item.title} loading="lazy" />
+            <span class="area-badge">{item.categoryLabel}</span>
+          </div>
+          <div class="galeria-content">
+            <h4>{item.title}</h4>
+            <p class="desc-text">{item.desc}</p>
+            
+            <div class="highlights-box">
+              <span class="hl-title">Beneficios y Destacados:</span>
+              <ul>
+                {item.highlights.map(hl => (
+                  <li>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E30613" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    <span>{hl}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <a href="#contacto" class="card-more-btn">
+              <span>Solicitar Atención en esta Área</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .galeria-section {
+    background-color: var(--color-bg-light);
+  }
+
+  .section-header {
+    max-width: 720px;
+    margin: 0 auto 2.5rem;
+  }
+
+  .section-title {
+    font-size: 2.3rem;
+    font-weight: 800;
+    margin: 0.75rem 0 1rem;
+  }
+
+  .section-description {
+    font-size: 1.05rem;
+    color: var(--color-text-body);
+  }
+
+  /* Filters */
+  .galeria-filters {
+    display: flex;
+    justify-content: center;
+    gap: 0.65rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+  }
+
+  .filter-chip {
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-body);
+    padding: 0.5rem 1.2rem;
+    border-radius: var(--radius-full);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+
+  .filter-chip.active, .filter-chip:hover {
+    background-color: var(--color-primary-light);
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  /* Centered Layout Grid without holes */
+  .galeria-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+  }
+
+  .galeria-card {
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: flex;
+    flex-direction: column;
+    width: calc(33.333% - 1.35rem);
+    min-width: 310px;
+    max-width: 380px;
+  }
+
+  .galeria-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-lg);
+    border-color: rgba(227, 6, 19, 0.3);
+  }
+
+  .galeria-img-box {
+    position: relative;
+    height: 230px;
+    overflow: hidden;
+  }
+
+  .galeria-img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+  }
+
+  .galeria-card:hover .galeria-img-box img {
+    transform: scale(1.08);
+  }
+
+  .area-badge {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(4px);
+    color: var(--color-primary);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-full);
+    text-transform: uppercase;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+
+  .galeria-content {
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .galeria-content h4 {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--color-dark-heading);
+    margin-bottom: 0.65rem;
+  }
+
+  .desc-text {
+    font-size: 0.9rem;
+    color: var(--color-text-body);
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+  }
+
+  .highlights-box {
+    background-color: var(--color-bg-light);
+    border-radius: var(--radius-sm);
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    margin-top: auto;
+  }
+
+  .hl-title {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--color-dark-heading);
+    margin-bottom: 0.5rem;
+  }
+
+  .highlights-box ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .highlights-box li {
+    font-size: 0.825rem;
+    font-weight: 600;
+    color: var(--color-text-body);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .card-more-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--font-heading);
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    text-decoration: none;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--color-border);
+    transition: color 0.2s ease;
+  }
+
+  .card-more-btn:hover {
+    color: var(--color-primary-hover);
+  }
+
+  @media (max-width: 992px) {
+    .galeria-card {
+      width: calc(50% - 1rem);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .galeria-card {
+      width: 100%;
+      max-width: 100%;
+    }
+  }
+</style>
+
+<script>
+  const filterBtns = document.querySelectorAll('.filter-chip');
+  const cards = document.querySelectorAll('.galeria-card');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      const target = e.currentTarget as HTMLElement;
+      target.classList.add('active');
+
+      const filter = target.getAttribute('data-filter');
+      cards.forEach(card => {
+        const cat = card.getAttribute('data-category');
+        if (filter === 'all' || filter === cat) {
+          (card as HTMLElement).style.display = 'flex';
+        } else {
+          (card as HTMLElement).style.display = 'none';
+        }
+      });
+    });
+  });
+</script>

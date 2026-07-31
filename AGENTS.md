@@ -1,7 +1,6 @@
 ## Development
 
 When starting the dev server, use background mode:
-
 ```
 astro dev --background
 ```

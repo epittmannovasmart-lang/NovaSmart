@@ -1,4 +1,5 @@
 ---
+import { ClientRouter } from 'astro:transitions';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
@@ -9,8 +10,8 @@ interface Props {
 }
 
 const {
-	title = "Nova Smart | Telecomunicaciones e Infraestructura - Consorcio Claro",
-	description = "Empresa líder en soluciones de telecomunicaciones, fibra óptica y servicios técnicos en consorcio con Claro Perú."
+	title = "Nova Smart | Distribuidor Autorizado Claro Perú - Fibra Óptica y Telecomunicaciones",
+	description = "Nova Smart: Especialistas en instalación de fibra óptica (FTTH/HFC), infraestructura de red y servicios de telecomunicaciones en consorcio con Claro Perú."
 } = Astro.props;
 ---
 
@@ -19,15 +20,19 @@ const {
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" type="image/jpeg" href="/logo_oficial.jpeg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 		<meta name="description" content={description} />
 		
-		<!-- OpenGraph Meta Tags -->
+		<!-- OpenGraph -->
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
+		<meta property="og:image" content="/images/equipo/tienda_1.jpg" />
 		<meta property="og:type" content="website" />
+
+		<!-- Astro View Transitions -->
+		<ClientRouter />
 	</head>
 	<body>
 		<Header />
@@ -35,5 +40,24 @@ const {
 			<slot />
 		</main>
 		<Footer />
+
+		<script>
+			// Astro Fluid Animations Script
+			function initAnimations() {
+				// Scroll reveal observer
+				const observer = new IntersectionObserver((entries) => {
+					entries.forEach(entry => {
+						if (entry.isIntersecting) {
+							entry.target.classList.add('active');
+						}
+					});
+				}, { threshold: 0.1 });
+
+				document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+			}
+
+			document.addEventListener('DOMContentLoaded', initAnimations);
+			document.addEventListener('astro:page-load', initAnimations);
+		</script>
 	</body>
 </html>

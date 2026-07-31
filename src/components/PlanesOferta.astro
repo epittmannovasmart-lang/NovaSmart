@@ -1,0 +1,272 @@
+---
+---
+
+<section id="planes" class="section-padding planes-section">
+  <div class="container">
+    <div class="section-header text-center reveal">
+      <span class="badge badge-red">Oferta Comercial Oficial</span>
+      <h2 class="section-title">Planes de Fibra Óptica Simétrica Claro</h2>
+      <p class="section-description">
+        Disfruta de la mejor tecnología de conexión a internet. Elige tu velocidad y solicita la instalación prioritaria con nuestro equipo técnico.
+      </p>
+    </div>
+
+    <!-- Speed Selector Showcase Box -->
+    <div class="planes-showcase-box reveal reveal-delay-1">
+      <div class="planes-header">
+        <div class="speed-switcher">
+          <button class="plan-tab active" data-speed="200" data-price="79.90" data-desc="Ideal para navegación rápida en hogares, streaming HD y teletrabajo.">200 Mbps</button>
+          <button class="plan-tab" data-speed="500" data-price="109.90" data-desc="Máxima potencia para múltiples dispositivos conectados, gaming 4K y descargas ultrarrápidas.">500 Mbps</button>
+          <button class="plan-tab" data-speed="1000" data-price="159.90" data-desc="Conexión corporativa para alta exigencia, servidores domésticos y transferencia masiva de datos.">1,000 Mbps</button>
+        </div>
+      </div>
+
+      <div class="planes-content">
+        <div class="plan-details">
+          <div class="speed-title-box">
+            <span class="speed-val" id="planSpeedVal">200</span>
+            <span class="speed-unit">Mbps Fibra Óptica</span>
+          </div>
+          <p id="planDescText" class="plan-desc-text">Ideal para navegación rápida en hogares, streaming HD y teletrabajo.</p>
+
+          <div class="price-tag-box">
+            <span class="currency">S/</span>
+            <strong id="planPriceVal" class="price-val">79.90</strong>
+            <span class="period">/ mes</span>
+          </div>
+
+          <div class="plan-ctas">
+            <a href="#contacto" class="btn btn-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              <span>Solicitar Plan</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="plan-benefits-card">
+          <h4>Beneficios Incluidos:</h4>
+          <ul class="benefits-list">
+            <li>
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#047857" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Velocidad 100% Simétrica (Misma velocidad de subida y bajada)</span>
+            </li>
+            <li>
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#047857" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Router Wi-Fi Dual Band de Alta Fidelidad Incluido</span>
+            </li>
+            <li>
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#047857" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Instalación por Técnicos Homologados Nova Smart</span>
+            </li>
+            <li>
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#047857" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Soporte Técnico Continuo 24/7</span>
+            </li>
+            <li>
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#047857" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Cobertura en Lima Metropolitano y Regiones</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .planes-section {
+    background-color: var(--color-bg-light);
+  }
+
+  .section-header {
+    max-width: 720px;
+    margin: 0 auto 3.5rem;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .section-title {
+    font-size: 2.3rem;
+    font-weight: 800;
+    margin: 0.75rem 0 1rem;
+  }
+
+  .section-description {
+    font-size: 1.05rem;
+    color: var(--color-text-body);
+  }
+
+  /* Showcase Box */
+  .planes-showcase-box {
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 3rem;
+    box-shadow: var(--shadow-md);
+  }
+
+  .planes-header {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .speed-switcher {
+    display: flex;
+    background-color: var(--color-bg-light);
+    border: 1px solid var(--color-border);
+    padding: 0.35rem;
+    border-radius: var(--radius-full);
+    gap: 0.35rem;
+  }
+
+  .plan-tab {
+    background: transparent;
+    border: none;
+    color: var(--color-text-muted);
+    padding: 0.6rem 1.4rem;
+    border-radius: var(--radius-full);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+
+  .plan-tab.active {
+    background-color: var(--color-primary);
+    color: #FFFFFF;
+    box-shadow: 0 4px 14px rgba(227, 6, 19, 0.3);
+  }
+
+  .planes-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3.5rem;
+    align-items: center;
+  }
+
+  .speed-title-box {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .speed-val {
+    font-family: var(--font-heading);
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: var(--color-dark-heading);
+    line-height: 1;
+  }
+
+  .speed-unit {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--color-primary);
+  }
+
+  .plan-desc-text {
+    font-size: 1.05rem;
+    color: var(--color-text-body);
+    margin-bottom: 1.5rem;
+  }
+
+  .price-tag-box {
+    display: flex;
+    align-items: baseline;
+    gap: 0.25rem;
+    margin-bottom: 2rem;
+  }
+
+  .currency {
+    font-size: 1.25rem;
+    color: var(--color-text-muted);
+    font-weight: 600;
+  }
+
+  .price-val {
+    font-family: var(--font-heading);
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--color-primary);
+  }
+
+  .period {
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+  }
+
+  .plan-ctas {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .plan-benefits-card {
+    background-color: var(--color-bg-light);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 2.25rem;
+  }
+
+  .plan-benefits-card h4 {
+    font-size: 1.2rem;
+    font-weight: 800;
+    margin-bottom: 1.25rem;
+    color: var(--color-dark-heading);
+  }
+
+  .benefits-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .benefits-list li {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-dark);
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+
+  @media (max-width: 992px) {
+    .planes-content {
+      grid-template-columns: 1fr;
+    }
+    .speed-switcher {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  }
+</style>
+
+<script>
+  const tabs = document.querySelectorAll('.plan-tab');
+  const speedVal = document.getElementById('planSpeedVal');
+  const priceVal = document.getElementById('planPriceVal');
+  const descText = document.getElementById('planDescText');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', (e) => {
+      tabs.forEach(t => t.classList.remove('active'));
+      const target = e.currentTarget as HTMLElement;
+      target.classList.add('active');
+
+      const speed = target.getAttribute('data-speed');
+      const price = target.getAttribute('data-price');
+      const desc = target.getAttribute('data-desc');
+
+      if (speedVal && speed) speedVal.textContent = speed;
+      if (priceVal && price) priceVal.textContent = price;
+      if (descText && desc) descText.textContent = desc;
+    });
+  });
+</script>

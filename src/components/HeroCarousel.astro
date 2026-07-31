@@ -1,0 +1,523 @@
+---
+const slides = [
+  {
+    badge: "ORGULLOSAMENTE PERUANOS",
+    title: "Un Gran Equipo Humano",
+    highlight: "CONECTANDO AL PERÚ",
+    subtitle: "Distribuidor Autorizado Claro comprometido con la excelencia, calidad y desarrollo de nuestras familias y empresas.",
+    image: "/images/equipo/administracion_2.jpg",
+    focalPoint: "center 30%",
+    promoPill: "Compromiso, Calidad y Orgullo Nacional"
+  },
+  {
+    badge: "CLARO ES LA FIBRA QUE TE DA MÁS",
+    title: "Instalación 100% Fibra",
+    highlight: "EN MENOS DE 24 HORAS",
+    subtitle: "Acércate a nuestro centro de atención y venta más cercano. Presencia en Real Plaza Puruchuco, Mall Plaza Surquillo, CC Mall Aventura SJL y más.",
+    image: "/images/banner_novasmart_1.png",
+    focalPoint: "center center",
+    promoPill: "7 Centros de Atención a Nivel Lima"
+  },
+  {
+    badge: "OFERTA EXCLUSIVA 2 PLAY",
+    title: "Fibra Óptica + Claro TV+",
+    highlight: "400 Mbps DESDE S/ 75",
+    subtitle: "Velocidad de 400 Mbps por 6 meses con descuento por 4 meses. Incluye L1 MAX para que no te pierdas ningún partido.",
+    image: "/images/banner_novasmart_2.png",
+    focalPoint: "center center",
+    promoPill: "Incluye L1 MAX + Claro TV+"
+  },
+  {
+    badge: "CULTURA Y TRABAJO EN EQUIPO",
+    title: "Talento y Pasión",
+    highlight: "AL SERVICIO DE NUESTROS CLIENTES",
+    subtitle: "Atención personalizada en tiendas, soporte telefónico continuo 24/7 y despliegue técnico a nivel nacional.",
+    image: "/images/equipo/administracion_1.jpg",
+    focalPoint: "center 28%",
+    promoPill: "Atención Cercana y Soluciones Inmediatas"
+  }
+];
+---
+
+<section id="inicio" class="hero-carousel-section">
+  <div class="carousel-track" id="carouselTrack">
+    {slides.map((slide, index) => (
+      <div 
+        class={`carousel-slide ${index === 0 ? 'active' : ''}`} 
+        data-slide-index={index}
+      >
+        <!-- Background Image -->
+        <div 
+          class="slide-bg-img" 
+          style={`background-image: url('${slide.image}'); background-position: ${slide.focalPoint};`}
+        ></div>
+
+        <!-- Gradient overlay -->
+        <div class="slide-overlay"></div>
+
+        <!-- Content -->
+        <div class="container slide-container">
+          <div class="slide-content">
+            <div class="badge badge-claro-banner">
+              <span class="dot-pulse"></span>
+              <span>{slide.badge}</span>
+            </div>
+
+            <h1 class="slide-title">
+              {slide.title} <br />
+              <span class="slide-highlight">{slide.highlight}</span>
+            </h1>
+
+            <p class="slide-subtitle">{slide.subtitle}</p>
+
+            <div class="slide-pill-tag">
+              <span>{slide.promoPill}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <!-- Plan Selector Card -->
+  <div class="container selector-container">
+    <div class="claro-selector-card glass-selector">
+      <div class="selector-header">
+        <span class="sel-label">Selecciona el servicio:</span>
+        <div class="play-tabs" id="playTabs">
+          <button class="play-tab active" data-play="1play">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+            <span>1 Play (Internet)</span>
+          </button>
+          <button class="play-tab" data-play="2play">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"/><polyline points="17 2 12 7 7 2"/></svg>
+            <span>2 Play (Net+TV)</span>
+          </button>
+          <button class="play-tab" data-play="3play">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <span>3 Play (Trio)</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="selector-body">
+        <label for="planSelect" class="sel-label">Selecciona el mejor plan para ti:</label>
+        <div class="select-dropdown-wrapper">
+          <select id="planSelect" class="claro-select">
+            <option value="1000mbps">Internet Fibra 1,000 Mbps — S/ 69.00 / mes</option>
+            <option value="500mbps">Internet Fibra 500 Mbps — S/ 55.00 / mes</option>
+            <option value="200mbps">Internet Fibra 200 Mbps — S/ 45.00 / mes</option>
+          </select>
+        </div>
+
+        <a href="#contacto" class="btn btn-claro-hero btn-block">
+          <span>¡Lo quiero!</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Carousel Controls -->
+  <div class="container controls-container">
+    <div class="carousel-nav-bar">
+      <button class="nav-arrow prev-arrow" id="prevSlideBtn" aria-label="Anterior">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <button class="nav-arrow next-arrow" id="nextSlideBtn" aria-label="Siguiente">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+
+      <div class="carousel-dots" id="carouselDots">
+        {slides.map((_, idx) => (
+          <button class={`dot-item ${idx === 0 ? 'active' : ''}`} data-dot-index={idx} aria-label={`Diapositiva ${idx + 1}`}></button>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero-carousel-section {
+    position: relative;
+    width: 100%;
+    min-height: 580px;
+    height: 70vh;
+    max-height: 660px;
+    background-color: #2D030A;
+    overflow: hidden;
+  }
+
+  .carousel-track {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .carousel-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.6s ease-in-out;
+  }
+
+  .carousel-slide.active {
+    display: block;
+    opacity: 1;
+  }
+
+  .slide-bg-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: 1;
+    transition: transform 10s ease-out;
+  }
+
+  .carousel-slide.active .slide-bg-img {
+    transform: scale(1.04);
+  }
+
+  .slide-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+      linear-gradient(90deg,
+        rgba(45, 3, 10, 0.94) 0%,
+        rgba(45, 3, 10, 0.80) 35%,
+        rgba(45, 3, 10, 0.50) 60%,
+        rgba(0, 0, 0, 0.25) 100%
+      );
+    z-index: 2;
+  }
+
+  .slide-container {
+    position: relative;
+    z-index: 5;
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  .slide-content {
+    max-width: 620px;
+    color: #FFFFFF;
+  }
+
+  .badge-claro-banner {
+    background-color: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #FFFFFF;
+    margin-bottom: 1.25rem;
+  }
+
+  .slide-title {
+    font-size: 3.2rem;
+    font-weight: 900;
+    color: #FFFFFF;
+    margin-bottom: 1rem;
+    line-height: 1.1;
+  }
+
+  .slide-highlight {
+    color: #FF6666;
+    text-shadow: 0 0 20px rgba(255, 102, 102, 0.4);
+  }
+
+  .slide-subtitle {
+    font-size: 1.1rem;
+    color: #F1F5F9;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+
+  .slide-pill-tag {
+    display: inline-flex;
+    background-color: rgba(238, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 0.5rem 1.25rem;
+    border-radius: var(--radius-full);
+    font-size: 0.875rem;
+    font-weight: 700;
+  }
+
+  /* Selector Card */
+  .selector-container {
+    position: absolute;
+    top: 50%;
+    right: 1.5rem;
+    transform: translateY(-50%);
+    z-index: 10;
+    pointer-events: none;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+  }
+
+  .claro-selector-card {
+    pointer-events: auto;
+    width: 100%;
+    max-width: 440px;
+    background: rgba(30, 6, 12, 0.84);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    color: #FFFFFF;
+  }
+
+  .sel-label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #E2E8F0;
+    margin-bottom: 0.75rem;
+  }
+
+  .play-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .play-tab {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #E2E8F0;
+    padding: 0.6rem 0.5rem;
+    border-radius: var(--radius-md);
+    font-family: var(--font-heading);
+    font-size: 0.8rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+
+  .play-tab.active {
+    background-color: #00A896;
+    border-color: #00A896;
+    color: #FFFFFF;
+    box-shadow: 0 4px 14px rgba(0, 168, 150, 0.4);
+  }
+
+  .select-dropdown-wrapper {
+    margin-bottom: 1.5rem;
+  }
+
+  .claro-select {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: var(--radius-md);
+    color: #FFFFFF;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 600;
+    outline: none;
+    cursor: pointer;
+  }
+
+  .btn-claro-hero {
+    background: linear-gradient(135deg, #EE0000 0%, #B90000 100%);
+    color: #FFFFFF;
+    font-size: 1.1rem;
+    padding: 0.95rem;
+    border-radius: var(--radius-full);
+    box-shadow: 0 6px 20px rgba(238, 0, 0, 0.5);
+  }
+
+  .btn-claro-hero:hover {
+    background: linear-gradient(135deg, #FF2222 0%, #D00000 100%);
+    transform: translateY(-2px);
+  }
+
+  .btn-block {
+    width: 100%;
+  }
+
+  /* Controls */
+  .controls-container {
+    position: absolute;
+    bottom: 2rem;
+    left: 1.5rem;
+    z-index: 10;
+  }
+
+  .carousel-nav-bar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .nav-arrow {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+
+  .nav-arrow:hover {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+  }
+
+  .carousel-dots {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .dot-item {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .dot-item.active {
+    width: 32px;
+    border-radius: 6px;
+    background: #EE0000;
+    box-shadow: 0 0 10px #EE0000;
+  }
+
+  @media (max-width: 1024px) {
+    .selector-container {
+      position: relative;
+      top: 0;
+      right: 0;
+      transform: none;
+      justify-content: center;
+      margin-top: 2rem;
+      padding-bottom: 4rem;
+    }
+    .hero-carousel-section {
+      min-height: auto;
+      height: auto;
+    }
+    .carousel-track {
+      height: 480px;
+    }
+    .slide-title {
+      font-size: 2.3rem;
+    }
+  }
+</style>
+
+<script>
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.carousel-slide');
+  const dots = document.querySelectorAll('.dot-item');
+  const prevBtn = document.getElementById('prevSlideBtn');
+  const nextBtn = document.getElementById('nextSlideBtn');
+  let autoTimer: any = null;
+
+  function showSlide(index: number) {
+    if (slides.length === 0) return;
+    slides.forEach(s => {
+      (s as HTMLElement).style.display = 'none';
+      s.classList.remove('active');
+    });
+    dots.forEach(d => d.classList.remove('active'));
+
+    currentSlide = (index + slides.length) % slides.length;
+    const activeSlide = slides[currentSlide] as HTMLElement;
+    if (activeSlide) {
+      activeSlide.style.display = 'block';
+      setTimeout(() => activeSlide.classList.add('active'), 20);
+    }
+    dots[currentSlide]?.classList.add('active');
+  }
+
+  function nextSlide() {
+    showSlide(currentSlide + 1);
+  }
+
+  function startAutoPlay() {
+    stopAutoPlay();
+    autoTimer = setInterval(nextSlide, 5000);
+  }
+
+  function stopAutoPlay() {
+    if (autoTimer) clearInterval(autoTimer);
+  }
+
+  prevBtn?.addEventListener('click', () => {
+    showSlide(currentSlide - 1);
+    startAutoPlay();
+  });
+
+  nextBtn?.addEventListener('click', () => {
+    nextSlide();
+    startAutoPlay();
+  });
+
+  dots.forEach(dot => {
+    dot.addEventListener('click', (e) => {
+      const idx = parseInt((e.currentTarget as HTMLElement).getAttribute('data-dot-index') || '0');
+      showSlide(idx);
+      startAutoPlay();
+    });
+  });
+
+  const playTabs = document.querySelectorAll('.play-tab');
+  const select = document.getElementById('planSelect') as HTMLSelectElement | null;
+
+  playTabs.forEach(tab => {
+    tab.addEventListener('click', (e) => {
+      playTabs.forEach(t => t.classList.remove('active'));
+      const target = e.currentTarget as HTMLElement;
+      target.classList.add('active');
+
+      const playType = target.getAttribute('data-play');
+      if (select) {
+        if (playType === '1play') {
+          select.innerHTML = `
+            <option value="1000mbps">Internet Fibra 1,000 Mbps — S/ 69.00 / mes</option>
+            <option value="500mbps">Internet Fibra 500 Mbps — S/ 55.00 / mes</option>
+            <option value="200mbps">Internet Fibra 200 Mbps — S/ 45.00 / mes</option>
+          `;
+        } else if (playType === '2play') {
+          select.innerHTML = `
+            <option value="400mbps_tv">Fibra 400 Mbps + Claro TV+ — S/ 75.00 / mes</option>
+            <option value="1000mbps_tv">Fibra 1,000 Mbps + Claro TV+ — S/ 120.00 / mes</option>
+          `;
+        } else {
+          select.innerHTML = `
+            <option value="trio_400">Trio Fibra 400 Mbps + TV + Fijo — S/ 99.00 / mes</option>
+            <option value="trio_1000">Trio Fibra 1,000 Mbps + TV + Fijo — S/ 140.00 / mes</option>
+          `;
+        }
+      }
+    });
+  });
+
+  startAutoPlay();
+</script>
