@@ -18,7 +18,7 @@ const slides = [
     image: "/images/equipo/tecnicos_1.jpg",
     focalPoint: "center 22%",
     bgSize: "cover",
-    promoPill: "7 Centros de Atención a Nivel Lima"
+    promoPill: "Atención Especializada y Cobertura Garantizada"
   },
   {
     badge: "OFERTA EXCLUSIVA 2 PLAY",
@@ -187,11 +187,11 @@ const slides = [
     width: 100%;
     height: 100%;
     background:
-      linear-gradient(90deg,
-        rgba(15, 23, 42, 0.86) 0%,
-        rgba(15, 23, 42, 0.60) 45%,
+      linear-gradient(270deg,
+        rgba(15, 23, 42, 0.92) 0%,
+        rgba(15, 23, 42, 0.75) 45%,
         rgba(15, 23, 42, 0.40) 70%,
-        rgba(15, 23, 42, 0.50) 100%
+        rgba(0, 0, 0, 0.05) 100%
       );
     z-index: 2;
   }
@@ -200,13 +200,25 @@ const slides = [
     position: relative;
     z-index: 5;
     height: 100%;
+    width: 100%;
+    max-width: 100% !important;
+    padding-left: 2rem;
+    padding-right: 3.5rem;
     display: flex;
     align-items: center;
+    justify-content: flex-end;
   }
 
   .slide-content {
-    max-width: 600px;
+    max-width: 580px;
+    width: 100%;
     color: #FFFFFF;
+    text-align: right;
+    margin-left: auto;
+    margin-right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
   }
 
   .badge-claro-banner {
@@ -216,6 +228,7 @@ const slides = [
     color: #FFFFFF;
     margin-bottom: 1.25rem;
     letter-spacing: 0.05em;
+    align-self: flex-end;
   }
 
   .slide-title {
@@ -225,6 +238,8 @@ const slides = [
     margin-bottom: 1rem;
     line-height: 1.1;
     letter-spacing: -0.02em;
+    text-align: right;
+    width: 100%;
   }
 
   .slide-highlight {
@@ -239,6 +254,8 @@ const slides = [
     color: #F1F5F9;
     margin-bottom: 1.5rem;
     line-height: 1.6;
+    text-align: right;
+    width: 100%;
   }
 
   .slide-pill-tag {
@@ -250,14 +267,17 @@ const slides = [
     border-radius: var(--radius-full);
     font-size: 0.875rem;
     font-weight: 700;
+    align-self: flex-end;
   }
 
   .slide-actions {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     gap: 1rem;
     margin-bottom: 1.5rem;
     flex-wrap: wrap;
+    width: 100%;
   }
 
   .btn-hero {
