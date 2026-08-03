@@ -18,10 +18,14 @@
   --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.07);
   --shadow-lg: 0 16px 40px rgba(15, 23, 42, 0.1);
   --shadow-glow: 0 6px 25px rgba(227, 6, 19, 0.28);
+  --shadow-card-hover: 0 20px 40px -10px rgba(227, 6, 19, 0.15);
   --radius-sm: 8px;
   --radius-md: 14px;
   --radius-lg: 22px;
+  --radius-xl: 28px;
   --radius-full: 9999px;
+  --gradient-primary: linear-gradient(135deg, #EE0000 0%, #B90000 100%);
+  --gradient-cyan: linear-gradient(135deg, #00C9A7 0%, #00A896 100%);
 }
 
 * {
