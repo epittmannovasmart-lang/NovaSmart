@@ -19,19 +19,10 @@
             </div>
             <div>
               <span class="info-label">Central Telefónica / WhatsApp</span>
-              <strong class="info-val"><a href="tel:+51989055734" style="color: inherit;">989 055 734</a></strong>
+              <strong class="info-val"><a href="tel:+51915129456" style="color: inherit;">+51 915 129 456</a></strong>
             </div>
           </div>
 
-          <div class="info-item">
-            <div class="info-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E30613" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            </div>
-            <div>
-              <span class="info-label">Correo Corporativo</span>
-              <strong class="info-val">contacto@novasmart.pe</strong>
-            </div>
-          </div>
 
           <div class="info-item">
             <div class="info-icon">
@@ -39,7 +30,7 @@
             </div>
             <div>
               <span class="info-label">Sede Central</span>
-              <strong class="info-val">Parque Industrial, Centro Bancario, Av. Juan Velasco Alvarado 5, Villa El Salvador 15816</strong>
+              <strong class="info-val">Av. Alfredo Benavides 1180, Miraflores 15074</strong>
             </div>
           </div>
         </div>
@@ -48,7 +39,7 @@
       <!-- Form Column -->
       <div class="contacto-form-card">
         <h3>Enviar un Mensaje</h3>
-        <p>Llena el formulario y un representante comercial se comunicará contigo.</p>
+        <p>Llena el formulario y un representante comercial se comunicará contigo vía WhatsApp.</p>
 
         <form class="contact-form" id="contactForm">
           <div class="form-group">
@@ -77,12 +68,12 @@
           </div>
 
           <button type="submit" class="btn btn-primary btn-block">
-            <span>Enviar Consulta</span>
+            <span>Enviar Consulta vía WhatsApp</span>
           </button>
         </form>
 
         <div class="contact-success" id="contactSuccess">
-          <span>¡Mensaje enviado con éxito! Nos pondremos en contacto a la brevedad.</span>
+          <span>¡Redirigiendo a WhatsApp para enviar tu mensaje!</span>
         </div>
       </div>
     </div>
@@ -234,15 +225,27 @@
 </style>
 
 <script>
-  const contactForm = document.getElementById('contactForm');
+  const contactForm = document.getElementById('contactForm') as HTMLFormElement | null;
   const contactSuccess = document.getElementById('contactSuccess');
 
   contactForm?.addEventListener('submit', (e) => {
     e.preventDefault();
+
+    const name = (document.getElementById('cName') as HTMLInputElement)?.value || '';
+    const phone = (document.getElementById('cPhone') as HTMLInputElement)?.value || '';
+    const serviceSelect = document.getElementById('cService') as HTMLSelectElement | null;
+    const serviceText = serviceSelect?.options[serviceSelect.selectedIndex]?.text || '';
+    const msg = (document.getElementById('cMsg') as HTMLTextAreaElement)?.value || '';
+
+    const text = `Hola, mi nombre es ${name}. Mi teléfono de contacto es ${phone}. Estoy interesado en: ${serviceText}.${msg ? `\nDetalle: ${msg}` : ''}`;
+    const whatsappUrl = `https://wa.me/51915129456?text=${encodeURIComponent(text)}`;
+
     contactSuccess?.classList.add('active');
-    (contactForm as HTMLFormElement).reset();
+
     setTimeout(() => {
+      window.open(whatsappUrl, '_blank');
+      contactForm.reset();
       contactSuccess?.classList.remove('active');
-    }, 5000);
+    }, 500);
   });
 </script>

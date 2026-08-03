@@ -278,13 +278,15 @@ const slides = [
   .selector-container {
     position: absolute;
     top: 50%;
-    right: 1.5rem;
-    transform: translateY(-50%);
+    left: 50%;
+    transform: translate(-50%, -50%);
     z-index: 10;
     pointer-events: none;
     display: flex;
     justify-content: flex-end;
     width: 100%;
+    max-width: 1240px;
+    padding: 0 3.5rem;
   }
 
   .claro-selector-card {
@@ -299,6 +301,7 @@ const slides = [
     padding: 2rem;
     box-shadow: 0 20px 40px rgba(0,0,0,0.5);
     color: #FFFFFF;
+    text-align: center;
   }
 
   .sel-label {
@@ -307,10 +310,12 @@ const slides = [
     font-weight: 700;
     color: #E2E8F0;
     margin-bottom: 0.75rem;
+    text-align: center;
   }
 
   .play-tabs {
     display: flex;
+    justify-content: center;
     gap: 0.5rem;
     margin-bottom: 1.5rem;
   }
@@ -342,6 +347,8 @@ const slides = [
 
   .select-dropdown-wrapper {
     margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: center;
   }
 
   .claro-select {
@@ -356,6 +363,8 @@ const slides = [
     font-weight: 600;
     outline: none;
     cursor: pointer;
+    text-align: center;
+    text-align-last: center;
   }
 
   .btn-claro-hero {
@@ -365,6 +374,10 @@ const slides = [
     padding: 0.95rem;
     border-radius: var(--radius-full);
     box-shadow: 0 6px 20px rgba(238, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
   }
 
   .btn-claro-hero:hover {

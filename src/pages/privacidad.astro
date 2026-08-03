@@ -72,7 +72,7 @@ const lastUpdated = "31 de julio de 2026";
               </div>
               <h2>2. Información que recopilamos</h2>
               <ul>
-                <li>Nombre y datos de contacto (número de teléfono, correo electrónico).</li>
+                <li>Nombre y datos de contacto (número de teléfono).</li>
                 <li>Mensajes e interacciones enviadas a través de WhatsApp u otros canales.</li>
                 <li>Información relacionada con consultas, pedidos o solicitudes de servicio.</li>
                 <li>Datos técnicos básicos de uso del sitio web (por ejemplo, mediante cookies o analítica).</li>
@@ -156,12 +156,9 @@ const lastUpdated = "31 de julio de 2026";
               <div class="privacy-card__contact">
                 <div class="privacy-contact-item">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#E30613" viewBox="0 0 256 256"><path d="M222.37,158.46l-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L134.87,160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16,16,0,0,0,1.32-15.06l0-.12L97.54,33.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,32,80c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,222.37,158.46Z"/></svg>
-                  <strong>+51 907 377 938</strong>
+                  <strong>+51 915 129 456</strong>
                 </div>
-                <div class="privacy-contact-item">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#E30613" viewBox="0 0 256 256"><path d="M224,48H32a8,8,0,0,0-8,8V192a8,8,0,0,0,8,8H224a8,8,0,0,0,8-8V56A8,8,0,0,0,224,48Zm-96,85.15L52.57,64H203.43ZM98.71,128,40,181.81V74.19Zm11.84,10.85,12,11.05a8,8,0,0,0,10.82,0l12-11.05,58,53.15H52.57ZM157.29,128,216,74.18V181.82Z"/></svg>
-                  <strong>epittman.novasmart@gmail.com</strong>
-                </div>
+
               </div>
             </article>
           </div>
@@ -408,9 +405,12 @@ const lastUpdated = "31 de julio de 2026";
   document.querySelectorAll('.privacy-toc__list a').forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
-      const target = document.querySelector(link.getAttribute('href'));
-      if (target) {
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const href = link.getAttribute('href');
+      if (href) {
+        const target = document.querySelector(href);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
       }
     });
   });
