@@ -10,7 +10,7 @@ const salesPhone = "51983985748";
       <span class="badge badge-red">{promocionesData.vigencia}</span>
       <h2 class="section-title">Planes y Combos Claro Fibra Óptica</h2>
       <p class="section-description">
-        Catálogo técnico y comercial de promociones vigentes. Explora los planes, velocidades, equipos y beneficios incluidos.
+        Catálogo técnico y comercial de promociones vigentes. Explora los servicios 1 Play, 2 Play y 3 Play con bonos de velocidad y beneficios exclusivos.
       </p>
     </div>
 
@@ -34,6 +34,15 @@ const salesPhone = "51983985748";
           <div class="modality-intro text-center">
             <h3>{m.title}</h3>
             <p>{m.desc}</p>
+          </div>
+
+          <!-- General Promo Banner for the Modality -->
+          <div class="modality-promo-banner">
+            <div class="banner-badge-box">
+              <span class="banner-pill">OFERTA CAMPAÑA VIGENTE</span>
+            </div>
+            <h4 class="banner-title">{m.promoGeneralTitle}</h4>
+            <p class="banner-text">{m.promoGeneralText}</p>
           </div>
 
           <!-- Carousel Slider for Cards -->
@@ -125,51 +134,56 @@ const salesPhone = "51983985748";
   }
 
   .section-header {
-    max-width: 720px;
+    max-width: 850px;
     margin: 0 auto 3.5rem;
+    text-align: center;
   }
 
   .planes-showcase-box {
     background-color: #FAFAFB;
     border: 1px solid var(--color-border);
+    border-top: 4px solid var(--color-primary);
     border-radius: var(--radius-lg);
-    padding: 3rem 2rem;
+    padding: 3.5rem 2.5rem;
     box-shadow: var(--shadow-md);
   }
 
   .planes-header {
     display: flex;
     justify-content: center;
-    margin-bottom: 2.5rem;
+    margin-bottom: 2.75rem;
   }
 
   .speed-switcher {
-    display: flex;
+    display: inline-flex;
     background-color: #FFFFFF;
     border: 1px solid var(--color-border);
-    padding: 0.35rem;
+    padding: 0.45rem;
     border-radius: var(--radius-full);
-    gap: 0.35rem;
-    box-shadow: var(--shadow-sm);
+    gap: 0.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
   .plan-tab {
     background: transparent;
     border: none;
     color: var(--color-text-muted);
-    padding: 0.65rem 1.5rem;
+    padding: 0.75rem 2rem;
     border-radius: var(--radius-full);
     font-family: var(--font-heading);
     font-weight: 700;
-    font-size: 0.925rem;
+    font-size: 0.95rem;
     cursor: pointer;
     transition: all 0.25s ease;
+    white-space: nowrap;
   }
 
   .plan-tab.active {
     background-color: var(--color-primary);
     color: #FFFFFF;
-    box-shadow: 0 4px 14px rgba(227, 6, 19, 0.3);
+    box-shadow: 0 4px 14px rgba(227, 6, 19, 0.35);
   }
 
   .modality-panel {
@@ -182,33 +196,76 @@ const salesPhone = "51983985748";
 
   .modality-intro {
     text-align: center;
-    margin-bottom: 2.25rem;
+    margin-bottom: 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;
   }
 
   .modality-intro h3 {
-    font-size: 1.6rem;
-    font-weight: 800;
-    margin-bottom: 0.5rem;
+    font-size: 1.75rem;
+    font-weight: 900;
+    margin-bottom: 0.6rem;
     color: var(--color-dark-heading);
     text-align: center;
   }
 
   .modality-intro p {
-    font-size: 1rem;
+    font-size: 1.05rem;
     color: var(--color-text-body);
     margin: 0 auto;
-    max-width: 680px;
+    max-width: 720px;
     text-align: center;
+    line-height: 1.6;
+  }
+
+  /* General Promo Banner Box */
+  .modality-promo-banner {
+    background: linear-gradient(135deg, #FFF5F5 0%, #FFF0F0 100%);
+    border: 1px solid rgba(227, 6, 19, 0.2);
+    border-radius: var(--radius-md);
+    padding: 1.5rem 2rem;
+    text-align: center;
+    margin-bottom: 2.75rem;
+    position: relative;
+  }
+
+  .banner-badge-box {
+    margin-bottom: 0.5rem;
+  }
+
+  .banner-pill {
+    background: var(--color-primary);
+    color: #FFFFFF;
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 0.25rem 0.85rem;
+    border-radius: var(--radius-full);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .banner-title {
+    font-size: 1.15rem;
+    font-weight: 900;
+    color: var(--color-primary);
+    margin-bottom: 0.4rem;
+  }
+
+  .banner-text {
+    font-size: 0.95rem;
+    color: var(--color-dark-heading);
+    margin: 0 auto;
+    max-width: 780px;
+    line-height: 1.5;
+    font-weight: 600;
   }
 
   /* Carousel Wrapper */
   .plans-carousel-wrapper {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 1.25rem;
     position: relative;
   }
 
@@ -248,7 +305,7 @@ const salesPhone = "51983985748";
     transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
   }
 
-  /* Vertical Card Styling matching Screenshot */
+  /* Vertical Card Styling */
   .claro-plan-card {
     flex: 0 0 calc(33.333% - 1rem);
     min-width: 280px;
@@ -339,7 +396,7 @@ const salesPhone = "51983985748";
     margin-top: 2px;
   }
 
-  /* Light Teal / Blue Strip matching Screenshot */
+  /* Light Teal / Blue Strip */
   .card-highlight-strip {
     background: #E8F5F8;
     border: 1px solid #D0EBF2;
@@ -395,7 +452,7 @@ const salesPhone = "51983985748";
     display: flex;
     justify-content: center;
     gap: 0.5rem;
-    margin-top: 1.75rem;
+    margin-top: 2rem;
   }
 
   .plan-dot {
@@ -425,7 +482,11 @@ const salesPhone = "51983985748";
       flex: 0 0 100%;
     }
     .planes-showcase-box {
-      padding: 1.75rem 1rem;
+      padding: 2rem 1rem;
+    }
+    .plan-tab {
+      padding: 0.6rem 1.25rem;
+      font-size: 0.85rem;
     }
   }
 </style>

@@ -6,7 +6,9 @@
       "id": "1play",
       "tabName": "1 Play (Internet)",
       "title": "1 Play — Internet Fibra Óptica Simétrica",
-      "desc": "Conexión de solo Internet por Fibra Óptica 100% Simétrica. Incluye bonos de velocidad de hasta 1,000 Mbps por 12 meses y repetición de señal Wi-Fi.",
+      "desc": "Conexión de solo Internet por Fibra Óptica 100% Simétrica. Velocidades desde 200 Mbps hasta 1,000 Mbps con repetición Wi-Fi y beneficio Full Claro.",
+      "promoGeneralTitle": "PROMO DESTACADA 1 PLAY: FIBRA SIMÉTRICA + BONO 1,000 MBPS",
+      "promoGeneralText": "Aprovecha el bono de velocidad de hasta 1,000 Mbps por 12 meses, opción de Repetidor Wi-Fi (Promo 1 Sol) y duplicación de velocidad permanente para clientes Full Claro.",
       "planes": [
         {
           "speed": "200 Mbps",
@@ -110,7 +112,9 @@
       "id": "2play",
       "tabName": "2 Play (Int + TV / Telf)",
       "title": "2 Play — Internet + Claro TV+ o Telefonía Fija",
-      "desc": "Combo Dúo con Internet Fibra Óptica + servicio de Claro TV+ o Telefonía Fija. Incluye acceso a América tvGO y decodificador Smart Soundbox.",
+      "desc": "Combo Dúo con Internet Fibra Óptica + servicio de Claro TV+ o Telefonía Fija con decodificador Smart Soundbox de sonido envolvente.",
+      "promoGeneralTitle": "PROMO DESTACADA 2 PLAY: DÚO INTERNET + CLARO TV+ CON SOUNDBOX HD",
+      "promoGeneralText": "Incluye televisión digital HD, decodificador principal Soundbox con sonido de alta calidad, acceso a América tvGO (Canal 4 y 504 HD) y L1 MAX para partidos del torneo peruano.",
       "planes": [
         {
           "speed": "200 Mbps Dúo",
@@ -199,6 +203,8 @@
       "tabName": "3 Play (Trío Completo)",
       "title": "3 Play — Trío Completo (Internet + TV + Telefonía)",
       "desc": "La experiencia de conectividad y entretenimiento más completa: Internet Fibra Óptica + Claro TV+ + Línea Telefónica Fija con 5,000 minutos.",
+      "promoGeneralTitle": "PROMO DESTACADA 3 PLAY: TRÍO COMPLETO FIBRA + TV SUPERIOR + FIJO 5,000 MIN",
+      "promoGeneralText": "La solución 3 en 1 ideal con TV Superior Pro, L1 MAX, HBO Max, Deco Soundbox HD, 5,000 minutos libres para llamadas nacionales y Repetidor Wi-Fi Gratis en FTTH.",
       "planes": [
         {
           "speed": "200 Mbps Trío",
