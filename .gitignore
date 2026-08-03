@@ -26,3 +26,7 @@ pnpm-debug.log*
 # raw images source
 imagenes/
 
+# promo pdfs (ignored by git)
+promos_pdf/
+*.pdf
+
