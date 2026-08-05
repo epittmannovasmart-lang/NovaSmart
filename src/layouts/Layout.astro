@@ -7,11 +7,13 @@ import '../styles/global.css';
 interface Props {
 	title?: string;
 	description?: string;
+	minimalHeader?: boolean;
 }
 
 const {
 	title = "Nova Smart | Distribuidor Autorizado Claro Perú - Fibra Óptica y Telecomunicaciones",
-	description = "Nova Smart: Especialistas en instalación de fibra óptica (FTTH/HFC), infraestructura de red y servicios de telecomunicaciones en consorcio con Claro Perú."
+	description = "Nova Smart: Especialistas en instalación de fibra óptica (FTTH/HFC), infraestructura de red y servicios de telecomunicaciones en consorcio con Claro Perú.",
+	minimalHeader = false
 } = Astro.props;
 ---
 
@@ -25,21 +27,20 @@ const {
 		<title>{title}</title>
 		<meta name="description" content={description} />
 		
-		<!-- OpenGraph -->
-		<meta property="og:title" content={title} />
-		<meta property="og:description" content={description} />
-		<meta property="og:image" content="/images/equipo/tienda_1.jpg" />
-		<meta property="og:type" content="website" />
+		<!-- Google Fonts API -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
 
 		<!-- Astro View Transitions -->
 		<ClientRouter />
 	</head>
 	<body>
-		<Header />
+		<Header minimal={minimalHeader} />
 		<main>
 			<slot />
 		</main>
-		<Footer />
+		<Footer subpage={minimalHeader} />
 
 		<script>
 			// Astro Fluid Animations Script
