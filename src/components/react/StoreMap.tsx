@@ -1,7 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
+import React, { useEffect, useState, useRef } from 'react';
 
 interface Store {
   id: number;
@@ -86,60 +83,12 @@ const districtCoords: Record<string, { lat: number; lng: number; name: string }>
   'el agustino': { lat: -12.0470, lng: -77.0050, name: 'EL AGUSTINO' }
 };
 
-L.Icon.Default.mergeOptions({
-  iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-  iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
-  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-shadow.png'
-});
-
-const createCustomIcon = (color: string, size: [number, number]) => {
-  return L.divIcon({
-    className: 'custom-marker',
-    html: `<div style="
-      width: ${size[0]}px;
-      height: ${size[1]}px;
-      background: ${color};
-      border-radius: 50% 50% 50% 0;
-      transform: rotate(-45deg);
-      border: 3px solid #FFFFFF;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      position: relative;
-    ">
-      <div style="
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) rotate(45deg);
-        width: 8px;
-        height: 8px;
-        background: white;
-        border-radius: 50%;
-      "></div>
-    </div>`,
-    iconSize: size,
-    iconAnchor: [size[0] / 2, size[1]],
-    popupAnchor: [0, -size[1]]
-  });
-};
-
-function MapEvents({ mapRef, setCustomPin, checkCoverage }: any) {
-  const map = useMap();
-  useEffect(() => {
-    mapRef.current = map;
-    const handleClick = (e: any) => {
-      setCustomPin({ lat: e.latlng.lat, lng: e.latlng.lng });
-      checkCoverage(e.latlng.lat, e.latlng.lng);
-    };
-    map.on('click', handleClick);
-    return () => {
-      map.off('click', handleClick);
-    };
-  }, [map, mapRef, setCustomPin, checkCoverage]);
-  return null;
-}
-
 export default function StoreMap() {
-  const [isMounted, setIsMounted] = useState(false);
+  const mapContainerRef = useRef<HTMLDivElement>(null);
+  const mapInstanceRef = useRef<any>(null);
+  const markersRef = useRef<any[]>([]);
+  const customPinMarkerRef = useRef<any>(null);
+
   const [selectedStore, setSelectedStore] = useState<number>(1);
   const [coverage, setCoverage] = useState<CoverageResult | null>({
     departamento: 'LIMA',
@@ -147,14 +96,8 @@ export default function StoreMap() {
     distrito: 'MIRAFLORES'
   });
   const [checkingCoverage, setCheckingCoverage] = useState(false);
-  const [customPin, setCustomPin] = useState<{ lat: number; lng: number } | null>(null);
   const [searchInput, setSearchInput] = useState('');
-  const mapRef = useRef<any>(null);
-
-  useEffect(() => {
-    setIsMounted(true);
-    checkCoverage(-12.1191, -77.0299);
-  }, []);
+  const [mapLoaded, setMapLoaded] = useState(false);
 
   const checkCoverage = (lat: number, lng: number, forcedDistrictName?: string) => {
     setCheckingCoverage(true);
@@ -181,14 +124,151 @@ export default function StoreMap() {
     }, 150);
   };
 
+  useEffect(() => {
+    // Load Leaflet CSS dynamically
+    if (!document.getElementById('leaflet-css')) {
+      const link = document.createElement('link');
+      link.id = 'leaflet-css';
+      link.rel = 'stylesheet';
+      link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+      document.head.appendChild(link);
+    }
+
+    // Load Leaflet JS dynamically
+    const initLeaflet = () => {
+      const L = (window as any).L;
+      if (!L || !mapContainerRef.current || mapInstanceRef.current) return;
+
+      const map = L.map(mapContainerRef.current, {
+        center: [-12.108, -77.005],
+        zoom: 12,
+        zoomControl: false
+      });
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap'
+      }).addTo(map);
+
+      mapInstanceRef.current = map;
+      setMapLoaded(true);
+
+      const createCustomIcon = (color: string, size: [number, number]) => {
+        return L.divIcon({
+          className: 'custom-marker',
+          html: `<div style="
+            width: ${size[0]}px;
+            height: ${size[1]}px;
+            background: ${color};
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-45deg);
+            border: 3px solid #FFFFFF;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            position: relative;
+          ">
+            <div style="
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%) rotate(45deg);
+              width: 8px;
+              height: 8px;
+              background: white;
+              border-radius: 50%;
+            "></div>
+          </div>`,
+          iconSize: size,
+          iconAnchor: [size[0] / 2, size[1]],
+          popupAnchor: [0, -size[1]]
+        });
+      };
+
+      // Add Store Markers
+      stores.forEach((store) => {
+        const icon = createCustomIcon(
+          store.id === 1 ? '#E30613' : '#64748B',
+          store.id === 1 ? [36, 52] : [28, 44]
+        );
+
+        const marker = L.marker([store.lat, store.lng], { icon }).addTo(map);
+        marker.bindPopup(`
+          <div style="font-family: Plus Jakarta Sans, sans-serif; min-width: 220px; padding: 4px;">
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 2px solid #E30613;">
+              <div style="width: 32px; height: 32px; background: #E30613; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 13px; font-weight: 800;">NS</div>
+              <div>
+                <h3 style="font-size: 0.95rem; font-weight: 800; color: #0F172A; margin: 0;">${store.name}</h3>
+                <span style="font-size: 0.78rem; color: #E30613; font-weight: 700;">Sede Autorizada Claro</span>
+              </div>
+            </div>
+            <p style="font-size: 0.82rem; color: #334155; margin: 6px 0; line-height: 1.4;">${store.address}</p>
+            <a href="https://wa.me/51983985748?text=Hola%2C%20deseo%20visitar%20la%20sede%20de%20Nova%20Smart" target="_blank" style="display: inline-block; width: 100%; margin-top: 8px; padding: 8px; background: #25D366; color: #FFF; text-align: center; font-weight: 700; border-radius: 8px; text-decoration: none; font-size: 0.8rem;">Contacto por WhatsApp</a>
+          </div>
+        `);
+
+        marker.on('click', () => {
+          setSelectedStore(store.id);
+          checkCoverage(store.lat, store.lng, store.district);
+        });
+
+        markersRef.current.push({ id: store.id, marker });
+      });
+
+      // Map Click Event
+      map.on('click', (e: any) => {
+        if (customPinMarkerRef.current) {
+          map.removeLayer(customPinMarkerRef.current);
+        }
+
+        const pinIcon = createCustomIcon('#0E9F6E', [32, 48]);
+        const pinMarker = L.marker([e.latlng.lat, e.latlng.lng], { icon: pinIcon }).addTo(map);
+        pinMarker.bindPopup(`
+          <div style="font-family: Plus Jakarta Sans, sans-serif; padding: 4px;">
+            <strong style="color: #03543F; font-size: 0.85rem;">Ubicación Seleccionada</strong>
+            <p style="font-size: 0.75rem; color: #64748B; margin: 4px 0 0;">Verificando red Claro...</p>
+          </div>
+        `).openPopup();
+
+        customPinMarkerRef.current = pinMarker;
+        checkCoverage(e.latlng.lat, e.latlng.lng);
+      });
+    };
+
+    if ((window as any).L) {
+      initLeaflet();
+    } else {
+      if (!document.getElementById('leaflet-js')) {
+        const script = document.createElement('script');
+        script.id = 'leaflet-js';
+        script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+        script.onload = () => initLeaflet();
+        document.body.appendChild(script);
+      } else {
+        const interval = setInterval(() => {
+          if ((window as any).L) {
+            clearInterval(interval);
+            initLeaflet();
+          }
+        }, 100);
+      }
+    }
+
+    return () => {
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.remove();
+        mapInstanceRef.current = null;
+      }
+    };
+  }, []);
+
   const handleSelectStore = (storeId: number) => {
     setSelectedStore(storeId);
     const store = stores.find(s => s.id === storeId);
-    if (store) {
-      setCustomPin(null);
+    if (store && mapInstanceRef.current) {
+      mapInstanceRef.current.flyTo([store.lat, store.lng], 15, { duration: 1.2 });
       checkCoverage(store.lat, store.lng, store.district);
-      if (mapRef.current) {
-        mapRef.current.flyTo([store.lat, store.lng], 15, { duration: 1.2 });
+
+      const target = markersRef.current.find(m => m.id === storeId);
+      if (target) {
+        target.marker.openPopup();
       }
     }
   };
@@ -207,33 +287,62 @@ export default function StoreMap() {
       }
     }
 
-    setCustomPin({ lat: target.lat, lng: target.lng });
-    checkCoverage(target.lat, target.lng, target.name);
-    if (mapRef.current) {
-      mapRef.current.flyTo([target.lat, target.lng], 14, { duration: 1.2 });
+    if (mapInstanceRef.current) {
+      const L = (window as any).L;
+      if (L) {
+        if (customPinMarkerRef.current) {
+          mapInstanceRef.current.removeLayer(customPinMarkerRef.current);
+        }
+
+        const createCustomIcon = (color: string, size: [number, number]) => {
+          return L.divIcon({
+            className: 'custom-marker',
+            html: `<div style="
+              width: ${size[0]}px;
+              height: ${size[1]}px;
+              background: ${color};
+              border-radius: 50% 50% 50% 0;
+              transform: rotate(-45deg);
+              border: 3px solid #FFFFFF;
+              box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+              position: relative;
+            ">
+              <div style="
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) rotate(45deg);
+                width: 8px;
+                height: 8px;
+                background: white;
+                border-radius: 50%;
+              "></div>
+            </div>`,
+            iconSize: size,
+            iconAnchor: [size[0] / 2, size[1]],
+            popupAnchor: [0, -size[1]]
+          });
+        };
+
+        const pinIcon = createCustomIcon('#0E9F6E', [32, 48]);
+        const pinMarker = L.marker([target.lat, target.lng], { icon: pinIcon }).addTo(mapInstanceRef.current);
+        pinMarker.bindPopup(`
+          <div style="font-family: Plus Jakarta Sans, sans-serif; padding: 4px;">
+            <strong style="color: #03543F; font-size: 0.85rem;">${target.name}</strong>
+            <p style="font-size: 0.75rem; color: #64748B; margin: 4px 0 0;">Zona Verificada Claro Fibra Óptica</p>
+          </div>
+        `).openPopup();
+
+        customPinMarkerRef.current = pinMarker;
+        mapInstanceRef.current.flyTo([target.lat, target.lng], 14, { duration: 1.2 });
+        checkCoverage(target.lat, target.lng, target.name);
+      }
     }
   };
 
-  if (!isMounted) {
-    return (
-      <div style={{
-        height: '540px',
-        background: '#F8FAFC',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        color: '#64748B',
-        fontSize: '0.95rem',
-        fontFamily: 'Plus Jakarta Sans, sans-serif'
-      }}>
-        Cargando Mapa de Cobertura y Tiendas...
-      </div>
-    );
-  }
-
   return (
     <div style={{ position: 'relative', width: '100%', fontFamily: 'Plus Jakarta Sans, Inter, sans-serif' }}>
-      {/* Buscador de Cobertura en Parte Superior */}
+      {/* Buscador de Cobertura */}
       <div style={{
         background: '#FFFFFF',
         borderBottom: '1px solid #E2E8F0',
@@ -320,118 +429,28 @@ export default function StoreMap() {
         </div>
       </div>
 
-      {/* Contenedor del Mapa */}
-      <div style={{ position: 'relative', width: '100%', height: '540px' }}>
-        <MapContainer
-          center={[-12.108, -77.005]}
-          zoom={12}
-          scrollWheelZoom={true}
-          style={{ height: '100%', width: '100%' }}
-          zoomControl={false}
-        >
-          <MapEvents mapRef={mapRef} setCustomPin={setCustomPin} checkCoverage={checkCoverage} />
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
+      {/* Contenedor del Mapa Leaflet Vanilla */}
+      <div style={{ position: 'relative', width: '100%', height: '540px', background: '#F1F5F9' }}>
+        <div
+          ref={mapContainerRef}
+          style={{ width: '100%', height: '100%', borderRadius: '0 0 16px 16px', zIndex: 1 }}
+        />
 
-          {/* Marcadores de Tiendas */}
-          {stores.map((store) => (
-            <Marker
-              key={store.id}
-              position={[store.lat, store.lng]}
-              icon={createCustomIcon(
-                store.id === selectedStore ? '#E30613' : '#64748B',
-                store.id === selectedStore ? [36, 52] : [28, 44]
-              )}
-              eventHandlers={{
-                click: () => {
-                  handleSelectStore(store.id);
-                }
-              }}
-            >
-              <Popup>
-                <div style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', minWidth: '220px', padding: '4px' }}>
-                  <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    marginBottom: '8px',
-                    paddingBottom: '8px',
-                    borderBottom: '2px solid #E30613'
-                  }}>
-                    <div style={{
-                      width: '32px',
-                      height: '32px',
-                      background: '#E30613',
-                      borderRadius: '8px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: 'white',
-                      fontSize: '13px',
-                      fontWeight: 800
-                    }}>
-                      NS
-                    </div>
-                    <div>
-                      <h3 style={{ fontSize: '0.95rem', fontWeight: 800, color: '#0F172A', margin: 0 }}>
-                        {store.name}
-                      </h3>
-                      <span style={{ fontSize: '0.78rem', color: '#E30613', fontWeight: 700 }}>
-                        Sede Autorizada Claro
-                      </span>
-                    </div>
-                  </div>
-                  <p style={{ fontSize: '0.82rem', color: '#334155', margin: '6px 0', lineHeight: 1.4, display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E30613" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                    <span>{store.address}</span>
-                  </p>
-                  <a
-                    href="https://wa.me/51983985748?text=Hola%2C%20deseo%20visitar%20la%20sede%20de%20Nova%20Smart%20y%20consultar%20servicios."
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      width: '100%',
-                      gap: '6px',
-                      marginTop: '10px',
-                      padding: '8px 14px',
-                      background: '#25D366',
-                      color: '#FFFFFF',
-                      fontSize: '0.8rem',
-                      fontWeight: 700,
-                      borderRadius: '8px',
-                      textDecoration: 'none'
-                    }}
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.205 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-                    <span>Contacto por WhatsApp</span>
-                  </a>
-                </div>
-              </Popup>
-            </Marker>
-          ))}
-
-          {/* Marcador Personalizado de Búsqueda / Clic en Mapa */}
-          {customPin && (
-            <Marker
-              position={[customPin.lat, customPin.lng]}
-              icon={createCustomIcon('#0E9F6E', [32, 48])}
-            >
-              <Popup>
-                <div style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', padding: '4px' }}>
-                  <strong style={{ color: '#03543F', fontSize: '0.85rem' }}>Ubicación Seleccionada</strong>
-                  <p style={{ fontSize: '0.75rem', color: '#64748B', margin: '4px 0 0' }}>
-                    Verificando red Claro...
-                  </p>
-                </div>
-              </Popup>
-            </Marker>
-          )}
-        </MapContainer>
+        {!mapLoaded && (
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            background: '#F8FAFC',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: '#64748B',
+            fontSize: '0.95rem',
+            zIndex: 10
+          }}>
+            Cargando Mapa de Cobertura y Tiendas...
+          </div>
+        )}
 
         {/* Panel Lateral de Sedes y Resultado de Cobertura */}
         <div style={{
