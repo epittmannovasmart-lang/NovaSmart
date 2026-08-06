@@ -1,49 +1,51 @@
 ---
-// StoreMap.astro - Native Astro Interactive Leaflet Store Map with Scraped Claro Stores, Filters & Closest Store GPS
+// StoreMap.astro - Native Astro Interactive Leaflet Map for Google Maps Scraped Claro Stores
 ---
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
 <div class="store-map-wrapper">
-  <!-- Barra de Filtros y Buscador de Tiendas -->
+  <!-- Barra Superior de Búsqueda y Filtros -->
   <div class="map-filter-bar">
     <div class="filter-controls">
-      <!-- Buscador de texto -->
+      <!-- Campo de Búsqueda -->
       <div class="search-field">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="search-icon"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         <input
           type="text"
           id="store-search-input"
-          placeholder="Buscar por nombre o dirección..."
+          placeholder="Buscar distrito o tienda Claro..."
           class="filter-input"
         />
       </div>
 
-      <!-- Selector por Distrito -->
+      <!-- Selector de Distrito -->
       <select id="district-filter-select" class="filter-select">
-        <option value="ALL">Todos los Distritos</option>
+        <option value="ALL">Todos los Distritos (27 Tiendas)</option>
         <option value="Miraflores">Miraflores</option>
         <option value="Surco">Santiago de Surco</option>
         <option value="San Isidro">San Isidro</option>
-        <option value="Comas">Comas</option>
-        <option value="Lima">Cercado de Lima</option>
-        <option value="Lince">Lince</option>
         <option value="San Borja">San Borja</option>
-        <option value="Ate">Ate</option>
+        <option value="La Molina">La Molina</option>
         <option value="Surquillo">Surquillo</option>
+        <option value="Lince">Lince</option>
         <option value="Jesús María">Jesús María</option>
+        <option value="San Miguel">San Miguel</option>
+        <option value="Lima">Cercado de Lima</option>
+        <option value="Callao">Callao</option>
+        <option value="Comas">Comas</option>
         <option value="Los Olivos">Los Olivos</option>
         <option value="Independencia">Independencia</option>
+        <option value="SJL">San Juan de Lurigancho</option>
+        <option value="Santa Anita">Santa Anita</option>
+        <option value="Ate">Ate</option>
+        <option value="Chorrillos">Chorrillos</option>
+        <option value="SJM">San Juan de Miraflores</option>
+        <option value="VES">Villa El Salvador</option>
+        <option value="Lurín">Lurín</option>
       </select>
 
-      <!-- Selector por Tipo de Tienda -->
-      <select id="type-filter-select" class="filter-select">
-        <option value="ALL">Todas las Tiendas</option>
-        <option value="NOVASMART">Sedes Nova Smart Autorizadas</option>
-        <option value="CLARO">Tiendas Oficiales Claro</option>
-      </select>
-
-      <!-- Botón Calcular Tienda Más Cercana -->
+      <!-- Botón Tienda Más Cercana GPS -->
       <button id="btn-closest-store" class="btn-closest" type="button">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
         Tienda Más Cercana
@@ -51,21 +53,18 @@
     </div>
   </div>
 
-  <!-- Contenedor del Mapa y Panel Lateral -->
+  <!-- Panel Desplegable de Resultados (Solo se muestra cuando se busca o filtra) -->
+  <div id="filter-results-panel" class="filter-results-drawer" style="display: none;">
+    <div class="results-header">
+      <strong id="results-count-text">Resultados de búsqueda (0)</strong>
+      <button id="btn-close-results" type="button" class="btn-close-panel">✕ Cerrar</button>
+    </div>
+    <div id="results-cards-container" class="results-grid"></div>
+  </div>
+
+  <!-- Contenedor del Mapa Completo (Full Width) -->
   <div class="map-canvas-container">
     <div id="leaflet-store-map" class="leaflet-map-element"></div>
-
-    <!-- Panel Lateral de Tiendas -->
-    <div class="map-sidebar">
-      <div class="sidebar-header">
-        <span class="sidebar-title" id="sidebar-count-label">Tiendas Encontradas (14)</span>
-        <span id="gps-status-badge" class="gps-badge" style="display:none;">📍 GPS Activo</span>
-      </div>
-
-      <div class="stores-list" id="stores-list-container">
-        <!-- Renderizado dinámico vía JavaScript -->
-      </div>
-    </div>
   </div>
 </div>
 
@@ -77,6 +76,7 @@
     border-radius: var(--radius-xl, 22px);
     overflow: hidden;
     box-shadow: 0 16px 40px rgba(15, 23, 42, 0.1);
+    background: #FFFFFF;
   }
 
   .map-filter-bar {
@@ -95,7 +95,7 @@
   .search-field {
     position: relative;
     flex: 1;
-    min-width: 220px;
+    min-width: 240px;
   }
 
   .search-icon {
@@ -104,34 +104,38 @@
     top: 50%;
     transform: translateY(-50%);
     color: #64748B;
+    pointer-events: none;
   }
 
   .filter-input {
     width: 100%;
-    padding: 10px 14px 10px 38px;
+    padding: 11px 14px 11px 40px;
     border-radius: 12px;
     border: 1.5px solid #CBD5E1;
-    font-size: 0.88rem;
+    font-size: 0.9rem;
     outline: none;
-    transition: border-color 0.2s ease;
+    transition: all 0.2s ease;
     font-family: inherit;
+    box-sizing: border-box;
   }
 
   .filter-input:focus {
     border-color: #E30613;
+    box-shadow: 0 0 0 3px rgba(227, 6, 19, 0.1);
   }
 
   .filter-select {
-    padding: 10px 14px;
+    padding: 11px 16px;
     border-radius: 12px;
     border: 1.5px solid #CBD5E1;
-    font-size: 0.88rem;
-    color: #1E293B;
+    font-size: 0.9rem;
+    color: #0F172A;
     background: #FFFFFF;
     outline: none;
     font-family: inherit;
     cursor: pointer;
-    transition: border-color 0.2s ease;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
   }
 
   .filter-select:focus {
@@ -143,8 +147,8 @@
     color: #FFFFFF;
     border: none;
     border-radius: 12px;
-    padding: 10px 20px;
-    font-size: 0.88rem;
+    padding: 11px 22px;
+    font-size: 0.9rem;
     font-weight: 700;
     cursor: pointer;
     display: flex;
@@ -161,6 +165,91 @@
     transform: translateY(-1px);
   }
 
+  /* Panel Desplegable de Resultados */
+  .filter-results-drawer {
+    background: #F8FAFC;
+    border-bottom: 1px solid #E2E8F0;
+    padding: 14px 20px;
+    max-height: 240px;
+    overflow-y: auto;
+    transition: all 0.3s ease;
+  }
+
+  .results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .results-header strong {
+    font-size: 0.82rem;
+    color: #475569;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .btn-close-panel {
+    background: none;
+    border: none;
+    color: #64748B;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 3px 8px;
+    border-radius: 6px;
+  }
+
+  .btn-close-panel:hover {
+    background: #E2E8F0;
+    color: #0F172A;
+  }
+
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 10px;
+  }
+
+  .result-card-item {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    padding: 10px 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .result-card-item:hover {
+    border-color: #E30613;
+    box-shadow: 0 4px 12px rgba(227, 6, 19, 0.08);
+  }
+
+  .result-card-item strong {
+    display: block;
+    font-size: 0.88rem;
+    color: #0F172A;
+    margin-bottom: 2px;
+  }
+
+  .result-card-item p {
+    font-size: 0.76rem;
+    color: #64748B;
+    margin: 0;
+    line-height: 1.3;
+  }
+
+  .distance-tag {
+    display: inline-block;
+    margin-top: 6px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #2563EB;
+    background: #EFF6FF;
+    padding: 2px 8px;
+    border-radius: 6px;
+  }
+
   .map-canvas-container {
     position: relative;
     width: 100%;
@@ -173,165 +262,46 @@
     height: 100%;
     z-index: 1;
   }
-
-  .map-sidebar {
-    position: absolute;
-    top: 16px;
-    left: 16px;
-    z-index: 500;
-    background: rgba(255, 255, 255, 0.96);
-    backdrop-filter: blur(10px);
-    border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-    padding: 18px;
-    width: 310px;
-    max-height: 540px;
-    overflow-y: auto;
-    border: 1px solid rgba(255,255,255,0.8);
-  }
-
-  .sidebar-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #F1F5F9;
-  }
-
-  .sidebar-title {
-    font-size: 0.78rem;
-    font-weight: 800;
-    color: #64748B;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  .gps-badge {
-    font-size: 0.68rem;
-    font-weight: 700;
-    background: #EFF6FF;
-    color: #2563EB;
-    border: 1px solid #BFDBFE;
-    padding: 3px 8px;
-    border-radius: 12px;
-  }
-
-  .stores-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .store-card-item {
-    padding: 12px 14px;
-    border-radius: 12px;
-    border: 1.5px solid #E2E8F0;
-    background: #FFFFFF;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    position: relative;
-  }
-
-  .store-card-item:hover {
-    border-color: #E30613;
-  }
-
-  .store-card-item.active {
-    border-color: #E30613;
-    background: #FFF5F5;
-  }
-
-  .store-card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 6px;
-  }
-
-  .store-card-header strong {
-    font-size: 0.88rem;
-    color: #0F172A;
-    line-height: 1.3;
-  }
-
-  .store-card-item.active .store-card-header strong {
-    color: #E30613;
-  }
-
-  .badge-store-type {
-    font-size: 0.6rem;
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-weight: 800;
-    white-space: nowrap;
-  }
-
-  .badge-novasmart {
-    background: #E30613;
-    color: #FFFFFF;
-  }
-
-  .badge-claro {
-    background: #475569;
-    color: #FFFFFF;
-  }
-
-  .store-card-address {
-    font-size: 0.78rem;
-    color: #64748B;
-    margin: 4px 0 6px;
-    line-height: 1.35;
-  }
-
-  .store-distance-badge {
-    font-size: 0.72rem;
-    font-weight: 700;
-    color: #2563EB;
-    background: #EFF6FF;
-    padding: 2px 6px;
-    border-radius: 6px;
-    display: inline-block;
-  }
-
-  @media (max-width: 768px) {
-    .map-sidebar {
-      position: relative;
-      top: 0;
-      left: 0;
-      width: 100%;
-      max-height: none;
-      border-radius: 0;
-      box-shadow: none;
-    }
-  }
 </style>
 
 <script is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script is:inline>
-  (function initFullNovaSmartStoreMap() {
-    // Stores Dataset: Scraped Claro Stores + Nova Smart Authorized Sedes
-    var storesData = [
-      { id: 1, type: 'NOVASMART', name: 'Nova Smart - Miraflores', district: 'Miraflores', lat: -12.1191, lng: -77.0299, address: 'Av. Alfredo Benavides 1180, Miraflores' },
-      { id: 2, type: 'NOVASMART', name: 'Nova Smart - Surco', district: 'Surco', lat: -12.1385, lng: -76.9935, address: 'Av. La Encalada 1610, Santiago de Surco' },
-      { id: 3, type: 'NOVASMART', name: 'Nova Smart - San Isidro', district: 'San Isidro', lat: -12.0985, lng: -76.9850, address: 'Av. Javier Prado Este 4600, San Isidro' },
-      { id: 4, type: 'NOVASMART', name: 'Nova Smart - Comas', district: 'Comas', lat: -11.9845, lng: -77.0520, address: 'Av. Túpac Amaru 3580, Comas' },
-      { id: 5, type: 'CLARO', name: 'Claro - Jr. de la Unión', district: 'Lima', lat: -12.0468, lng: -77.0322, address: 'Jr. De la Unión N° 499, Cercado de Lima' },
-      { id: 6, type: 'CLARO', name: 'Claro - Av. Garcilaso de la Vega', district: 'Lima', lat: -12.0560, lng: -77.0375, address: 'Av. Garcilaso de la Vega 1337, Cercado de Lima' },
-      { id: 7, type: 'CLARO', name: 'Claro - Av. Arenales', district: 'Lince', lat: -12.0862, lng: -77.0345, address: 'Av. Arenales N° 2283, Lince' },
-      { id: 8, type: 'CLARO', name: 'Claro - Las Begonias', district: 'San Isidro', lat: -12.0942, lng: -77.0320, address: 'Av. Las Begonias N° 798, San Isidro' },
-      { id: 9, type: 'CLARO', name: 'Claro - Av. Salaverry', district: 'Jesús María', lat: -12.0890, lng: -77.0515, address: 'Av. San Felipe con Av. Salaverry 2370, Jesús María' },
-      { id: 10, type: 'CLARO', name: 'Claro - Open Plaza Surquillo', district: 'Surquillo', lat: -12.1118, lng: -77.0135, address: 'C.C. Open Plaza, Av. Angamos Este 1803, Surquillo' },
-      { id: 11, type: 'CLARO', name: 'Claro - Real Plaza Puruchuco', district: 'Ate', lat: -12.0335, lng: -76.9320, address: 'C.C. Real Plaza Puruchuco, Av. Nicolás Ayllón 8694, Ate' },
-      { id: 12, type: 'CLARO', name: 'Claro - Av. Circunvalación', district: 'San Borja', lat: -12.0830, lng: -76.9920, address: 'Av. Circunvalación 1803, San Borja' },
-      { id: 13, type: 'CLARO', name: 'Claro - Real Plaza Pro', district: 'Los Olivos', lat: -11.9560, lng: -77.0690, address: 'C.C. Real Plaza Pro, Av. Alfredo Mendiola 7810, Los Olivos' },
-      { id: 14, type: 'CLARO', name: 'Claro - Plaza Norte', district: 'Independencia', lat: -11.9930, lng: -77.0620, address: 'C.C. Plaza Norte, Av. Tomás Valle con Panamericana Norte, Independencia' }
+  (function initGoogleMapsClaroStoresMap() {
+    // Exact Scraped Stores Dataset from Google Maps
+    var googleClaroStores = [
+      { id: 1, name: 'Claro - Larco Miraflores', district: 'Miraflores', lat: -12.1238173, lng: -77.0294468, address: 'Suites Larco, Av. José Larco 652, Miraflores' },
+      { id: 2, name: 'Claro - Benavides Miraflores', district: 'Miraflores', lat: -12.1191, lng: -77.0299, address: 'Av. Alfredo Benavides 1180, Miraflores' },
+      { id: 3, name: 'Claro - Encalada Surco', district: 'Surco', lat: -12.1385, lng: -76.9935, address: 'Av. La Encalada 1610, Santiago de Surco' },
+      { id: 4, name: 'Claro - Jockey Plaza', district: 'Surco', lat: -12.0853579, lng: -76.9788418, address: 'C.C. Jockey Plaza Centro Financiero, Av. Javier Prado Este 4200, Surco' },
+      { id: 5, name: 'Claro - Mall del Sur', district: 'SJM', lat: -12.1545862, lng: -76.9826957, address: 'C.C. Mall del Sur, Av. Los Lirios 301, San Juan de Miraflores' },
+      { id: 6, name: 'Claro - Plaza Lima Sur', district: 'Chorrillos', lat: -12.173361, lng: -77.0128667, address: 'C.C. Plaza Lima Sur, Av. Paseo de la República 5000, Chorrillos' },
+      { id: 7, name: 'Claro - Javier Prado San Isidro', district: 'San Isidro', lat: -12.0985, lng: -76.9850, address: 'Av. Javier Prado Este 4600, San Isidro' },
+      { id: 8, name: 'Claro - Las Begonias', district: 'San Isidro', lat: -12.0960539, lng: -77.0261122, address: 'Av. Las Begonias 798, San Isidro' },
+      { id: 9, name: 'Claro - Rivera Navarrete', district: 'San Isidro', lat: -12.0947138, lng: -77.026722, address: 'Av. Ricardo Rivera Navarrete 758, San Isidro' },
+      { id: 10, name: 'Claro - Aviación', district: 'San Borja', lat: -12.0928954, lng: -77.0025339, address: 'Av. Aviación 2639, San Borja' },
+      { id: 11, name: 'Claro - Raúl Ferrero', district: 'La Molina', lat: -12.0911243, lng: -76.9523529, address: 'Av. Raúl Ferrero 1354, La Molina' },
+      { id: 12, name: 'Claro - Real Plaza Salaverry', district: 'Jesús María', lat: -12.0898612, lng: -77.0526686, address: 'C.C. Real Plaza Salaverry, Av. Felipe Salaverry 2370, Jesús María' },
+      { id: 13, name: 'Claro - Open Plaza Surquillo', district: 'Surquillo', lat: -12.1118, lng: -77.0135, address: 'C.C. Open Plaza, Av. Angamos Este 1803, Surquillo' },
+      { id: 14, name: 'Claro - Centro Cívico', district: 'Lima', lat: -12.056685, lng: -77.0373429, address: 'C.C. Real Plaza Centro Cívico, Av. Garcilaso de la Vega 1337, Lima' },
+      { id: 15, name: 'Claro - Jr. de la Unión', district: 'Lima', lat: -12.0470862, lng: -77.0321602, address: 'Jr. de la Unión N° 449 / 499, Cercado de Lima' },
+      { id: 16, name: 'Claro - Arenales Lince', district: 'Lince', lat: -12.0862, lng: -77.0345, address: 'Av. Arenales N° 2283, Lince' },
+      { id: 17, name: 'Claro - Plaza Miguel Grau', district: 'Lima', lat: -12.0583743, lng: -77.026095, address: 'Av. Miguel Grau 653, Cercado de Lima' },
+      { id: 18, name: 'Claro - Mall Aventura Santa Anita', district: 'Santa Anita', lat: -12.0551778, lng: -76.9659565, address: 'C.C. Mall Aventura, Carretera Central 111, Santa Anita' },
+      { id: 19, name: 'Claro - Real Plaza Puruchuco', district: 'Ate', lat: -12.0335, lng: -76.9320, address: 'C.C. Real Plaza Puruchuco, Av. Nicolás Ayllón 8694, Ate' },
+      { id: 20, name: 'Claro - Plaza Norte', district: 'Independencia', lat: -12.0067411, lng: -77.060813, address: 'C.C. Plaza Norte, Av. Alfredo Mendiola 1400 / Av. Tomás Valle, Independencia' },
+      { id: 21, name: 'Claro - Izaguirre Los Olivos', district: 'Los Olivos', lat: -11.9891639, lng: -77.0632532, address: 'Av. Carlos Izaguirre 284, Los Olivos' },
+      { id: 22, name: 'Claro - Real Plaza Pro', district: 'Los Olivos', lat: -11.9402094, lng: -77.0697716, address: 'C.C. Real Plaza Pro, Av. Alfredo Mendiola 7026, Los Olivos' },
+      { id: 23, name: 'Claro - Comas Túpac Amaru', district: 'Comas', lat: -11.9845, lng: -77.0520, address: 'Av. Túpac Amaru 3580, Comas' },
+      { id: 24, name: 'Claro - Mall Aventura SJL', district: 'SJL', lat: -12.016049, lng: -76.9999743, address: 'C.C. Mall Aventura SJL, Jr. Los Ruiseñores 989, San Juan de Lurigancho' },
+      { id: 25, name: 'Claro - Minka Callao', district: 'Callao', lat: -12.0470432, lng: -77.1114351, address: 'C.C. Minka, Av. Argentina 3093, Callao' },
+      { id: 26, name: 'Claro - Plaza Marín San Miguel', district: 'San Miguel', lat: -12.0764851, lng: -77.0817777, address: 'C.C. Plaza San Miguel, Av. de la Marina 2000, San Miguel' },
+      { id: 27, name: 'Claro - Villa El Salvador', district: 'VES', lat: -12.2031128, lng: -76.9323872, address: 'Parque Industrial, Av. Pachacútec, Villa El Salvador' },
+      { id: 28, name: 'Claro - Lurín Plaza Center', district: 'Lurín', lat: -12.2750454, lng: -76.8739922, address: 'Plaza Center Parcela B43, Antigua Panamericana Sur Km 36, Lurín' }
     ];
 
-    var userCoords = null; // Stores GPS location if active
+    var userCoords = null;
 
-    // Haversine formula to compute distance in km
     function computeDistanceKm(lat1, lon1, lat2, lon2) {
       var R = 6371;
       var dLat = (lat2 - lat1) * Math.PI / 180;
@@ -348,7 +318,7 @@
       if (!mapEl || typeof window.L === 'undefined') return;
 
       var map = L.map('leaflet-store-map', {
-        center: [-12.088, -77.025],
+        center: [-12.105, -77.020],
         zoom: 12,
         zoomControl: false
       });
@@ -357,7 +327,7 @@
         attribution: '&copy; OpenStreetMap'
       }).addTo(map);
 
-      function createCustomIcon(color, size) {
+      function createMarkerIcon(color, size) {
         return L.divIcon({
           className: 'custom-marker',
           html: '<div style="width:' + size[0] + 'px;height:' + size[1] + 'px;background:' + color + ';border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:3px solid #FFF;box-shadow:0 4px 12px rgba(0,0,0,0.3);position:relative;"><div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(45deg);width:8px;height:8px;background:#FFF;border-radius:50%;"></div></div>',
@@ -370,22 +340,18 @@
       var storeMarkers = {};
       var userPinMarker = null;
 
-      // Add map markers for all stores
-      storesData.forEach(function(store) {
-        var color = store.type === 'NOVASMART' ? '#E30613' : '#475569';
-        var icon = createCustomIcon(color, [30, 45]);
+      // Add pins for all Claro stores
+      googleClaroStores.forEach(function(store) {
+        var icon = createMarkerIcon('#E30613', [32, 48]);
         var marker = L.marker([store.lat, store.lng], { icon: icon }).addTo(map);
-
-        var badgeText = store.type === 'NOVASMART' ? 'Sede Autorizada Nova Smart' : 'Tienda Oficial Claro';
-        var badgeColor = store.type === 'NOVASMART' ? '#E30613' : '#475569';
 
         marker.bindPopup(
           '<div style="font-family:Plus Jakarta Sans,sans-serif;min-width:220px;padding:4px;">' +
-            '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;padding-bottom:8px;border-bottom:2px solid ' + badgeColor + ';">' +
-              '<div style="width:32px;height:32px;background:' + badgeColor + ';border-radius:8px;display:flex;align-items:center;justify-content:center;color:#FFF;font-size:12px;font-weight:800;">' + (store.type === 'NOVASMART' ? 'NS' : 'CL') + '</div>' +
+            '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;padding-bottom:8px;border-bottom:2px solid #E30613;">' +
+              '<div style="width:30px;height:30px;background:#E30613;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#FFF;font-size:12px;font-weight:800;">CL</div>' +
               '<div>' +
                 '<h3 style="font-size:0.92rem;font-weight:800;color:#0F172A;margin:0;">' + store.name + '</h3>' +
-                '<span style="font-size:0.75rem;color:' + badgeColor + ';font-weight:700;">' + badgeText + '</span>' +
+                '<span style="font-size:0.75rem;color:#E30613;font-weight:700;">Tienda Oficial Claro</span>' +
               '</div>' +
             '</div>' +
             '<p style="font-size:0.8rem;color:#334155;margin:4px 0 10px;line-height:1.4;">' + store.address + '</p>' +
@@ -393,55 +359,41 @@
           '</div>'
         );
 
-        marker.on('click', function() {
-          selectStoreUI(store.id);
-        });
-
         storeMarkers[store.id] = marker;
       });
 
-      function selectStoreUI(storeId) {
-        storesData.forEach(function(s) {
-          if (storeMarkers[s.id]) {
-            var isTarget = s.id === storeId;
-            var baseColor = s.type === 'NOVASMART' ? '#E30613' : '#475569';
-            storeMarkers[s.id].setIcon(createCustomIcon(isTarget ? '#2563EB' : baseColor, isTarget ? [36, 52] : [30, 45]));
-          }
-        });
-
-        document.querySelectorAll('.store-card-item').forEach(function(card) {
-          card.classList.remove('active');
-        });
-
-        var targetCard = document.querySelector('.store-card-item[data-store-id="' + storeId + '"]');
-        if (targetCard) {
-          targetCard.classList.add('active');
-          targetCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-
-        var selected = storesData.find(function(item) { return item.id === storeId; });
-        if (selected) {
-          map.flyTo([selected.lat, selected.lng], 15, { duration: 1.2 });
+      function focusStore(storeId) {
+        var store = googleClaroStores.find(function(s) { return s.id === storeId; });
+        if (store) {
+          map.flyTo([store.lat, store.lng], 15, { duration: 1.2 });
           if (storeMarkers[storeId]) {
             storeMarkers[storeId].openPopup();
           }
         }
       }
 
-      // Filter and render list in sidebar
-      function updateStoreList() {
+      // Handle search and filter changes
+      var resultsPanel = document.getElementById('filter-results-panel');
+      var resultsContainer = document.getElementById('results-cards-container');
+      var resultsCountText = document.getElementById('results-count-text');
+
+      function applyFilters() {
         var searchVal = (document.getElementById('store-search-input').value || '').trim().toLowerCase();
         var districtVal = document.getElementById('district-filter-select').value;
-        var typeVal = document.getElementById('type-filter-select').value;
 
-        var filtered = storesData.filter(function(store) {
-          var matchSearch = !searchVal || store.name.toLowerCase().indexOf(searchVal) !== -1 || store.address.toLowerCase().indexOf(searchVal) !== -1;
+        var isFiltering = searchVal.length > 0 || districtVal !== 'ALL';
+
+        if (!isFiltering && !userCoords) {
+          if (resultsPanel) resultsPanel.style.display = 'none';
+          return;
+        }
+
+        var filtered = googleClaroStores.filter(function(store) {
+          var matchSearch = !searchVal || store.name.toLowerCase().indexOf(searchVal) !== -1 || store.address.toLowerCase().indexOf(searchVal) !== -1 || store.district.toLowerCase().indexOf(searchVal) !== -1;
           var matchDistrict = districtVal === 'ALL' || store.district === districtVal;
-          var matchType = typeVal === 'ALL' || store.type === typeVal;
-          return matchSearch && matchDistrict && matchType;
+          return matchSearch && matchDistrict;
         });
 
-        // Compute distances if GPS is active
         if (userCoords) {
           filtered.forEach(function(store) {
             store.distance = computeDistanceKm(userCoords.lat, userCoords.lng, store.lat, store.lng);
@@ -449,53 +401,53 @@
           filtered.sort(function(a, b) { return a.distance - b.distance; });
         }
 
-        var container = document.getElementById('stores-list-container');
-        var countLabel = document.getElementById('sidebar-count-label');
-        if (countLabel) countLabel.textContent = 'Tiendas Encontradas (' + filtered.length + ')';
+        if (resultsPanel) resultsPanel.style.display = 'block';
+        if (resultsCountText) resultsCountText.textContent = 'Tiendas Encontradas (' + filtered.length + ')';
 
-        if (!container) return;
-        container.innerHTML = '';
+        if (resultsContainer) {
+          resultsContainer.innerHTML = '';
+          if (filtered.length === 0) {
+            resultsContainer.innerHTML = '<p style="font-size:0.8rem;color:#64748B;grid-column:1/-1;">No se encontraron tiendas en esa ubicación.</p>';
+            return;
+          }
 
-        if (filtered.length === 0) {
-          container.innerHTML = '<p style="font-size:0.82rem;color:#64748B;text-align:center;padding:20px 0;">No se encontraron tiendas con los filtros seleccionados.</p>';
-          return;
+          filtered.forEach(function(store) {
+            var item = document.createElement('div');
+            item.className = 'result-card-item';
+
+            var distHtml = store.distance !== undefined
+              ? '<span class="distance-tag">📍 A ' + store.distance + ' km de ti</span>'
+              : '';
+
+            item.innerHTML = 
+              '<strong>' + store.name + '</strong>' +
+              '<p>' + store.address + '</p>' +
+              distHtml;
+
+            item.addEventListener('click', function() {
+              focusStore(store.id);
+            });
+
+            resultsContainer.appendChild(item);
+          });
         }
 
-        filtered.forEach(function(store, index) {
-          var isFirst = index === 0 && userCoords;
-          var card = document.createElement('div');
-          card.className = 'store-card-item' + (isFirst ? ' active' : '');
-          card.setAttribute('data-store-id', store.id);
+        if (filtered.length > 0 && isFiltering) {
+          focusStore(filtered[0].id);
+        }
+      }
 
-          var typeBadgeClass = store.type === 'NOVASMART' ? 'badge-novasmart' : 'badge-claro';
-          var typeBadgeLabel = store.type === 'NOVASMART' ? 'NOVA SMART' : 'TIENDA CLARO';
+      document.getElementById('store-search-input').addEventListener('input', applyFilters);
+      document.getElementById('district-filter-select').addEventListener('change', applyFilters);
 
-          var distHtml = store.distance !== undefined
-            ? '<span class="store-distance-badge">📍 A ' + store.distance + ' km de ti</span>'
-            : '';
-
-          card.innerHTML = 
-            '<div class="store-card-header">' +
-              '<strong>' + store.name + '</strong>' +
-              '<span class="badge-store-type ' + typeBadgeClass + '">' + typeBadgeLabel + '</span>' +
-            '</div>' +
-            '<p class="store-card-address">' + store.address + '</p>' +
-            distHtml;
-
-          card.addEventListener('click', function() {
-            selectStoreUI(store.id);
-          });
-
-          container.appendChild(card);
+      var btnCloseResults = document.getElementById('btn-close-results');
+      if (btnCloseResults) {
+        btnCloseResults.addEventListener('click', function() {
+          if (resultsPanel) resultsPanel.style.display = 'none';
         });
       }
 
-      // Filter events
-      document.getElementById('store-search-input').addEventListener('input', updateStoreList);
-      document.getElementById('district-filter-select').addEventListener('change', updateStoreList);
-      document.getElementById('type-filter-select').addEventListener('change', updateStoreList);
-
-      // GPS Geolocation - Calculate Closest Store
+      // GPS Geolocation - Nearest Store
       var btnClosest = document.getElementById('btn-closest-store');
       if (btnClosest) {
         btnClosest.addEventListener('click', function() {
@@ -505,47 +457,40 @@
           }
 
           var originalText = btnClosest.innerHTML;
-          btnClosest.innerHTML = 'Calculando...';
+          btnClosest.innerHTML = 'Buscando GPS...';
 
           navigator.geolocation.getCurrentPosition(
             function(pos) {
               btnClosest.innerHTML = originalText;
               userCoords = { lat: pos.coords.latitude, lng: pos.coords.longitude };
 
-              var gpsBadge = document.getElementById('gps-status-badge');
-              if (gpsBadge) gpsBadge.style.display = 'inline-block';
-
               if (userPinMarker) {
                 map.removeLayer(userPinMarker);
               }
 
-              var blueIcon = createCustomIcon('#2563EB', [36, 52]);
+              var blueIcon = createMarkerIcon('#2563EB', [36, 52]);
               userPinMarker = L.marker([userCoords.lat, userCoords.lng], { icon: blueIcon }).addTo(map);
-              userPinMarker.bindPopup('<strong style="font-family:Plus Jakarta Sans,sans-serif;color:#1E40AF;">Tu Ubicación Actual</strong>').openPopup();
+              userPinMarker.bindPopup('<strong style="font-family:Plus Jakarta Sans,sans-serif;color:#1E40AF;">Tu Ubicación GPS</strong>');
 
-              // Update & sort list by distance
-              updateStoreList();
+              applyFilters();
 
               // Fly to closest store
-              var closestStore = storesData.slice().sort(function(a, b) {
+              var closest = googleClaroStores.slice().sort(function(a, b) {
                 return computeDistanceKm(userCoords.lat, userCoords.lng, a.lat, a.lng) - computeDistanceKm(userCoords.lat, userCoords.lng, b.lat, b.lng);
               })[0];
 
-              if (closestStore) {
-                selectStoreUI(closestStore.id);
+              if (closest) {
+                focusStore(closest.id);
               }
             },
             function() {
               btnClosest.innerHTML = originalText;
-              alert('No se pudo obtener tu ubicación GPS. Puedes usar el filtro de distritos para encontrar la tienda más cercana.');
+              alert('No se pudo acceder a tu ubicación GPS. Selecciona un distrito en el filtro desplegable.');
             },
             { enableHighAccuracy: true, timeout: 10000 }
           );
         });
       }
-
-      // Initial list render
-      updateStoreList();
     }
 
     if (typeof window.L !== 'undefined') {
