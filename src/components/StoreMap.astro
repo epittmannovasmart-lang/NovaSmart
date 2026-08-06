@@ -1,0 +1,535 @@
+---
+// StoreMap.astro - Native Astro Interactive Leaflet Store Map
+---
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+<div class="store-map-wrapper">
+  <!-- Buscador de Cobertura en Parte Superior -->
+  <div class="map-search-bar">
+    <div class="search-input-group">
+      <input
+        type="text"
+        id="district-search-input"
+        placeholder="Ej: Los Olivos, Surco, San Juan de Lurigancho, Comas..."
+        class="search-input"
+      />
+      <button id="btn-search-district" class="btn-search">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Verificar Cobertura
+      </button>
+    </div>
+
+    <!-- Chips de Distritos Populares -->
+    <div class="popular-chips">
+      <span class="chips-label">Distritos Populares:</span>
+      <button type="button" class="chip-btn" data-district="Miraflores">Miraflores</button>
+      <button type="button" class="chip-btn" data-district="Surco">Surco</button>
+      <button type="button" class="chip-btn" data-district="San Isidro">San Isidro</button>
+      <button type="button" class="chip-btn" data-district="Comas">Comas</button>
+      <button type="button" class="chip-btn" data-district="Los Olivos">Los Olivos</button>
+      <button type="button" class="chip-btn" data-district="Ate">Ate</button>
+      <button type="button" class="chip-btn" data-district="San Juan de Lurigancho">S.J.L.</button>
+    </div>
+  </div>
+
+  <!-- Contenedor del Mapa y Panel Lateral -->
+  <div class="map-canvas-container">
+    <div id="leaflet-store-map" class="leaflet-map-element"></div>
+
+    <!-- Panel Lateral de Sedes y Resultado de Cobertura -->
+    <div class="map-sidebar">
+      <!-- Card de Estado de Cobertura -->
+      <div id="coverage-status-card" class="coverage-card">
+        <div class="status-header">
+          <span class="status-dot"></span>
+          <span id="coverage-badge-text" class="status-badge-text">¡COBERTURA DISPONIBLE!</span>
+        </div>
+        <p id="coverage-district-text" class="coverage-district-text">Distrito: MIRAFLORES</p>
+        <p class="coverage-subtext">Red 100% Fibra Óptica Claro lista para instalación.</p>
+      </div>
+
+      <span class="sidebar-title">Nuestras Sedes (4)</span>
+
+      <div class="stores-list">
+        <div class="store-card-item active" data-store-id="1" data-lat="-12.1191" data-lng="-77.0299" data-name="Sede Miraflores" data-district="Miraflores">
+          <div class="store-card-header">
+            <strong>Sede Miraflores</strong>
+            <span class="badge-active">ACTIVA</span>
+          </div>
+          <p class="store-card-address">Av. Alfredo Benavides 1180, Miraflores</p>
+        </div>
+
+        <div class="store-card-item" data-store-id="2" data-lat="-12.1385" data-lng="-76.9935" data-name="Sede Surco" data-district="Surco">
+          <div class="store-card-header">
+            <strong>Sede Surco</strong>
+            <span class="badge-active" style="display:none;">ACTIVA</span>
+          </div>
+          <p class="store-card-address">Av. La Encalada 1610, Santiago de Surco</p>
+        </div>
+
+        <div class="store-card-item" data-store-id="3" data-lat="-12.0985" data-lng="-76.9850" data-name="Sede San Isidro" data-district="San Isidro">
+          <div class="store-card-header">
+            <strong>Sede San Isidro</strong>
+            <span class="badge-active" style="display:none;">ACTIVA</span>
+          </div>
+          <p class="store-card-address">Av. Javier Prado Este 4600, San Isidro</p>
+        </div>
+
+        <div class="store-card-item" data-store-id="4" data-lat="-11.9845" data-lng="-77.0520" data-name="Sede Comas" data-district="Comas">
+          <div class="store-card-header">
+            <strong>Sede Comas</strong>
+            <span class="badge-active" style="display:none;">ACTIVA</span>
+          </div>
+          <p class="store-card-address">Av. Túpac Amaru 3580, Comas</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .store-map-wrapper {
+    position: relative;
+    width: 100%;
+    font-family: 'Plus Jakarta Sans', var(--font-body), sans-serif;
+    border-radius: var(--radius-xl, 22px);
+    overflow: hidden;
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.1);
+  }
+
+  .map-search-bar {
+    background: #FFFFFF;
+    border-bottom: 1px solid #E2E8F0;
+    padding: 18px 22px;
+  }
+
+  .search-input-group {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+
+  .search-input {
+    flex: 1;
+    min-width: 240px;
+    padding: 11px 18px;
+    border-radius: 12px;
+    border: 1.5px solid #CBD5E1;
+    font-size: 0.92rem;
+    outline: none;
+    transition: border-color 0.2s ease;
+    font-family: inherit;
+  }
+
+  .search-input:focus {
+    border-color: #E30613;
+  }
+
+  .btn-search {
+    background: #E30613;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 12px;
+    padding: 11px 22px;
+    font-size: 0.92rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: inherit;
+    box-shadow: 0 4px 14px rgba(227, 6, 19, 0.25);
+    transition: background 0.2s ease;
+  }
+
+  .btn-search:hover {
+    background: #C00410;
+  }
+
+  .popular-chips {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .chips-label {
+    font-size: 0.8rem;
+    color: #64748B;
+    font-weight: 600;
+  }
+
+  .chip-btn {
+    background: #F1F5F9;
+    border: 1px solid #E2E8F0;
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 0.78rem;
+    color: #334155;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+  }
+
+  .chip-btn:hover {
+    background: #E30613;
+    color: #FFFFFF;
+    border-color: #E30613;
+  }
+
+  .map-canvas-container {
+    position: relative;
+    width: 100%;
+    height: 560px;
+    background: #F1F5F9;
+  }
+
+  .leaflet-map-element {
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .map-sidebar {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    z-index: 500;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    padding: 18px;
+    width: 280px;
+    max-height: 500px;
+    overflow-y: auto;
+    border: 1px solid rgba(255,255,255,0.8);
+  }
+
+  .coverage-card {
+    background: #ECFDF5;
+    border: 1px solid #A7F3D0;
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 16px;
+    transition: all 0.3s ease;
+  }
+
+  .status-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #10B981;
+    display: inline-block;
+  }
+
+  .status-badge-text {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #047857;
+    text-transform: uppercase;
+  }
+
+  .coverage-district-text {
+    font-size: 0.85rem;
+    color: #0F172A;
+    margin: 0;
+    font-weight: 700;
+  }
+
+  .coverage-subtext {
+    font-size: 0.76rem;
+    color: #475569;
+    margin: 4px 0 0;
+    line-height: 1.3;
+  }
+
+  .sidebar-title {
+    font-size: 0.78rem;
+    font-weight: 800;
+    color: #64748B;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .stores-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .store-card-item {
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1.5px solid #E2E8F0;
+    background: #FFFFFF;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .store-card-item:hover {
+    border-color: #E30613;
+  }
+
+  .store-card-item.active {
+    border-color: #E30613;
+    background: #FFF5F5;
+  }
+
+  .store-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .store-card-header strong {
+    font-size: 0.88rem;
+    color: #0F172A;
+  }
+
+  .store-card-item.active .store-card-header strong {
+    color: #E30613;
+  }
+
+  .badge-active {
+    font-size: 0.65rem;
+    background: #E30613;
+    color: #FFFFFF;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 800;
+  }
+
+  .store-card-address {
+    font-size: 0.78rem;
+    color: #64748B;
+    margin: 4px 0 0;
+    line-height: 1.35;
+  }
+
+  @media (max-width: 768px) {
+    .map-sidebar {
+      position: relative;
+      top: 0;
+      left: 0;
+      width: 100%;
+      max-height: none;
+      border-radius: 0;
+      box-shadow: none;
+    }
+  }
+</style>
+
+<script is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script is:inline>
+  (function initNovaSmartMap() {
+    var districtCoords = {
+      'miraflores': { lat: -12.1191, lng: -77.0299, name: 'MIRAFLORES' },
+      'surco': { lat: -12.1385, lng: -76.9935, name: 'SANTIAGO DE SURCO' },
+      'santiago de surco': { lat: -12.1385, lng: -76.9935, name: 'SANTIAGO DE SURCO' },
+      'san isidro': { lat: -12.0985, lng: -76.9850, name: 'SAN ISIDRO' },
+      'comas': { lat: -11.9845, lng: -77.0520, name: 'COMAS' },
+      'san juan de lurigancho': { lat: -11.9800, lng: -77.0000, name: 'SAN JUAN DE LURIGANCHO' },
+      'los olivos': { lat: -11.9700, lng: -77.0700, name: 'LOS OLIVOS' },
+      'ate': { lat: -12.0250, lng: -76.9150, name: 'ATE VITARTE' },
+      'la molina': { lat: -12.0750, lng: -76.9550, name: 'LA MOLINA' },
+      'san miguel': { lat: -12.0780, lng: -77.0900, name: 'SAN MIGUEL' },
+      'callao': { lat: -12.0560, lng: -77.1180, name: 'CALLAO' },
+      'chorrillos': { lat: -12.1750, lng: -77.0150, name: 'CHORRILLOS' }
+    };
+
+    var stores = [
+      { id: 1, name: 'Sede Miraflores', lat: -12.1191, lng: -77.0299, address: 'Av. Alfredo Benavides 1180, Miraflores', district: 'Miraflores' },
+      { id: 2, name: 'Sede Surco', lat: -12.1385, lng: -76.9935, address: 'Av. La Encalada 1610, Santiago de Surco', district: 'Surco' },
+      { id: 3, name: 'Sede San Isidro', lat: -12.0985, lng: -76.9850, address: 'Av. Javier Prado Este 4600, San Isidro', district: 'San Isidro' },
+      { id: 4, name: 'Sede Comas', lat: -11.9845, lng: -77.0520, address: 'Av. Túpac Amaru 3580, Comas', district: 'Comas' }
+    ];
+
+    function startMap() {
+      var mapEl = document.getElementById('leaflet-store-map');
+      if (!mapEl || typeof window.L === 'undefined') return;
+
+      var map = L.map('leaflet-store-map', {
+        center: [-12.108, -77.005],
+        zoom: 12,
+        zoomControl: false
+      });
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap'
+      }).addTo(map);
+
+      function createCustomIcon(color, size) {
+        return L.divIcon({
+          className: 'custom-marker',
+          html: '<div style="width:' + size[0] + 'px;height:' + size[1] + 'px;background:' + color + ';border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:3px solid #FFF;box-shadow:0 4px 12px rgba(0,0,0,0.3);position:relative;"><div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(45deg);width:8px;height:8px;background:#FFF;border-radius:50%;"></div></div>',
+          iconSize: size,
+          iconAnchor: [size[0] / 2, size[1]],
+          popupAnchor: [0, -size[1]]
+        });
+      }
+
+      var storeMarkers = {};
+      var customPinMarker = null;
+
+      stores.forEach(function(store) {
+        var isFirst = store.id === 1;
+        var icon = createCustomIcon(isFirst ? '#E30613' : '#64748B', isFirst ? [36, 52] : [28, 44]);
+        var marker = L.marker([store.lat, store.lng], { icon: icon }).addTo(map);
+
+        marker.bindPopup(
+          '<div style="font-family:Plus Jakarta Sans,sans-serif;min-width:210px;padding:4px;">' +
+            '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;padding-bottom:8px;border-bottom:2px solid #E30613;">' +
+              '<div style="width:30px;height:30px;background:#E30613;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#FFF;font-size:12px;font-weight:800;">NS</div>' +
+              '<div>' +
+                '<h3 style="font-size:0.92rem;font-weight:800;color:#0F172A;margin:0;">' + store.name + '</h3>' +
+                '<span style="font-size:0.75rem;color:#E30613;font-weight:700;">Sede Autorizada Claro</span>' +
+              '</div>' +
+            '</div>' +
+            '<p style="font-size:0.8rem;color:#334155;margin:4px 0 8px;">' + store.address + '</p>' +
+            '<a href="https://wa.me/51983985748?text=Hola%2C%20deseo%20visitar%20la%20sede%20de%20Nova%20Smart" target="_blank" style="display:block;padding:7px;background:#25D366;color:#FFF;text-align:center;font-weight:700;border-radius:8px;text-decoration:none;font-size:0.78rem;">Contacto por WhatsApp</a>' +
+          '</div>'
+        );
+
+        marker.on('click', function() {
+          selectStoreUI(store.id, store.district);
+        });
+
+        storeMarkers[store.id] = marker;
+      });
+
+      function updateCoverageCard(districtName) {
+        var districtText = document.getElementById('coverage-district-text');
+        if (districtText) {
+          districtText.innerText = 'Distrito: ' + districtName.toUpperCase();
+        }
+      }
+
+      function selectStoreUI(storeId, districtName) {
+        document.querySelectorAll('.store-card-item').forEach(function(card) {
+          card.classList.remove('active');
+          var badge = card.querySelector('.badge-active');
+          if (badge) badge.style.display = 'none';
+        });
+
+        var targetCard = document.querySelector('.store-card-item[data-store-id="' + storeId + '"]');
+        if (targetCard) {
+          targetCard.classList.add('active');
+          var activeBadge = targetCard.querySelector('.badge-active');
+          if (activeBadge) activeBadge.style.display = 'inline-block';
+        }
+
+        updateCoverageCard(districtName);
+
+        var s = stores.find(function(item) { return item.id === storeId; });
+        if (s) {
+          map.flyTo([s.lat, s.lng], 15, { duration: 1.2 });
+          if (storeMarkers[storeId]) {
+            storeMarkers[storeId].openPopup();
+          }
+        }
+      }
+
+      document.querySelectorAll('.store-card-item').forEach(function(card) {
+        card.addEventListener('click', function() {
+          var id = parseInt(card.getAttribute('data-store-id'), 10);
+          var dist = card.getAttribute('data-district');
+          selectStoreUI(id, dist);
+        });
+      });
+
+      function searchDistrict(query) {
+        if (!query) return;
+        var key = query.trim().toLowerCase();
+        var target = districtCoords[key];
+
+        if (!target) {
+          var foundKey = Object.keys(districtCoords).find(function(k) { return k.indexOf(key) !== -1 || key.indexOf(k) !== -1; });
+          if (foundKey) {
+            target = districtCoords[foundKey];
+          } else {
+            target = { lat: -12.0464, lng: -77.0428, name: query.toUpperCase() };
+          }
+        }
+
+        if (customPinMarker) {
+          map.removeLayer(customPinMarker);
+        }
+
+        var greenIcon = createCustomIcon('#0E9F6E', [32, 48]);
+        customPinMarker = L.marker([target.lat, target.lng], { icon: greenIcon }).addTo(map);
+        customPinMarker.bindPopup(
+          '<div style="font-family:Plus Jakarta Sans,sans-serif;padding:4px;">' +
+            '<strong style="color:#03543F;font-size:0.85rem;">' + target.name + '</strong>' +
+            '<p style="font-size:0.75rem;color:#64748B;margin:4px 0 0;">Zona Verificada Claro Fibra Óptica</p>' +
+          '</div>'
+        ).openPopup();
+
+        map.flyTo([target.lat, target.lng], 14, { duration: 1.2 });
+        updateCoverageCard(target.name);
+      }
+
+      var searchInputEl = document.getElementById('district-search-input');
+      var searchBtnEl = document.getElementById('btn-search-district');
+
+      if (searchBtnEl && searchInputEl) {
+        searchBtnEl.addEventListener('click', function() {
+          searchDistrict(searchInputEl.value);
+        });
+
+        searchInputEl.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter') searchDistrict(searchInputEl.value);
+        });
+      }
+
+      document.querySelectorAll('.chip-btn').forEach(function(chip) {
+        chip.addEventListener('click', function() {
+          var dist = chip.getAttribute('data-district');
+          if (searchInputEl) searchInputEl.value = dist;
+          searchDistrict(dist);
+        });
+      });
+
+      map.on('click', function(e) {
+        if (customPinMarker) {
+          map.removeLayer(customPinMarker);
+        }
+        var greenIcon = createCustomIcon('#0E9F6E', [32, 48]);
+        customPinMarker = L.marker([e.latlng.lat, e.latlng.lng], { icon: greenIcon }).addTo(map);
+        customPinMarker.bindPopup(
+          '<div style="font-family:Plus Jakarta Sans,sans-serif;padding:4px;">' +
+            '<strong style="color:#03543F;font-size:0.85rem;">Ubicación Seleccionada</strong>' +
+            '<p style="font-size:0.75rem;color:#64748B;margin:4px 0 0;">Verificando red Claro...</p>' +
+          '</div>'
+        ).openPopup();
+
+        updateCoverageCard('UBICACIÓN SELECCIONADA');
+      });
+    }
+
+    if (typeof window.L !== 'undefined') {
+      startMap();
+    } else {
+      var checkTimer = setInterval(function() {
+        if (typeof window.L !== 'undefined') {
+          clearInterval(checkTimer);
+          startMap();
+        }
+      }, 100);
+    }
+  })();
+</script>

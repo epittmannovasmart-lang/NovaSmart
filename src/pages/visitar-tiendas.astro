@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import StoreMap from '../components/react/StoreMap.tsx';
+import StoreMap from '../components/StoreMap.astro';
 ---
 
 <Layout title="Visitar Nuestras Tiendas" description="Encuentra la sede autorizada Claro de Nova Smart más cercana." minimalHeader={true}>
@@ -105,7 +105,7 @@ import StoreMap from '../components/react/StoreMap.tsx';
         <p class="section-desc">Consulta la disponibilidad de Fibra Óptica Claro por distrito o selecciona nuestras sedes autorizadas para ver horarios y ubicación.</p>
       </div>
       <div class="map-wrapper">
-        <StoreMap client:only="react" />
+        <StoreMap />
       </div>
     </div>
   </section>
