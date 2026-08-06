@@ -24,8 +24,8 @@
   --radius-lg: 22px;
   --radius-xl: 28px;
   --radius-full: 9999px;
-  --gradient-primary: linear-gradient(135deg, #EE0000 0%, #B90000 100%);
-  --gradient-cyan: linear-gradient(135deg, #00C9A7 0%, #00A896 100%);
+  --gradient-primary: #E30613;
+  --gradient-cyan: #00A896;
 }
 
 * {
