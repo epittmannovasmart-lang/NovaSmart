@@ -68,7 +68,7 @@
   </div>
 </div>
 
-<style>
+<style is:global>
   .store-map-wrapper {
     position: relative;
     width: 100%;
@@ -168,9 +168,9 @@
   /* Panel Desplegable de Resultados */
   .filter-results-drawer {
     background: #F8FAFC;
-    border-bottom: 1px solid #E2E8F0;
-    padding: 14px 20px;
-    max-height: 240px;
+    border-bottom: 1.5px solid #E2E8F0;
+    padding: 18px 24px;
+    max-height: 280px;
     overflow-y: auto;
     transition: all 0.3s ease;
   }
@@ -179,75 +179,129 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 14px;
   }
 
   .results-header strong {
-    font-size: 0.82rem;
-    color: #475569;
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #334155;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.05em;
   }
 
   .btn-close-panel {
-    background: none;
+    background: #E2E8F0;
     border: none;
-    color: #64748B;
-    font-size: 0.8rem;
+    color: #475569;
+    font-size: 0.78rem;
     font-weight: 700;
     cursor: pointer;
-    padding: 3px 8px;
-    border-radius: 6px;
+    padding: 4px 10px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
   }
 
   .btn-close-panel:hover {
-    background: #E2E8F0;
-    color: #0F172A;
+    background: #E30613;
+    color: #FFFFFF;
   }
 
   .results-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 14px;
   }
 
   .result-card-item {
     background: #FFFFFF;
-    border: 1px solid #E2E8F0;
-    border-radius: 10px;
-    padding: 10px 14px;
+    border: 1.5px solid #CBD5E1;
+    border-radius: 14px;
+    padding: 14px 16px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .result-card-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: #E30613;
+    opacity: 0;
+    transition: opacity 0.2s ease;
   }
 
   .result-card-item:hover {
     border-color: #E30613;
-    box-shadow: 0 4px 12px rgba(227, 6, 19, 0.08);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(227, 6, 19, 0.12);
   }
 
-  .result-card-item strong {
-    display: block;
-    font-size: 0.88rem;
+  .result-card-item:hover::before {
+    opacity: 1;
+  }
+
+  .result-card-title {
+    font-size: 0.95rem;
+    font-weight: 800;
     color: #0F172A;
-    margin-bottom: 2px;
+    margin: 0 0 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 
-  .result-card-item p {
-    font-size: 0.76rem;
+  .result-card-address {
+    font-size: 0.8rem;
     color: #64748B;
-    margin: 0;
-    line-height: 1.3;
+    margin: 0 0 12px;
+    line-height: 1.35;
+  }
+
+  .result-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding-top: 8px;
+    border-top: 1px dashed #E2E8F0;
   }
 
   .distance-tag {
-    display: inline-block;
-    margin-top: 6px;
-    font-size: 0.72rem;
+    font-size: 0.74rem;
     font-weight: 700;
     color: #2563EB;
     background: #EFF6FF;
-    padding: 2px 8px;
+    border: 1px solid #BFDBFE;
+    padding: 3px 8px;
     border-radius: 6px;
+  }
+
+  .btn-view-map {
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: #E30613;
+    background: #FFF5F5;
+    border: 1px solid #FEE2E2;
+    padding: 4px 10px;
+    border-radius: 6px;
+    margin-left: auto;
+    transition: all 0.2s ease;
+  }
+
+  .result-card-item:hover .btn-view-map {
+    background: #E30613;
+    color: #FFFFFF;
+    border-color: #E30613;
   }
 
   .map-canvas-container {
@@ -416,13 +470,18 @@
             item.className = 'result-card-item';
 
             var distHtml = store.distance !== undefined
-              ? '<span class="distance-tag">📍 A ' + store.distance + ' km de ti</span>'
+              ? '<span class="distance-tag">📍 A ' + store.distance + ' km</span>'
               : '';
 
             item.innerHTML = 
-              '<strong>' + store.name + '</strong>' +
-              '<p>' + store.address + '</p>' +
-              distHtml;
+              '<div class="result-card-title">' +
+                '<span>' + store.name + '</span>' +
+              '</div>' +
+              '<p class="result-card-address">' + store.address + '</p>' +
+              '<div class="result-card-footer">' +
+                distHtml +
+                '<span class="btn-view-map">Ver en Mapa →</span>' +
+              '</div>';
 
             item.addEventListener('click', function() {
               focusStore(store.id);
