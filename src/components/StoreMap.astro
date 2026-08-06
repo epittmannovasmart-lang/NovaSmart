@@ -297,6 +297,33 @@
       'chorrillos': { lat: -12.1750, lng: -77.0150, name: 'CHORRILLOS' }
     };
 
+    // Load official district dataset dynamically from Claro API
+    try {
+      fetch('https://coberturaclaroapi.claromarketingcloud.pe/Lista_Distritos_Cobertura?p_departamento=15&p_provincia=01')
+        .then(function(res) { return res.json(); })
+        .then(function(distritos) {
+          if (Array.isArray(distritos)) {
+            distritos.forEach(function(d) {
+              if (d.coord && d.nom_dist) {
+                var parts = d.coord.split(',');
+                if (parts.length === 2) {
+                  var lng = parseFloat(parts[0]);
+                  var lat = parseFloat(parts[1]);
+                  if (!isNaN(lat) && !isNaN(lng)) {
+                    districtCoords[d.nom_dist.trim().toLowerCase()] = {
+                      lat: lat,
+                      lng: lng,
+                      name: d.nom_dist
+                    };
+                  }
+                }
+              }
+            });
+          }
+        })
+        .catch(function() {});
+    } catch(e) {}
+
     var stores = [
       { id: 1, name: 'Sede Miraflores', lat: -12.1191, lng: -77.0299, address: 'Av. Alfredo Benavides 1180, Miraflores', district: 'Miraflores' },
       { id: 2, name: 'Sede Surco', lat: -12.1385, lng: -76.9935, address: 'Av. La Encalada 1610, Santiago de Surco', district: 'Surco' },
@@ -351,7 +378,7 @@
         );
 
         marker.on('click', function() {
-          selectStoreUI(store.id, store.district);
+          selectStoreUI(store.id);
         });
 
         storeMarkers[store.id] = marker;
@@ -383,10 +410,58 @@
       document.querySelectorAll('.store-card-item').forEach(function(card) {
         card.addEventListener('click', function() {
           var id = parseInt(card.getAttribute('data-store-id'), 10);
-          var dist = card.getAttribute('data-district');
-          selectStoreUI(id, dist);
+          selectStoreUI(id);
         });
       });
+
+      // Real-Time Query to Claro Coverage API
+      function fetchClaroCoverageInfo(lat, lng, pinMarker, locationLabel) {
+        var loadingPopupContent = 
+          '<div style="font-family:Plus Jakarta Sans,sans-serif;padding:6px;min-width:210px;">' +
+            '<strong style="color:#0F172A;font-size:0.88rem;display:block;margin-bottom:4px;">' + locationLabel + '</strong>' +
+            '<p style="font-size:0.78rem;color:#64748B;margin:0 0 6px;">Consultando API Claro Cobertura...</p>' +
+          '</div>';
+        
+        pinMarker.bindPopup(loadingPopupContent).openPopup();
+
+        // 1. Get official location name
+        fetch('https://coberturaclaroapi.claromarketingcloud.pe/Carga_Provincia_x_coordenadas?longitude=' + lng + '&latitude=' + lat)
+          .then(function(r) { return r.json(); })
+          .then(function(locData) {
+            var finalLocName = locationLabel;
+            if (locData && locData.distrito) {
+              finalLocName = locData.distrito + ' (' + (locData.provincia || 'LIMA') + ')';
+            }
+
+            // 2. Query fixed fiber optic coverage
+            fetch('https://coberturaclaroapi.claromarketingcloud.pe/Buscar_Cobertura_Fija?latitud=' + lat + '&longitud=' + lng)
+              .then(function(r2) { return r2.json(); })
+              .then(function(covData) {
+                var hasCoverage = covData && covData.nro_respuesta === 1;
+                var badgeHtml = hasCoverage
+                  ? '<div style="background:#ECFDF5;border:1px solid #A7F3D0;color:#047857;padding:5px 8px;border-radius:6px;font-size:0.75rem;font-weight:700;margin-bottom:8px;">✓ Red 100% Fibra Óptica Claro Disponible</div>'
+                  : '<div style="background:#FFFBEB;border:1px solid #FDE68A;color:#B45309;padding:5px 8px;border-radius:6px;font-size:0.75rem;font-weight:700;margin-bottom:8px;">⚠ Zona en Evaluación de Cobertura</div>';
+
+                pinMarker.setPopupContent(
+                  '<div style="font-family:Plus Jakarta Sans,sans-serif;padding:6px;min-width:230px;">' +
+                    '<strong style="color:#0F172A;font-size:0.9rem;display:block;margin-bottom:6px;">' + finalLocName + '</strong>' +
+                    badgeHtml +
+                    '<a href="https://wa.me/51983985748?text=Hola%2C%20deseo%20solicitar%20Fibra%20%C3%93ptica%20Claro%20en%20' + encodeURIComponent(finalLocName) + '" target="_blank" style="display:block;padding:8px;background:#E30613;color:#FFF;text-align:center;font-weight:700;border-radius:8px;text-decoration:none;font-size:0.8rem;">Solicitar Instalación</a>' +
+                  '</div>'
+                );
+              })
+              .catch(function() {
+                pinMarker.setPopupContent(
+                  '<div style="font-family:Plus Jakarta Sans,sans-serif;padding:6px;min-width:210px;">' +
+                    '<strong style="color:#0F172A;font-size:0.88rem;display:block;margin-bottom:4px;">' + finalLocName + '</strong>' +
+                    '<p style="font-size:0.78rem;color:#64748B;margin:0 0 6px;">Zona lista para consulta de Fibra Óptica.</p>' +
+                    '<a href="https://wa.me/51983985748?text=Hola%2C%20deseo%20consultar%20cobertura" target="_blank" style="display:block;padding:7px;background:#E30613;color:#FFF;text-align:center;font-weight:700;border-radius:8px;text-decoration:none;font-size:0.78rem;">Consultar por WhatsApp</a>' +
+                  '</div>'
+                );
+              });
+          })
+          .catch(function() {});
+      }
 
       function searchDistrict(query) {
         if (!query) return;
@@ -408,14 +483,9 @@
 
         var greenIcon = createCustomIcon('#0E9F6E', [32, 48]);
         customPinMarker = L.marker([target.lat, target.lng], { icon: greenIcon }).addTo(map);
-        customPinMarker.bindPopup(
-          '<div style="font-family:Plus Jakarta Sans,sans-serif;padding:4px;">' +
-            '<strong style="color:#03543F;font-size:0.85rem;">' + target.name + '</strong>' +
-            '<p style="font-size:0.75rem;color:#64748B;margin:4px 0 0;">Zona Verificada Claro Fibra Óptica</p>' +
-          '</div>'
-        ).openPopup();
-
+        
         map.flyTo([target.lat, target.lng], 14, { duration: 1.2 });
+        fetchClaroCoverageInfo(target.lat, target.lng, customPinMarker, target.name);
       }
 
       var searchInputEl = document.getElementById('district-search-input');
@@ -445,12 +515,7 @@
         }
         var greenIcon = createCustomIcon('#0E9F6E', [32, 48]);
         customPinMarker = L.marker([e.latlng.lat, e.latlng.lng], { icon: greenIcon }).addTo(map);
-        customPinMarker.bindPopup(
-          '<div style="font-family:Plus Jakarta Sans,sans-serif;padding:4px;">' +
-            '<strong style="color:#03543F;font-size:0.85rem;">Ubicación Seleccionada</strong>' +
-            '<p style="font-size:0.75rem;color:#64748B;margin:4px 0 0;">Verificando red Claro...</p>' +
-          '</div>'
-        ).openPopup();
+        fetchClaroCoverageInfo(e.latlng.lat, e.latlng.lng, customPinMarker, 'Ubicación Seleccionada');
       });
     }
 
