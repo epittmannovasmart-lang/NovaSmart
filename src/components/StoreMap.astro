@@ -430,13 +430,13 @@
       var resultsContainer = document.getElementById('results-cards-container');
       var resultsCountText = document.getElementById('results-count-text');
 
-      function applyFilters() {
+      function applyFilters(isGpsMode) {
         var searchVal = (document.getElementById('store-search-input').value || '').trim().toLowerCase();
         var districtVal = document.getElementById('district-filter-select').value;
 
-        var isFiltering = searchVal.length > 0 || districtVal !== 'ALL';
+        var isFiltering = searchVal.length > 0 || districtVal !== 'ALL' || isGpsMode;
 
-        if (!isFiltering && !userCoords) {
+        if (!isFiltering) {
           if (resultsPanel) resultsPanel.style.display = 'none';
           return;
         }
@@ -452,10 +452,22 @@
             store.distance = computeDistanceKm(userCoords.lat, userCoords.lng, store.lat, store.lng);
           });
           filtered.sort(function(a, b) { return a.distance - b.distance; });
+
+          // If triggered by GPS button, show ONLY the top 3 closest stores
+          if (isGpsMode) {
+            filtered = filtered.slice(0, 3);
+          }
         }
 
         if (resultsPanel) resultsPanel.style.display = 'block';
-        if (resultsCountText) resultsCountText.textContent = 'Tiendas Encontradas (' + filtered.length + ')';
+        
+        if (resultsCountText) {
+          if (isGpsMode) {
+            resultsCountText.textContent = 'Las 3 Tiendas Claro Más Cercanas a Ti';
+          } else {
+            resultsCountText.textContent = 'Tiendas Encontradas (' + filtered.length + ')';
+          }
+        }
 
         if (resultsContainer) {
           resultsContainer.innerHTML = '';
@@ -464,7 +476,7 @@
             return;
           }
 
-          filtered.forEach(function(store) {
+          filtered.forEach(function(store, index) {
             var item = document.createElement('div');
             item.className = 'result-card-item';
 
@@ -472,9 +484,14 @@
               ? '<span class="distance-tag">📍 A ' + store.distance + ' km</span>'
               : '';
 
+            var rankBadge = (isGpsMode && index === 0)
+              ? '<span style="font-size:0.68rem;background:#E30613;color:#FFF;padding:2px 6px;border-radius:4px;font-weight:800;margin-left:auto;">MÁS CERCANA</span>'
+              : '';
+
             item.innerHTML = 
               '<div class="result-card-title">' +
                 '<span>' + store.name + '</span>' +
+                rankBadge +
               '</div>' +
               '<p class="result-card-address">' + store.address + '</p>' +
               '<div class="result-card-footer">' +
@@ -495,8 +512,8 @@
         }
       }
 
-      document.getElementById('store-search-input').addEventListener('input', applyFilters);
-      document.getElementById('district-filter-select').addEventListener('change', applyFilters);
+      document.getElementById('store-search-input').addEventListener('input', function() { applyFilters(false); });
+      document.getElementById('district-filter-select').addEventListener('change', function() { applyFilters(false); });
 
       var btnCloseResults = document.getElementById('btn-close-results');
       if (btnCloseResults) {
@@ -508,18 +525,27 @@
       // GPS Geolocation - Nearest Store
       var btnClosest = document.getElementById('btn-closest-store');
       if (btnClosest) {
+        var originalText = btnClosest.innerHTML;
+
         btnClosest.addEventListener('click', function() {
           if (!navigator.geolocation) {
             alert('Tu navegador no soporta geolocalización.');
             return;
           }
 
-          var originalText = btnClosest.innerHTML;
-          btnClosest.innerHTML = 'Buscando GPS...';
+          btnClosest.disabled = true;
+          btnClosest.style.opacity = '0.75';
+          btnClosest.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="animation:spin 1s linear infinite;"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 10 10"/></svg> Buscando GPS...';
+
+          function resetGpsButton() {
+            btnClosest.disabled = false;
+            btnClosest.style.opacity = '1';
+            btnClosest.innerHTML = originalText;
+          }
 
           navigator.geolocation.getCurrentPosition(
             function(pos) {
-              btnClosest.innerHTML = originalText;
+              resetGpsButton();
               userCoords = { lat: pos.coords.latitude, lng: pos.coords.longitude };
 
               if (userPinMarker) {
@@ -530,7 +556,7 @@
               userPinMarker = L.marker([userCoords.lat, userCoords.lng], { icon: blueIcon }).addTo(map);
               userPinMarker.bindPopup('<strong style="font-family:Plus Jakarta Sans,sans-serif;color:#1E40AF;">Tu Ubicación GPS</strong>');
 
-              applyFilters();
+              applyFilters(true);
 
               // Fly to closest store
               var closest = googleClaroStores.slice().sort(function(a, b) {
@@ -542,10 +568,10 @@
               }
             },
             function() {
-              btnClosest.innerHTML = originalText;
+              resetGpsButton();
               alert('No se pudo acceder a tu ubicación GPS. Selecciona un distrito en el filtro desplegable.');
             },
-            { enableHighAccuracy: true, timeout: 10000 }
+            { enableHighAccuracy: true, timeout: 7000 }
           );
         });
       }
