@@ -1,50 +1,69 @@
 ---
-// StoreMap.astro - Native Astro Interactive Leaflet Store Locations Map
+// StoreMap.astro - Native Astro Interactive Leaflet Store Map with Scraped Claro Stores, Filters & Closest Store GPS
 ---
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
 <div class="store-map-wrapper">
+  <!-- Barra de Filtros y Buscador de Tiendas -->
+  <div class="map-filter-bar">
+    <div class="filter-controls">
+      <!-- Buscador de texto -->
+      <div class="search-field">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="search-icon"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input
+          type="text"
+          id="store-search-input"
+          placeholder="Buscar por nombre o dirección..."
+          class="filter-input"
+        />
+      </div>
+
+      <!-- Selector por Distrito -->
+      <select id="district-filter-select" class="filter-select">
+        <option value="ALL">Todos los Distritos</option>
+        <option value="Miraflores">Miraflores</option>
+        <option value="Surco">Santiago de Surco</option>
+        <option value="San Isidro">San Isidro</option>
+        <option value="Comas">Comas</option>
+        <option value="Lima">Cercado de Lima</option>
+        <option value="Lince">Lince</option>
+        <option value="San Borja">San Borja</option>
+        <option value="Ate">Ate</option>
+        <option value="Surquillo">Surquillo</option>
+        <option value="Jesús María">Jesús María</option>
+        <option value="Los Olivos">Los Olivos</option>
+        <option value="Independencia">Independencia</option>
+      </select>
+
+      <!-- Selector por Tipo de Tienda -->
+      <select id="type-filter-select" class="filter-select">
+        <option value="ALL">Todas las Tiendas</option>
+        <option value="NOVASMART">Sedes Nova Smart Autorizadas</option>
+        <option value="CLARO">Tiendas Oficiales Claro</option>
+      </select>
+
+      <!-- Botón Calcular Tienda Más Cercana -->
+      <button id="btn-closest-store" class="btn-closest" type="button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+        Tienda Más Cercana
+      </button>
+    </div>
+  </div>
+
   <!-- Contenedor del Mapa y Panel Lateral -->
   <div class="map-canvas-container">
     <div id="leaflet-store-map" class="leaflet-map-element"></div>
 
-    <!-- Panel Lateral de Sedes Oficiales -->
+    <!-- Panel Lateral de Tiendas -->
     <div class="map-sidebar">
-      <span class="sidebar-title">Sedes Autorizadas Claro (4)</span>
+      <div class="sidebar-header">
+        <span class="sidebar-title" id="sidebar-count-label">Tiendas Encontradas (14)</span>
+        <span id="gps-status-badge" class="gps-badge" style="display:none;">📍 GPS Activo</span>
+      </div>
 
-      <div class="stores-list">
-        <div class="store-card-item active" data-store-id="1" data-lat="-12.1191" data-lng="-77.0299" data-name="Sede Miraflores">
-          <div class="store-card-header">
-            <strong>Sede Miraflores</strong>
-            <span class="badge-active">SELECCIONADA</span>
-          </div>
-          <p class="store-card-address">Av. Alfredo Benavides 1180, Miraflores</p>
-        </div>
-
-        <div class="store-card-item" data-store-id="2" data-lat="-12.1385" data-lng="-76.9935" data-name="Sede Surco">
-          <div class="store-card-header">
-            <strong>Sede Surco</strong>
-            <span class="badge-active" style="display:none;">SELECCIONADA</span>
-          </div>
-          <p class="store-card-address">Av. La Encalada 1610, Santiago de Surco</p>
-        </div>
-
-        <div class="store-card-item" data-store-id="3" data-lat="-12.0985" data-lng="-76.9850" data-name="Sede San Isidro">
-          <div class="store-card-header">
-            <strong>Sede San Isidro</strong>
-            <span class="badge-active" style="display:none;">SELECCIONADA</span>
-          </div>
-          <p class="store-card-address">Av. Javier Prado Este 4600, San Isidro</p>
-        </div>
-
-        <div class="store-card-item" data-store-id="4" data-lat="-11.9845" data-lng="-77.0520" data-name="Sede Comas">
-          <div class="store-card-header">
-            <strong>Sede Comas</strong>
-            <span class="badge-active" style="display:none;">SELECCIONADA</span>
-          </div>
-          <p class="store-card-address">Av. Túpac Amaru 3580, Comas</p>
-        </div>
+      <div class="stores-list" id="stores-list-container">
+        <!-- Renderizado dinámico vía JavaScript -->
       </div>
     </div>
   </div>
@@ -60,10 +79,92 @@
     box-shadow: 0 16px 40px rgba(15, 23, 42, 0.1);
   }
 
+  .map-filter-bar {
+    background: #FFFFFF;
+    border-bottom: 1px solid #E2E8F0;
+    padding: 16px 20px;
+  }
+
+  .filter-controls {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .search-field {
+    position: relative;
+    flex: 1;
+    min-width: 220px;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #64748B;
+  }
+
+  .filter-input {
+    width: 100%;
+    padding: 10px 14px 10px 38px;
+    border-radius: 12px;
+    border: 1.5px solid #CBD5E1;
+    font-size: 0.88rem;
+    outline: none;
+    transition: border-color 0.2s ease;
+    font-family: inherit;
+  }
+
+  .filter-input:focus {
+    border-color: #E30613;
+  }
+
+  .filter-select {
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: 1.5px solid #CBD5E1;
+    font-size: 0.88rem;
+    color: #1E293B;
+    background: #FFFFFF;
+    outline: none;
+    font-family: inherit;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+  }
+
+  .filter-select:focus {
+    border-color: #E30613;
+  }
+
+  .btn-closest {
+    background: #E30613;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 12px;
+    padding: 10px 20px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: inherit;
+    box-shadow: 0 4px 14px rgba(227, 6, 19, 0.25);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .btn-closest:hover {
+    background: #C00410;
+    transform: translateY(-1px);
+  }
+
   .map-canvas-container {
     position: relative;
     width: 100%;
-    height: 560px;
+    height: 580px;
     background: #F1F5F9;
   }
 
@@ -83,10 +184,19 @@
     border-radius: 16px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.15);
     padding: 18px;
-    width: 285px;
-    max-height: 520px;
+    width: 310px;
+    max-height: 540px;
     overflow-y: auto;
     border: 1px solid rgba(255,255,255,0.8);
+  }
+
+  .sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #F1F5F9;
   }
 
   .sidebar-title {
@@ -95,8 +205,16 @@
     color: #64748B;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    display: block;
-    margin-bottom: 12px;
+  }
+
+  .gps-badge {
+    font-size: 0.68rem;
+    font-weight: 700;
+    background: #EFF6FF;
+    color: #2563EB;
+    border: 1px solid #BFDBFE;
+    padding: 3px 8px;
+    border-radius: 12px;
   }
 
   .stores-list {
@@ -112,6 +230,7 @@
     background: #FFFFFF;
     cursor: pointer;
     transition: all 0.2s ease;
+    position: relative;
   }
 
   .store-card-item:hover {
@@ -126,32 +245,53 @@
   .store-card-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
+    gap: 6px;
   }
 
   .store-card-header strong {
     font-size: 0.88rem;
     color: #0F172A;
+    line-height: 1.3;
   }
 
   .store-card-item.active .store-card-header strong {
     color: #E30613;
   }
 
-  .badge-active {
-    font-size: 0.62rem;
-    background: #E30613;
-    color: #FFFFFF;
+  .badge-store-type {
+    font-size: 0.6rem;
     padding: 2px 6px;
     border-radius: 4px;
     font-weight: 800;
+    white-space: nowrap;
+  }
+
+  .badge-novasmart {
+    background: #E30613;
+    color: #FFFFFF;
+  }
+
+  .badge-claro {
+    background: #475569;
+    color: #FFFFFF;
   }
 
   .store-card-address {
     font-size: 0.78rem;
     color: #64748B;
-    margin: 4px 0 0;
+    margin: 4px 0 6px;
     line-height: 1.35;
+  }
+
+  .store-distance-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #2563EB;
+    background: #EFF6FF;
+    padding: 2px 6px;
+    border-radius: 6px;
+    display: inline-block;
   }
 
   @media (max-width: 768px) {
@@ -170,20 +310,45 @@
 <script is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script is:inline>
-  (function initNovaSmartStoreMap() {
-    var stores = [
-      { id: 1, name: 'Sede Miraflores', lat: -12.1191, lng: -77.0299, address: 'Av. Alfredo Benavides 1180, Miraflores' },
-      { id: 2, name: 'Sede Surco', lat: -12.1385, lng: -76.9935, address: 'Av. La Encalada 1610, Santiago de Surco' },
-      { id: 3, name: 'Sede San Isidro', lat: -12.0985, lng: -76.9850, address: 'Av. Javier Prado Este 4600, San Isidro' },
-      { id: 4, name: 'Sede Comas', lat: -11.9845, lng: -77.0520, address: 'Av. Túpac Amaru 3580, Comas' }
+  (function initFullNovaSmartStoreMap() {
+    // Stores Dataset: Scraped Claro Stores + Nova Smart Authorized Sedes
+    var storesData = [
+      { id: 1, type: 'NOVASMART', name: 'Nova Smart - Miraflores', district: 'Miraflores', lat: -12.1191, lng: -77.0299, address: 'Av. Alfredo Benavides 1180, Miraflores' },
+      { id: 2, type: 'NOVASMART', name: 'Nova Smart - Surco', district: 'Surco', lat: -12.1385, lng: -76.9935, address: 'Av. La Encalada 1610, Santiago de Surco' },
+      { id: 3, type: 'NOVASMART', name: 'Nova Smart - San Isidro', district: 'San Isidro', lat: -12.0985, lng: -76.9850, address: 'Av. Javier Prado Este 4600, San Isidro' },
+      { id: 4, type: 'NOVASMART', name: 'Nova Smart - Comas', district: 'Comas', lat: -11.9845, lng: -77.0520, address: 'Av. Túpac Amaru 3580, Comas' },
+      { id: 5, type: 'CLARO', name: 'Claro - Jr. de la Unión', district: 'Lima', lat: -12.0468, lng: -77.0322, address: 'Jr. De la Unión N° 499, Cercado de Lima' },
+      { id: 6, type: 'CLARO', name: 'Claro - Av. Garcilaso de la Vega', district: 'Lima', lat: -12.0560, lng: -77.0375, address: 'Av. Garcilaso de la Vega 1337, Cercado de Lima' },
+      { id: 7, type: 'CLARO', name: 'Claro - Av. Arenales', district: 'Lince', lat: -12.0862, lng: -77.0345, address: 'Av. Arenales N° 2283, Lince' },
+      { id: 8, type: 'CLARO', name: 'Claro - Las Begonias', district: 'San Isidro', lat: -12.0942, lng: -77.0320, address: 'Av. Las Begonias N° 798, San Isidro' },
+      { id: 9, type: 'CLARO', name: 'Claro - Av. Salaverry', district: 'Jesús María', lat: -12.0890, lng: -77.0515, address: 'Av. San Felipe con Av. Salaverry 2370, Jesús María' },
+      { id: 10, type: 'CLARO', name: 'Claro - Open Plaza Surquillo', district: 'Surquillo', lat: -12.1118, lng: -77.0135, address: 'C.C. Open Plaza, Av. Angamos Este 1803, Surquillo' },
+      { id: 11, type: 'CLARO', name: 'Claro - Real Plaza Puruchuco', district: 'Ate', lat: -12.0335, lng: -76.9320, address: 'C.C. Real Plaza Puruchuco, Av. Nicolás Ayllón 8694, Ate' },
+      { id: 12, type: 'CLARO', name: 'Claro - Av. Circunvalación', district: 'San Borja', lat: -12.0830, lng: -76.9920, address: 'Av. Circunvalación 1803, San Borja' },
+      { id: 13, type: 'CLARO', name: 'Claro - Real Plaza Pro', district: 'Los Olivos', lat: -11.9560, lng: -77.0690, address: 'C.C. Real Plaza Pro, Av. Alfredo Mendiola 7810, Los Olivos' },
+      { id: 14, type: 'CLARO', name: 'Claro - Plaza Norte', district: 'Independencia', lat: -11.9930, lng: -77.0620, address: 'C.C. Plaza Norte, Av. Tomás Valle con Panamericana Norte, Independencia' }
     ];
+
+    var userCoords = null; // Stores GPS location if active
+
+    // Haversine formula to compute distance in km
+    function computeDistanceKm(lat1, lon1, lat2, lon2) {
+      var R = 6371;
+      var dLat = (lat2 - lat1) * Math.PI / 180;
+      var dLon = (lon2 - lon1) * Math.PI / 180;
+      var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+              Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      return Math.round(R * c * 10) / 10;
+    }
 
     function startMap() {
       var mapEl = document.getElementById('leaflet-store-map');
       if (!mapEl || typeof window.L === 'undefined') return;
 
       var map = L.map('leaflet-store-map', {
-        center: [-12.108, -77.005],
+        center: [-12.088, -77.025],
         zoom: 12,
         zoomControl: false
       });
@@ -203,23 +368,28 @@
       }
 
       var storeMarkers = {};
+      var userPinMarker = null;
 
-      stores.forEach(function(store) {
-        var isFirst = store.id === 1;
-        var icon = createCustomIcon(isFirst ? '#E30613' : '#64748B', isFirst ? [36, 52] : [28, 44]);
+      // Add map markers for all stores
+      storesData.forEach(function(store) {
+        var color = store.type === 'NOVASMART' ? '#E30613' : '#475569';
+        var icon = createCustomIcon(color, [30, 45]);
         var marker = L.marker([store.lat, store.lng], { icon: icon }).addTo(map);
+
+        var badgeText = store.type === 'NOVASMART' ? 'Sede Autorizada Nova Smart' : 'Tienda Oficial Claro';
+        var badgeColor = store.type === 'NOVASMART' ? '#E30613' : '#475569';
 
         marker.bindPopup(
           '<div style="font-family:Plus Jakarta Sans,sans-serif;min-width:220px;padding:4px;">' +
-            '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;padding-bottom:8px;border-bottom:2px solid #E30613;">' +
-              '<div style="width:32px;height:32px;background:#E30613;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#FFF;font-size:13px;font-weight:800;">NS</div>' +
+            '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;padding-bottom:8px;border-bottom:2px solid ' + badgeColor + ';">' +
+              '<div style="width:32px;height:32px;background:' + badgeColor + ';border-radius:8px;display:flex;align-items:center;justify-content:center;color:#FFF;font-size:12px;font-weight:800;">' + (store.type === 'NOVASMART' ? 'NS' : 'CL') + '</div>' +
               '<div>' +
-                '<h3 style="font-size:0.95rem;font-weight:800;color:#0F172A;margin:0;">' + store.name + '</h3>' +
-                '<span style="font-size:0.76rem;color:#E30613;font-weight:700;">Sede Autorizada Claro</span>' +
+                '<h3 style="font-size:0.92rem;font-weight:800;color:#0F172A;margin:0;">' + store.name + '</h3>' +
+                '<span style="font-size:0.75rem;color:' + badgeColor + ';font-weight:700;">' + badgeText + '</span>' +
               '</div>' +
             '</div>' +
-            '<p style="font-size:0.82rem;color:#334155;margin:4px 0 10px;line-height:1.4;">' + store.address + '</p>' +
-            '<a href="https://wa.me/51983985748?text=Hola%2C%20deseo%20visitar%20la%20' + encodeURIComponent(store.name) + '%20de%20Nova%20Smart" target="_blank" style="display:block;padding:8px;background:#25D366;color:#FFF;text-align:center;font-weight:700;border-radius:8px;text-decoration:none;font-size:0.8rem;">Contacto por WhatsApp</a>' +
+            '<p style="font-size:0.8rem;color:#334155;margin:4px 0 10px;line-height:1.4;">' + store.address + '</p>' +
+            '<a href="https://wa.me/51983985748?text=Hola%2C%20deseo%20visitar%20la%20tienda%20' + encodeURIComponent(store.name) + '" target="_blank" style="display:block;padding:8px;background:#25D366;color:#FFF;text-align:center;font-weight:700;border-radius:8px;text-decoration:none;font-size:0.8rem;">Contacto por WhatsApp</a>' +
           '</div>'
         );
 
@@ -231,27 +401,25 @@
       });
 
       function selectStoreUI(storeId) {
-        stores.forEach(function(s) {
+        storesData.forEach(function(s) {
           if (storeMarkers[s.id]) {
             var isTarget = s.id === storeId;
-            storeMarkers[s.id].setIcon(createCustomIcon(isTarget ? '#E30613' : '#64748B', isTarget ? [36, 52] : [28, 44]));
+            var baseColor = s.type === 'NOVASMART' ? '#E30613' : '#475569';
+            storeMarkers[s.id].setIcon(createCustomIcon(isTarget ? '#2563EB' : baseColor, isTarget ? [36, 52] : [30, 45]));
           }
         });
 
         document.querySelectorAll('.store-card-item').forEach(function(card) {
           card.classList.remove('active');
-          var badge = card.querySelector('.badge-active');
-          if (badge) badge.style.display = 'none';
         });
 
         var targetCard = document.querySelector('.store-card-item[data-store-id="' + storeId + '"]');
         if (targetCard) {
           targetCard.classList.add('active');
-          var activeBadge = targetCard.querySelector('.badge-active');
-          if (activeBadge) activeBadge.style.display = 'inline-block';
+          targetCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
-        var selected = stores.find(function(item) { return item.id === storeId; });
+        var selected = storesData.find(function(item) { return item.id === storeId; });
         if (selected) {
           map.flyTo([selected.lat, selected.lng], 15, { duration: 1.2 });
           if (storeMarkers[storeId]) {
@@ -260,12 +428,124 @@
         }
       }
 
-      document.querySelectorAll('.store-card-item').forEach(function(card) {
-        card.addEventListener('click', function() {
-          var id = parseInt(card.getAttribute('data-store-id'), 10);
-          selectStoreUI(id);
+      // Filter and render list in sidebar
+      function updateStoreList() {
+        var searchVal = (document.getElementById('store-search-input').value || '').trim().toLowerCase();
+        var districtVal = document.getElementById('district-filter-select').value;
+        var typeVal = document.getElementById('type-filter-select').value;
+
+        var filtered = storesData.filter(function(store) {
+          var matchSearch = !searchVal || store.name.toLowerCase().indexOf(searchVal) !== -1 || store.address.toLowerCase().indexOf(searchVal) !== -1;
+          var matchDistrict = districtVal === 'ALL' || store.district === districtVal;
+          var matchType = typeVal === 'ALL' || store.type === typeVal;
+          return matchSearch && matchDistrict && matchType;
         });
-      });
+
+        // Compute distances if GPS is active
+        if (userCoords) {
+          filtered.forEach(function(store) {
+            store.distance = computeDistanceKm(userCoords.lat, userCoords.lng, store.lat, store.lng);
+          });
+          filtered.sort(function(a, b) { return a.distance - b.distance; });
+        }
+
+        var container = document.getElementById('stores-list-container');
+        var countLabel = document.getElementById('sidebar-count-label');
+        if (countLabel) countLabel.textContent = 'Tiendas Encontradas (' + filtered.length + ')';
+
+        if (!container) return;
+        container.innerHTML = '';
+
+        if (filtered.length === 0) {
+          container.innerHTML = '<p style="font-size:0.82rem;color:#64748B;text-align:center;padding:20px 0;">No se encontraron tiendas con los filtros seleccionados.</p>';
+          return;
+        }
+
+        filtered.forEach(function(store, index) {
+          var isFirst = index === 0 && userCoords;
+          var card = document.createElement('div');
+          card.className = 'store-card-item' + (isFirst ? ' active' : '');
+          card.setAttribute('data-store-id', store.id);
+
+          var typeBadgeClass = store.type === 'NOVASMART' ? 'badge-novasmart' : 'badge-claro';
+          var typeBadgeLabel = store.type === 'NOVASMART' ? 'NOVA SMART' : 'TIENDA CLARO';
+
+          var distHtml = store.distance !== undefined
+            ? '<span class="store-distance-badge">📍 A ' + store.distance + ' km de ti</span>'
+            : '';
+
+          card.innerHTML = 
+            '<div class="store-card-header">' +
+              '<strong>' + store.name + '</strong>' +
+              '<span class="badge-store-type ' + typeBadgeClass + '">' + typeBadgeLabel + '</span>' +
+            '</div>' +
+            '<p class="store-card-address">' + store.address + '</p>' +
+            distHtml;
+
+          card.addEventListener('click', function() {
+            selectStoreUI(store.id);
+          });
+
+          container.appendChild(card);
+        });
+      }
+
+      // Filter events
+      document.getElementById('store-search-input').addEventListener('input', updateStoreList);
+      document.getElementById('district-filter-select').addEventListener('change', updateStoreList);
+      document.getElementById('type-filter-select').addEventListener('change', updateStoreList);
+
+      // GPS Geolocation - Calculate Closest Store
+      var btnClosest = document.getElementById('btn-closest-store');
+      if (btnClosest) {
+        btnClosest.addEventListener('click', function() {
+          if (!navigator.geolocation) {
+            alert('Tu navegador no soporta geolocalización.');
+            return;
+          }
+
+          var originalText = btnClosest.innerHTML;
+          btnClosest.innerHTML = 'Calculando...';
+
+          navigator.geolocation.getCurrentPosition(
+            function(pos) {
+              btnClosest.innerHTML = originalText;
+              userCoords = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+
+              var gpsBadge = document.getElementById('gps-status-badge');
+              if (gpsBadge) gpsBadge.style.display = 'inline-block';
+
+              if (userPinMarker) {
+                map.removeLayer(userPinMarker);
+              }
+
+              var blueIcon = createCustomIcon('#2563EB', [36, 52]);
+              userPinMarker = L.marker([userCoords.lat, userCoords.lng], { icon: blueIcon }).addTo(map);
+              userPinMarker.bindPopup('<strong style="font-family:Plus Jakarta Sans,sans-serif;color:#1E40AF;">Tu Ubicación Actual</strong>').openPopup();
+
+              // Update & sort list by distance
+              updateStoreList();
+
+              // Fly to closest store
+              var closestStore = storesData.slice().sort(function(a, b) {
+                return computeDistanceKm(userCoords.lat, userCoords.lng, a.lat, a.lng) - computeDistanceKm(userCoords.lat, userCoords.lng, b.lat, b.lng);
+              })[0];
+
+              if (closestStore) {
+                selectStoreUI(closestStore.id);
+              }
+            },
+            function() {
+              btnClosest.innerHTML = originalText;
+              alert('No se pudo obtener tu ubicación GPS. Puedes usar el filtro de distritos para encontrar la tienda más cercana.');
+            },
+            { enableHighAccuracy: true, timeout: 10000 }
+          );
+        });
+      }
+
+      // Initial list render
+      updateStoreList();
     }
 
     if (typeof window.L !== 'undefined') {
