@@ -2,19 +2,23 @@
 import promocionesData from '../data/promociones.json';
 const { modalidades } = promocionesData;
 const salesPhone = "51983985748";
+
+const subcategories2Play = [
+  { id: 'tv', label: 'Internet + TV', filter: (p: any) => p.speed.includes('TV') },
+  { id: 'telf', label: 'Internet + Telefonía', filter: (p: any) => p.speed.includes('Telefonía') },
+];
 ---
 
 <section id="planes" class="section-padding planes-section">
   <div class="container">
     <div class="section-header text-center reveal">
       <span class="badge badge-red">{promocionesData.vigencia}</span>
-      <h2 class="section-title">Planes y Combos Claro Fibra Óptica</h2>
+      <h2 class="section-title">Planes y Ofertas Claro Fibra Óptica</h2>
       <p class="section-description">
-        Catálogo técnico y comercial de promociones vigentes. Explora los servicios 1 Play, 2 Play y 3 Play con bonos de velocidad y beneficios exclusivos.
+        Catálogo técnico y comercial de promociones vigentes. Explora los servicios 1 Play, 2 Play, 3 Play y Ofertas Focalizadas con bonos de velocidad y beneficios exclusivos.
       </p>
     </div>
 
-    <!-- Modalities Showcase Container -->
     <div class="planes-showcase-box reveal reveal-delay-1">
       <div class="planes-header">
         <div class="speed-switcher">
@@ -29,101 +33,235 @@ const salesPhone = "51983985748";
         </div>
       </div>
 
-      {modalidades.map((m, mIdx) => (
-        <div class={`modality-panel ${mIdx === 0 ? 'active' : ''}`} id={`modality-${m.id}`}>
-          <div class="modality-intro text-center">
-            <h3>{m.title}</h3>
-            <p>{m.desc}</p>
-          </div>
+      {modalidades.map((m, mIdx) => {
+        const hasSubcats = m.id === '2play';
+        const planes2PlayTV = hasSubcats ? m.planes.filter((p: any) => p.speed.includes('TV')) : [];
+        const planes2PlayTelf = hasSubcats ? m.planes.filter((p: any) => p.speed.includes('Telefonía')) : [];
 
-          <!-- General Promo Banner for the Modality -->
-          <div class="modality-promo-banner">
-            <div class="banner-badge-box">
-              <span class="banner-pill">OFERTA CAMPAÑA VIGENTE</span>
+        return (
+          <div class={`modality-panel ${mIdx === 0 ? 'active' : ''}`} id={`modality-${m.id}`}>
+            <div class="modality-intro text-center">
+              <h3>{m.title}</h3>
+              <p>{m.desc}</p>
             </div>
-            <h4 class="banner-title">{m.promoGeneralTitle}</h4>
-            <p class="banner-text">{m.promoGeneralText}</p>
-          </div>
 
-          <!-- Carousel Slider for Cards -->
-          <div class="plans-carousel-wrapper">
-            <button class="carousel-arrow prev-plan-btn" aria-label="Anterior">
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-            </button>
+            <div class="modality-promo-banner">
+              <div class="banner-badge-box">
+                <span class="banner-pill">OFERTA CAMPAÑA VIGENTE</span>
+              </div>
+              <h4 class="banner-title">{m.promoGeneralTitle}</h4>
+              <p class="banner-text">{m.promoGeneralText}</p>
+            </div>
 
-            <div class="cards-grid-viewport">
-              <div class="cards-grid-track">
-                {m.planes.map((p) => {
-                  const whatsappMsg = `Hola, deseo consultar disponibilidad sobre el ${p.speed} (${m.tabName}) con ${p.bonoSpeed}.`;
-                  const whatsappLink = `https://wa.me/${salesPhone}?text=${encodeURIComponent(whatsappMsg)}`;
+            {hasSubcats ? (
+              <div class="subcat-section">
+                <div class="subcat-tabs">
+                  {subcategories2Play.map((sc, scIdx) => (
+                    <button
+                      class={`subcat-tab ${scIdx === 0 ? 'active' : ''}`}
+                      data-subcat={sc.id}
+                      data-parent-mod={m.id}
+                    >
+                      {sc.label}
+                      <span class="subcat-count">{sc.id === 'tv' ? planes2PlayTV.length : planes2PlayTelf.length}</span>
+                    </button>
+                  ))}
+                </div>
 
-                  return (
-                    <div class="claro-plan-card">
-                      <!-- Top Badge Pill -->
-                      <div class="card-top-badge">
-                        <span>OFERTA VIGENTE</span>
-                      </div>
-
-                      <!-- Category Icon & Header -->
-                      <div class="card-modality-header">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E30613" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
-                        <span>Fibra Óptica Simétrica</span>
-                      </div>
-
-                      <!-- Plan Title -->
-                      <h4 class="card-plan-title">
-                        {p.speed}
-                        <span class="card-tag-badge">{p.tag}</span>
-                      </h4>
-
-                      <!-- Spec Items List -->
-                      <div class="card-specs-list">
-                        <div class="spec-row">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E30613" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                          <span><strong>Bono:</strong> {p.bonoSpeed}</span>
-                        </div>
-                        <div class="spec-row">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E30613" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                          <span><strong>Full Claro:</strong> {p.fullClaroSpeed}</span>
-                        </div>
-                        <div class="spec-row">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E30613" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
-                          <span><strong>Equipos:</strong> {p.equipos}</span>
-                        </div>
-                        <div class="spec-row">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E30613" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"/><polyline points="17 2 12 7 7 2"/></svg>
-                          <span><strong>TV / Contenido:</strong> {p.entretenimiento}</span>
-                        </div>
-                      </div>
-
-                      <!-- Light Teal/Cyan Highlight Strip -->
-                      <div class="card-highlight-strip">
-                        <span class="strip-label">BENEFICIO DESTACADO</span>
-                        <strong class="strip-value">{p.highlight}</strong>
-                      </div>
-
-                      <!-- Card Action Button to WhatsApp -->
-                      <div class="card-action-box">
-                        <a href={whatsappLink} target="_blank" rel="noopener noreferrer" class="btn btn-outline-danger btn-block">
-                          <span>Solicitar por WhatsApp</span>
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                        </a>
+                <div class="subcat-panel active" id={`subcat-${m.id}-tv`}>
+                  <div class="plans-carousel-wrapper">
+                    <button class="carousel-arrow prev-plan-btn" aria-label="Anterior">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+                    </button>
+                    <div class="cards-grid-viewport">
+                      <div class="cards-grid-track">
+                        {planes2PlayTV.map((p: any) => {
+                          const whatsappMsg = `Hola, deseo consultar disponibilidad sobre el ${p.speed} (${m.tabName}).`;
+                          const whatsappLink = `https://wa.me/${salesPhone}?text=${encodeURIComponent(whatsappMsg)}`;
+                          return (
+                            <div class="claro-plan-card">
+                              <div class="card-top-badge"><span>OFERTA VIGENTE</span></div>
+                              <div class="card-modality-header">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E30613" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+                                <span>Fibra Óptica Simétrica</span>
+                              </div>
+                              <h4 class="card-plan-title">
+                                {p.speed}
+                                <span class="card-tag-badge">{p.tag}</span>
+                              </h4>
+                              <div class="card-price-block">
+                                <span class="card-price">{p.price}</span>
+                                {p.priceNote && <span class="card-price-note">{p.priceNote}</span>}
+                                {p.regularPrice && <span class="card-regular-price">Regular {p.regularPrice}</span>}
+                              </div>
+                              <div class="card-specs-list">
+                                <div class="spec-row">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E30613" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                                  <span><strong>Bono:</strong> {p.fullClaroSpeed}</span>
+                                </div>
+                                {p.entretenimiento && (
+                                  <div class="spec-row">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E30613" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"/><polyline points="17 2 12 7 7 2"/></svg>
+                                    <span><strong>TV / Contenido:</strong> {p.entretenimiento}</span>
+                                  </div>
+                                )}
+                              </div>
+                              {p.features && p.features.length > 0 && (
+                                <div class="card-highlight-strip">
+                                  <span class="strip-label">BENEFICIO DESTACADO</span>
+                                  <strong class="strip-value">{p.features[0]}</strong>
+                                </div>
+                              )}
+                              <div class="card-action-box">
+                                <a href={whatsappLink} target="_blank" rel="noopener noreferrer" class="btn btn-outline-danger btn-block">
+                                  <span>Solicitar</span>
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                                </a>
+                              </div>
+                            </div>
+                          );
+                        })}
                       </div>
                     </div>
-                  );
-                })}
+                    <button class="carousel-arrow next-plan-btn" aria-label="Siguiente">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                    </button>
+                  </div>
+                  <div class="plan-dots-nav"></div>
+                </div>
+
+                <div class="subcat-panel" id={`subcat-${m.id}-telf`}>
+                  <div class="plans-carousel-wrapper">
+                    <button class="carousel-arrow prev-plan-btn" aria-label="Anterior">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+                    </button>
+                    <div class="cards-grid-viewport">
+                      <div class="cards-grid-track">
+                        {planes2PlayTelf.map((p: any) => {
+                          const whatsappMsg = `Hola, deseo consultar disponibilidad sobre el ${p.speed} (${m.tabName}).`;
+                          const whatsappLink = `https://wa.me/${salesPhone}?text=${encodeURIComponent(whatsappMsg)}`;
+                          return (
+                            <div class="claro-plan-card">
+                              <div class="card-top-badge"><span>OFERTA VIGENTE</span></div>
+                              <div class="card-modality-header">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E30613" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+                                <span>Fibra Óptica Simétrica</span>
+                              </div>
+                              <h4 class="card-plan-title">
+                                {p.speed}
+                                <span class="card-tag-badge">{p.tag}</span>
+                              </h4>
+                              <div class="card-price-block">
+                                <span class="card-price">{p.price}</span>
+                                {p.priceNote && <span class="card-price-note">{p.priceNote}</span>}
+                                {p.regularPrice && <span class="card-regular-price">Regular {p.regularPrice}</span>}
+                              </div>
+                              <div class="card-specs-list">
+                                <div class="spec-row">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E30613" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                                  <span><strong>Bono:</strong> {p.fullClaroSpeed}</span>
+                                </div>
+                                {p.entretenimiento && (
+                                  <div class="spec-row">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E30613" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"/><polyline points="17 2 12 7 7 2"/></svg>
+                                    <span><strong>TV / Contenido:</strong> {p.entretenimiento}</span>
+                                  </div>
+                                )}
+                              </div>
+                              {p.features && p.features.length > 0 && (
+                                <div class="card-highlight-strip">
+                                  <span class="strip-label">BENEFICIO DESTACADO</span>
+                                  <strong class="strip-value">{p.features[0]}</strong>
+                                </div>
+                              )}
+                              <div class="card-action-box">
+                                <a href={whatsappLink} target="_blank" rel="noopener noreferrer" class="btn btn-outline-danger btn-block">
+                                  <span>Solicitar</span>
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                                </a>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                    <button class="carousel-arrow next-plan-btn" aria-label="Siguiente">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                    </button>
+                  </div>
+                  <div class="plan-dots-nav"></div>
+                </div>
               </div>
-            </div>
-
-            <button class="carousel-arrow next-plan-btn" aria-label="Siguiente">
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-            </button>
+            ) : (
+              <div class="plans-carousel-wrapper">
+                <button class="carousel-arrow prev-plan-btn" aria-label="Anterior">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+                </button>
+                <div class="cards-grid-viewport">
+                  <div class="cards-grid-track">
+                    {m.planes.map((p: any) => {
+                      const whatsappMsg = `Hola, deseo consultar disponibilidad sobre el ${p.speed} (${m.tabName}).`;
+                      const whatsappLink = `https://wa.me/${salesPhone}?text=${encodeURIComponent(whatsappMsg)}`;
+                      return (
+                        <div class="claro-plan-card">
+                          <div class="card-top-badge"><span>OFERTA VIGENTE</span></div>
+                          <div class="card-modality-header">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E30613" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+                            <span>Fibra Óptica Simétrica</span>
+                          </div>
+                          <h4 class="card-plan-title">
+                            {p.speed}
+                            <span class="card-tag-badge">{p.tag}</span>
+                          </h4>
+                          <div class="card-price-block">
+                            <span class="card-price">{p.price}</span>
+                            {p.priceNote && <span class="card-price-note">{p.priceNote}</span>}
+                            {p.regularPrice && <span class="card-regular-price">Regular {p.regularPrice}</span>}
+                          </div>
+                          <div class="card-specs-list">
+                            <div class="spec-row">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E30613" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                              <span><strong>Bono:</strong> {p.fullClaroSpeed}</span>
+                            </div>
+                            {(p as any).equipos && (
+                              <div class="spec-row">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E30613" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+                                <span><strong>Equipos:</strong> {(p as any).equipos}</span>
+                              </div>
+                            )}
+                            {(p as any).entretenimiento && (
+                              <div class="spec-row">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E30613" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"/><polyline points="17 2 12 7 7 2"/></svg>
+                                <span><strong>TV / Contenido:</strong> {(p as any).entretenimiento}</span>
+                              </div>
+                            )}
+                          </div>
+                          {p.features && p.features.length > 0 && (
+                            <div class="card-highlight-strip">
+                              <span class="strip-label">BENEFICIO DESTACADO</span>
+                              <strong class="strip-value">{p.features[0]}</strong>
+                            </div>
+                          )}
+                          <div class="card-action-box">
+                            <a href={whatsappLink} target="_blank" rel="noopener noreferrer" class="btn btn-outline-danger btn-block">
+                              <span>Solicitar</span>
+                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                            </a>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+                <button class="carousel-arrow next-plan-btn" aria-label="Siguiente">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                </button>
+              </div>
+            )}
+            {!hasSubcats && <div class="plan-dots-nav"></div>}
           </div>
-
-          <!-- Slide Dots Indicator -->
-          <div class="plan-dots-nav"></div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   </div>
 </section>
@@ -248,7 +386,6 @@ const salesPhone = "51983985748";
     line-height: 1.7;
   }
 
-  /* General Promo Banner Box */
   .modality-promo-banner {
     background: #FFF5F5;
     border: 1px solid rgba(227, 6, 19, 0.2);
@@ -256,7 +393,6 @@ const salesPhone = "51983985748";
     padding: 2rem 2.5rem;
     text-align: center;
     margin-bottom: 3.5rem;
-    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -295,7 +431,72 @@ const salesPhone = "51983985748";
     font-weight: 600;
   }
 
-  /* Carousel Wrapper */
+  /* Subcategories */
+  .subcat-section {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .subcat-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .subcat-tab {
+    background: #FFFFFF;
+    border: 2px solid var(--color-border);
+    color: var(--color-text-muted);
+    padding: 0.7rem 1.75rem;
+    border-radius: var(--radius-full);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .subcat-tab:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  .subcat-tab.active {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: #FFFFFF;
+    box-shadow: 0 4px 12px rgba(227, 6, 19, 0.25);
+  }
+
+  .subcat-count {
+    background: rgba(255, 255, 255, 0.25);
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius-full);
+    min-width: 20px;
+    text-align: center;
+  }
+
+  .subcat-tab:not(.active) .subcat-count {
+    background: rgba(227, 6, 19, 0.1);
+    color: var(--color-primary);
+  }
+
+  .subcat-panel {
+    display: none;
+  }
+
+  .subcat-panel.active {
+    display: block;
+  }
+
+  /* Carousel */
   .plans-carousel-wrapper {
     display: flex;
     align-items: center;
@@ -329,34 +530,46 @@ const salesPhone = "51983985748";
 
   .cards-grid-viewport {
     flex: 1;
-    overflow: hidden;
-    padding: 0.5rem 0.25rem;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    padding: 1.25rem 0.25rem 0.5rem;
+    scrollbar-width: none;
+  }
+
+  .cards-grid-viewport::-webkit-scrollbar {
+    display: none;
   }
 
   .cards-grid-track {
     display: flex;
     gap: 1.5rem;
-    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
   }
 
-  /* Vertical Card Styling */
+  /* Card */
   .claro-plan-card {
-    flex: 0 0 calc(33.333% - 1rem);
-    min-width: 280px;
+    flex: 0 0 calc(25% - 1.125rem);
+    min-width: 220px;
     background: #FFFFFF;
     border: 1px solid #E2E8F0;
     border-radius: 18px;
-    padding: 1.75rem 1.5rem 1.5rem;
+    padding: 1.5rem 1.25rem 1.25rem;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
     display: flex;
     flex-direction: column;
     position: relative;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-top: 12px;
   }
 
   .claro-plan-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+  }
+
+  .claro-plan-card:hover .card-top-badge {
+    transform: translateX(-50%) scale(1.05);
+    box-shadow: 0 6px 18px rgba(227, 6, 19, 0.5);
   }
 
   .card-top-badge {
@@ -373,65 +586,89 @@ const salesPhone = "51983985748";
     letter-spacing: 0.05em;
     box-shadow: 0 4px 12px rgba(227, 6, 19, 0.35);
     white-space: nowrap;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
-
-
 
   .card-modality-header {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 700;
     color: var(--color-text-muted);
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
   }
 
-  .mini-claro-logo {
-    height: 28px;
-    width: auto;
-    object-fit: contain;
-    flex-shrink: 0;
-  }
-
   .card-plan-title {
-    font-size: 1.85rem;
+    font-size: 1.5rem;
     font-weight: 900;
     color: var(--color-dark-heading);
     text-align: center;
-    margin-bottom: 1.25rem;
+    margin-bottom: 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.35rem;
+    gap: 0.3rem;
   }
 
   .card-tag-badge {
     background: rgba(227, 6, 19, 0.08);
     color: var(--color-primary);
-    font-size: 0.725rem;
+    font-size: 0.65rem;
     font-weight: 700;
-    padding: 0.2rem 0.65rem;
+    padding: 0.15rem 0.5rem;
     border-radius: var(--radius-full);
+  }
+
+  .card-price-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15rem;
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    background: linear-gradient(135deg, rgba(227, 6, 19, 0.06), rgba(227, 6, 19, 0.02));
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(227, 6, 19, 0.12);
+  }
+
+  .card-price {
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: var(--color-primary);
+    line-height: 1.1;
+  }
+
+  .card-price-note {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+  }
+
+  .card-regular-price {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    text-decoration: line-through;
   }
 
   .card-specs-list {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
-    margin-bottom: 1.25rem;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
     flex: 1;
   }
 
   .spec-row {
     display: flex;
     align-items: flex-start;
-    gap: 0.5rem;
-    font-size: 0.85rem;
+    gap: 0.4rem;
+    font-size: 0.78rem;
     color: var(--color-text-body);
-    line-height: 1.35;
+    line-height: 1.3;
   }
 
   .spec-row svg {
@@ -439,21 +676,20 @@ const salesPhone = "51983985748";
     margin-top: 2px;
   }
 
-  /* Soft Reddish Claro Strip */
   .card-highlight-strip {
     background: rgba(227, 6, 19, 0.05);
     border: 1px solid rgba(227, 6, 19, 0.2);
     border-radius: var(--radius-sm);
-    padding: 0.75rem;
+    padding: 0.6rem;
     text-align: center;
-    margin-bottom: 1.25rem;
+    margin-bottom: 1rem;
     display: flex;
     flex-direction: column;
-    gap: 0.2rem;
+    gap: 0.15rem;
   }
 
   .strip-label {
-    font-size: 0.675rem;
+    font-size: 0.6rem;
     font-weight: 800;
     color: var(--color-primary);
     text-transform: uppercase;
@@ -461,7 +697,7 @@ const salesPhone = "51983985748";
   }
 
   .strip-value {
-    font-size: 0.85rem;
+    font-size: 0.78rem;
     font-weight: 800;
     color: var(--color-dark-heading);
   }
@@ -475,14 +711,15 @@ const salesPhone = "51983985748";
     border: 2px solid var(--color-primary);
     color: var(--color-primary);
     font-weight: 800;
-    font-size: 0.875rem;
-    padding: 0.65rem 1rem;
+    font-size: 0.8rem;
+    padding: 0.55rem 0.85rem;
     border-radius: var(--radius-full);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.4rem;
+    gap: 0.35rem;
     transition: all 0.25s ease;
+    text-decoration: none;
   }
 
   .btn-outline-danger:hover {
@@ -514,15 +751,24 @@ const salesPhone = "51983985748";
     border-radius: var(--radius-full);
   }
 
+  @media (max-width: 1200px) {
+    .claro-plan-card {
+      flex: 0 0 calc(33.333% - 1rem);
+      min-width: 220px;
+    }
+  }
+
   @media (max-width: 992px) {
     .claro-plan-card {
       flex: 0 0 calc(50% - 0.75rem);
+      min-width: 220px;
     }
   }
 
   @media (max-width: 640px) {
     .claro-plan-card {
       flex: 0 0 100%;
+      min-width: unset;
     }
     .planes-showcase-box {
       padding: 2rem 1rem;
@@ -531,86 +777,96 @@ const salesPhone = "51983985748";
       padding: 0.6rem 1.25rem;
       font-size: 0.85rem;
     }
+    .subcat-tab {
+      padding: 0.55rem 1.25rem;
+      font-size: 0.8rem;
+    }
   }
 </style>
 
 <script>
-  // Tabs for Modalities
-  const tabs = document.querySelectorAll('.plan-tab');
-  const panels = document.querySelectorAll('.modality-panel');
+  function initPlanesOfota() {
+    const tabs = document.querySelectorAll('.plan-tab');
+    const panels = document.querySelectorAll('.modality-panel');
 
-  tabs.forEach(tab => {
-    tab.addEventListener('click', (e) => {
-      tabs.forEach(t => t.classList.remove('active'));
-      panels.forEach(p => p.classList.remove('active'));
-
-      const target = e.currentTarget as HTMLElement;
-      target.classList.add('active');
-
-      const modId = target.getAttribute('data-mod-id');
-      const activePanel = document.getElementById(`modality-${modId}`);
-      if (activePanel) {
-        activePanel.classList.add('active');
-        initPanelCarousel(activePanel);
-      }
-    });
-  });
-
-  function initPanelCarousel(panel: HTMLElement) {
-    const track = panel.querySelector('.cards-grid-track') as HTMLElement;
-    const cards = panel.querySelectorAll('.claro-plan-card');
-    const dotsNav = panel.querySelector('.plan-dots-nav');
-
-    if (!track || cards.length === 0) return;
-
-    let currentIndex = 0;
-    const itemsPerPage = window.innerWidth > 992 ? 3 : (window.innerWidth > 640 ? 2 : 1);
-    const maxIndex = Math.max(0, cards.length - itemsPerPage);
-
-    // Build dots
-    if (dotsNav) {
-      dotsNav.innerHTML = '';
-      for (let i = 0; i <= maxIndex; i++) {
-        const dot = document.createElement('button');
-        dot.className = `plan-dot ${i === 0 ? 'active' : ''}`;
-        dot.setAttribute('aria-label', `Ir a página ${i + 1}`);
-        dot.addEventListener('click', () => goToSlide(i));
-        dotsNav.appendChild(dot);
-      }
-    }
-
-    function goToSlide(index: number) {
-      if (index < 0) index = maxIndex;
-      if (index > maxIndex) index = 0;
-
-      currentIndex = index;
-
-      const cardWidth = (cards[0] as HTMLElement).offsetWidth + 24; // 24px gap
-      track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
-
-      const dots = dotsNav?.querySelectorAll('.plan-dot');
-      dots?.forEach((d, idx) => {
-        if (idx === currentIndex) d.classList.add('active');
-        else d.classList.remove('active');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', (e) => {
+        tabs.forEach(t => t.classList.remove('active'));
+        panels.forEach(p => p.classList.remove('active'));
+        const target = e.currentTarget as HTMLElement;
+        target.classList.add('active');
+        const modId = target.getAttribute('data-mod-id');
+        const activePanel = document.getElementById(`modality-${modId}`);
+        if (activePanel) {
+          activePanel.classList.add('active');
+          requestAnimationFrame(() => setupCarousels(activePanel));
+        }
       });
+    });
+
+    const subcatTabs = document.querySelectorAll('.subcat-tab');
+    subcatTabs.forEach(tab => {
+      tab.addEventListener('click', (e) => {
+        const target = e.currentTarget as HTMLElement;
+        const parentMod = target.getAttribute('data-parent-mod');
+        const subcatId = target.getAttribute('data-subcat');
+        const parentPanel = document.getElementById(`modality-${parentMod}`);
+        if (!parentPanel) return;
+        parentPanel.querySelectorAll('.subcat-tab').forEach(t => t.classList.remove('active'));
+        parentPanel.querySelectorAll('.subcat-panel').forEach(p => p.classList.remove('active'));
+        target.classList.add('active');
+        const panel = document.getElementById(`subcat-${parentMod}-${subcatId}`);
+        if (panel) {
+          panel.classList.add('active');
+          requestAnimationFrame(() => setupCarousels(panel));
+        }
+      });
+    });
+
+    function setupCarousels(container: HTMLElement) {
+      container.querySelectorAll('.plans-carousel-wrapper').forEach(initCarousel);
     }
 
-    const prevBtn = panel.querySelector('.prev-plan-btn');
-    const nextBtn = panel.querySelector('.next-plan-btn');
+    function initCarousel(wrapper: Element) {
+      const viewport = wrapper.querySelector('.cards-grid-viewport') as HTMLElement;
+      const track = wrapper.querySelector('.cards-grid-track') as HTMLElement;
+      const prevBtn = wrapper.querySelector('.prev-plan-btn') as HTMLElement;
+      const nextBtn = wrapper.querySelector('.next-plan-btn') as HTMLElement;
 
-    prevBtn?.replaceWith(prevBtn.cloneNode(true));
-    nextBtn?.replaceWith(nextBtn.cloneNode(true));
+      if (!viewport || !track) return;
 
-    const newPrev = panel.querySelector('.prev-plan-btn');
-    const newNext = panel.querySelector('.next-plan-btn');
+      viewport.scrollLeft = 0;
 
-    newPrev?.addEventListener('click', () => goToSlide(currentIndex - 1));
-    newNext?.addEventListener('click', () => goToSlide(currentIndex + 1));
+      function updateArrows() {
+        const maxScroll = viewport.scrollWidth - viewport.clientWidth;
+        const atStart = viewport.scrollLeft <= 5;
+        const atEnd = viewport.scrollLeft >= maxScroll - 5;
+        if (prevBtn) prevBtn.style.display = atStart ? 'none' : '';
+        if (nextBtn) nextBtn.style.display = atEnd ? 'none' : '';
+      }
+
+      function scrollByAmount(dir: number) {
+        const cardWidth = track.children[0] ? (track.children[0] as HTMLElement).offsetWidth + 24 : 300;
+        viewport.scrollBy({ left: dir * cardWidth * 2, behavior: 'smooth' });
+      }
+
+      prevBtn?.replaceWith(prevBtn.cloneNode(true));
+      nextBtn?.replaceWith(nextBtn.cloneNode(true));
+      const newPrev = wrapper.querySelector('.prev-plan-btn');
+      const newNext = wrapper.querySelector('.next-plan-btn');
+
+      newPrev?.addEventListener('click', () => scrollByAmount(-1));
+      newNext?.addEventListener('click', () => scrollByAmount(1));
+
+      viewport.addEventListener('scroll', updateArrows, { passive: true });
+      updateArrows();
+    }
+
+    document.querySelectorAll('.modality-panel.active').forEach(panel => {
+      setupCarousels(panel as HTMLElement);
+    });
   }
 
-  // Initialize active panel on page load
-  const initialActive = document.querySelector('.modality-panel.active') as HTMLElement;
-  if (initialActive) {
-    initPanelCarousel(initialActive);
-  }
+  document.addEventListener('DOMContentLoaded', initPlanesOfota);
+  document.addEventListener('astro:page-load', initPlanesOfota);
 </script>

@@ -62,7 +62,7 @@ const districtCoords: Record<string, { lat: number; lng: number; name: string }>
   'san isidro': { lat: -12.0985, lng: -76.9850, name: 'SAN ISIDRO' },
   'comas': { lat: -11.9845, lng: -77.0520, name: 'COMAS' },
   'san juan de lurigancho': { lat: -11.9800, lng: -77.0000, name: 'SAN JUAN DE LURIGANCHO' },
-  'los olivos': { lat: -11.9700, lng: -77.0700, name: 'LOS OLIVOS' },
+  'los olivos': { lat: -11.9700, lng: -77.0700, name: 'LOS OLIVOS' }, 
   'ate': { lat: -12.0250, lng: -76.9150, name: 'ATE VITARTE' },
   'ate vitarte': { lat: -12.0250, lng: -76.9150, name: 'ATE VITARTE' },
   'la molina': { lat: -12.0750, lng: -76.9550, name: 'LA MOLINA' },

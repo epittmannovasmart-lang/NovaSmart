@@ -1,109 +1,152 @@
 {
-  "campana": "Campaña Oficial Claro Fibra Óptica - Agosto 2026",
-  "vigencia": "Oferta Regular y Focalizada Válida hasta el 15 de Agosto de 2026",
+  "campana": "Ofertas Claro Hogar - Fibra Optica y Coaxial",
+  "vigencia": "Vigente hasta el 15 de Agosto de 2026",
   "modalidades": [
     {
       "id": "1play",
       "tabName": "1 Play (Internet)",
-      "title": "1 Play — Internet Fibra Óptica Simétrica",
-      "desc": "Conexión de solo Internet por Fibra Óptica 100% Simétrica. Velocidades desde 200 Mbps hasta 1,000 Mbps con repetición Wi-Fi y beneficio Full Claro.",
-      "promoGeneralTitle": "PROMO DESTACADA 1 PLAY: FIBRA SIMÉTRICA + BONO 1,000 MBPS",
-      "promoGeneralText": "Aprovecha el bono de velocidad de hasta 1,000 Mbps por 12 meses, opción de Repetidor Wi-Fi (Promo 1 Sol) y duplicación de velocidad permanente para clientes Full Claro.",
+      "title": "1 Play - Internet Fibra Optica",
+      "desc": "Internet por Fibra Optica con velocidades desde 200 Mbps hasta 5 Gbps. Todos los planes incluyen beneficio Full Claro con duplicacion de velocidad permanente.",
+      "promoGeneralTitle": "Bono de velocidad incluido en todos los planes",
+      "promoGeneralText": "Todos los planes incluyen bono de velocidad por tiempo limitado. Al ser Full Claro, la velocidad se incrementa para toda la vida.",
       "planes": [
         {
           "speed": "200 Mbps",
-          "bonoSpeed": "Bono 400 Mbps x 6 Meses",
-          "fullClaroSpeed": "400 Mbps Para Toda la Vida + Gigas en tu Móvil",
-          "highlight": "Fibra 100% Simétrica",
+          "price": "S/ 69",
+          "fullClaroSpeed": "400 Mbps Para Toda la Vida",
           "tag": "Plan Inicio",
-          "equipos": "Router Wi-Fi Dual Band de Alta Fidelidad",
-          "cobertura": "Lima Metropolitano y Provincias",
-          "entretenimiento": "Acceso a América tvGO (Canal 4 y 504 HD)",
+          "equipos": "Router Wi-Fi Dual Band",
           "features": [
-            "Velocidad 100% Simétrica (misma velocidad de subida y bajada en FTTH)",
-            "Bono duplicado a 400 Mbps por 6 meses continuos",
-            "Conexión con beneficio Full Claro para toda la vida",
-            "Instalación técnica especializada en tiempo récord"
+            "Fibra 100% Simetrica",
+            "Full Claro: 400 Mbps para toda la vida",
+            "Acceso a +30 canales en vivo via Claro-video",
+            "Repetidor Wi-Fi disponible como adicional"
+          ]
+        },
+        {
+          "speed": "300 Mbps",
+          "price": "S/ 79",
+          "fullClaroSpeed": "600 Mbps Para Toda la Vida",
+          "tag": "Plan Esencial",
+          "equipos": "Router Wi-Fi Dual Band",
+          "features": [
+            "Fibra 100% Simetrica",
+            "Full Claro: 600 Mbps para toda la vida",
+            "Acceso a +30 canales en vivo via Claro-video",
+            "Repetidor Wi-Fi disponible como adicional"
           ]
         },
         {
           "speed": "400 Mbps",
-          "bonoSpeed": "Bono 1,000 Mbps x 12 Meses",
-          "fullClaroSpeed": "1,000 Mbps Para Toda la Vida + Gigas en tu Móvil",
-          "highlight": "Promo 1 Sol Repetidor",
-          "tag": "Más Vendido",
-          "equipos": "Router Wi-Fi Dual Band + 1 Repetidor Wi-Fi (Promo 1 Sol x 2 meses)",
-          "cobertura": "Lima Metropolitano y Provincias en Zonas Coberturadas",
-          "entretenimiento": "Más de 30 Canales en Vivo + América tvGO",
+          "price": "S/ 69",
+          "priceNote": "x 6 meses",
+          "regularPrice": "S/ 89",
+          "fullClaroSpeed": "1,000 Mbps por 12 meses, luego 400 Mbps Para Toda la Vida",
+          "tag": "Mas Vendido",
+          "equipos": "Router Wi-Fi Dual Band",
           "features": [
-            "Bono de velocidad a 1,000 Mbps por 12 meses completos",
-            "Acceso a más de 30 canales en vivo mediante América tvGO",
-            "Navegación ultrarrápida y fluida para múltiples pantallas 4K",
-            "Soporte técnico continuo 24/7 y monitoreo de señal"
+            "Bono a 1,000 Mbps por 12 meses",
+            "Full Claro: 1,000 Mbps para toda la vida",
+            "Acceso a +30 canales en vivo via Claro-video",
+            "1 Repetidor Wi-Fi incluido en Promo 1 Sol"
           ]
         },
         {
           "speed": "500 Mbps",
-          "bonoSpeed": "Bono 1,000 Mbps x 12 Meses",
-          "fullClaroSpeed": "1,000 Mbps Para Toda la Vida + Gigas Extra en Móvil",
-          "highlight": "Oferta Ataque Fiestas Patrias",
+          "price": "S/ 79",
+          "fullClaroSpeed": "1,000 Mbps por 12 meses, luego 500 Mbps Para Toda la Vida",
           "tag": "Recomendado",
-          "equipos": "Router Wi-Fi Dual Band + 1 Repetidor Wi-Fi Gratis en FTTH",
-          "cobertura": "Lima, Arequipa, Trujillo, Chiclayo, Piura, Lambayeque",
-          "entretenimiento": "Más de 30 Canales en Vivo + L1 MAX para fútbol peruano",
+          "equipos": "Router Wi-Fi Dual Band",
           "features": [
-            "Bono de 1,000 Mbps por 12 meses en zonas seleccionadas",
-            "Incluye 1 Repetidor Wi-Fi sin costo adicional en Fibra Óptica",
-            "Potencia Full Claro con Gigas adicionales en tu línea móvil",
-            "Ideal para gaming sin latencia y descargas pesadas en simultáneo"
+            "Bono a 1,000 Mbps por 12 meses",
+            "Full Claro: 1,000 Mbps para toda la vida",
+            "Acceso a +30 canales en vivo via Claro-video",
+            "1 Repetidor Wi-Fi incluido en FTTH"
           ]
         },
         {
           "speed": "800 Mbps",
-          "bonoSpeed": "Bono 1,000 Mbps x 12 Meses",
-          "fullClaroSpeed": "1,000 Mbps Para Toda la Vida + Beneficios Móvil",
-          "highlight": "Alta Velocidad Gamer",
-          "tag": "Pro Gamer",
-          "equipos": "Router Wi-Fi 6 de Última Generación Dual Band",
-          "cobertura": "Lima Metropolitano y Ciudades Principales",
-          "entretenimiento": "Acceso a América tvGO HD + L1 MAX Incluido",
+          "price": "S/ 100",
+          "fullClaroSpeed": "1,000 Mbps por 12 meses, luego 800 Mbps Para Toda la Vida",
+          "tag": "Alta Velocidad",
+          "equipos": "Router Wi-Fi 6 Dual Band",
           "features": [
-            "Bono especial de 1,000 Mbps por 12 meses",
-            "Conexión ultrarrápida de baja latencia para streaming e Esports",
-            "Prioridad de asignación en red y asistencia técnica dedicada",
-            "Instalación limpia y estética por técnicos homologados"
+            "Bono a 1,000 Mbps por 12 meses",
+            "Full Claro: 1,000 Mbps para toda la vida",
+            "Incluye Deco Soundbox con TV Superior",
+            "Acceso a L1 MAX para futbol en vivo"
+          ]
+        },
+        {
+          "speed": "850 Mbps",
+          "price": "S/ 99",
+          "priceNote": "x 6 meses",
+          "regularPrice": "S/ 125",
+          "fullClaroSpeed": "1,000 Mbps por 12 meses, luego 850 Mbps Para Toda la Vida",
+          "tag": "Alta Velocidad",
+          "equipos": "Router Wi-Fi 6 Dual Band",
+          "features": [
+            "Bono a 1,000 Mbps por 12 meses",
+            "Full Claro: 1,000 Mbps para toda la vida",
+            "Acceso a L1 MAX para futbol en vivo",
+            "Router Wi-Fi 6 de ultima generacion"
           ]
         },
         {
           "speed": "1,000 Mbps",
-          "bonoSpeed": "1,000 Mbps Simétrico Garantizado",
-          "fullClaroSpeed": "1 Gbps Para Toda la Vida + Gigas Máximos Móvil",
-          "highlight": "Velocidad Máxima 1 Gbps",
-          "tag": "Premium Ultra",
-          "equipos": "Router Wi-Fi 6 Mesh de Alta Capacidad",
-          "cobertura": "A Nivel Nacional con Red de Fibra Óptica Directa",
-          "entretenimiento": "Parrilla Digital Completa + América tvGO HD",
+          "price": "S/ 119",
+          "priceNote": "x 6 meses",
+          "regularPrice": "S/ 145",
+          "fullClaroSpeed": "1 Gbps Para Toda la Vida + Gigas en tu Movil",
+          "tag": "Premium",
+          "equipos": "Router Wi-Fi 6 Mesh",
           "features": [
-            "Máxima velocidad simétrica residencial 1,000 Mbps (1 Gbps)",
-            "Conexión corporativa para múltiples dispositivos conectados en paralelo",
-            "Integración Full Claro con incremento máximo de datos móviles",
-            "Atención preferencial VIP y monitoreo de línea 24/7"
+            "Maxima velocidad simetrica residencial 1 Gbps",
+            "Full Claro: 1 Gbps + Gigas extras en tu linea movil",
+            "Acceso a L1 MAX y +30 canales en vivo",
+            "Router Wi-Fi 6 Mesh de alta capacidad"
           ]
         },
         {
-          "speed": "2.5 Gbps / 5 Gbps",
-          "bonoSpeed": "Velocidad Power Ultra-Speed",
-          "fullClaroSpeed": "Velocidad Power + Gigas Ilimitados Móvil",
-          "highlight": "Planes Power Fibra Óptica",
-          "tag": "Exclusivo Power",
-          "equipos": "ONT y Router de Fibra Óptica de Capacidad 10G",
-          "cobertura": "Zonas Coberturadas (Miraflores, San Isidro)",
-          "entretenimiento": "Acceso Total a Servicios Digitales HD y 4K",
+          "speed": "1,500 Mbps",
+          "price": "S/ 200",
+          "fullClaroSpeed": "Maximos Beneficios en Movil",
+          "tag": "Exclusivo FTTH",
+          "equipos": "Router Wi-Fi 6 de ultima generacion",
+          "cobertura": "Solo Fibra Optica (FTTH)",
           "features": [
-            "Velocidad de hasta 2.5 Gbps y 5 Gbps simétricos",
-            "Infraestructura de fibra óptica directa para máxima demanda",
-            "Seguimiento y priorización directa de la coordinación de campo",
-            "Instalación técnica especializada sin cuotas de entrada"
+            "Velocidad simetrica 1,500 Mbps bajada y subida",
+            "Full Claro: Maximos beneficios en tu linea movil",
+            "Acceso a L1 MAX y servicios digitales",
+            "Solo disponible en zonas FTTH"
+          ]
+        },
+        {
+          "speed": "2.5 Gbps",
+          "price": "S/ 250",
+          "fullClaroSpeed": "Gigas Ilimitados en Movil",
+          "tag": "Power",
+          "equipos": "ONT y Router Fibra Optica Capacidad 10G",
+          "cobertura": "San Isidro y Miraflores",
+          "features": [
+            "2.5 Gbps simetrico bajada y subida",
+            "Velocidad minima asegurada: 1.75 Gbps",
+            "Full Claro: Gigas ilimitados en tu linea movil",
+            "Internet Simetrico de alta capacidad"
+          ]
+        },
+        {
+          "speed": "5 Gbps",
+          "price": "S/ 500",
+          "fullClaroSpeed": "Gigas Ilimitados en Movil",
+          "tag": "Power Ultra",
+          "equipos": "ONT y Router Fibra Optica Capacidad 10G",
+          "cobertura": "San Isidro y Miraflores",
+          "features": [
+            "5 Gbps simetrico bajada y subida",
+            "Velocidad minima asegurada: 3.5 Gbps",
+            "Full Claro: Gigas ilimitados en tu linea movil",
+            "La maxima velocidad residencial disponible"
           ]
         }
       ]
@@ -111,89 +154,234 @@
     {
       "id": "2play",
       "tabName": "2 Play (Int + TV / Telf)",
-      "title": "2 Play — Internet + Claro TV+ o Telefonía Fija",
-      "desc": "Combo Dúo con Internet Fibra Óptica + servicio de Claro TV+ o Telefonía Fija con decodificador Smart Soundbox de sonido envolvente.",
-      "promoGeneralTitle": "PROMO DESTACADA 2 PLAY: DÚO INTERNET + CLARO TV+ CON SOUNDBOX HD",
-      "promoGeneralText": "Incluye televisión digital HD, decodificador principal Soundbox con sonido de alta calidad, acceso a América tvGO (Canal 4 y 504 HD) y L1 MAX para partidos del torneo peruano.",
+      "title": "2 Play - Internet + Claro TV+ o Telefonía",
+      "desc": "Combo con Internet Fibra Optica + Claro TV+ con decodificador Soundbox o Telefonia Fija con 5,000 minutos.",
+      "promoGeneralTitle": "Combos Duo con ahorro especial",
+      "promoGeneralText": "Elige tu combo ideal: Internet + Claro TV+ con L1 MAX para futbol o Internet + Telefonia Fija con 5,000 minutos nacionales.",
       "planes": [
         {
-          "speed": "200 Mbps Dúo",
-          "bonoSpeed": "Bono 400 Mbps x 6 Meses",
-          "fullClaroSpeed": "400 Mbps + Gigas en tu Móvil",
-          "highlight": "Dúo Internet + TV o Fijo",
+          "speed": "200 Mbps + TV Estándar Pro",
+          "price": "S/ 89",
+          "priceNote": "x 6 meses",
+          "regularPrice": "S/ 150",
+          "fullClaroSpeed": "400 Mbps Para Toda la Vida",
           "tag": "Dúo Esencial",
-          "equipos": "Router Wi-Fi Dual Band + Deco Smart HD",
-          "cobertura": "Lima Metropolitano y Provincias",
-          "entretenimiento": "Claro TV+ o Telefonía Fija 5,000 min + América tvGO",
+          "entretenimiento": "TV Estándar Pro (105 canales IPTV) + L1 MAX",
           "features": [
-            "Bono duplicado a 400 Mbps por 6 meses en Fibra Óptica",
-            "Servicio Claro TV+ HD o Telefonía Fija residencial con 5,000 minutos",
-            "Acceso a más de 30 canales en vivo mediante América tvGO",
-            "Decodificador Smart con control por voz para tu pantalla"
+            "Bono a 400 Mbps por 6 meses",
+            "Full Claro: 400 Mbps para toda la vida",
+            "TV Estándar Pro con L1 MAX incluido",
+            "Acceso a +30 canales en vivo via Claro-video"
           ]
         },
         {
-          "speed": "400 Mbps Dúo",
-          "bonoSpeed": "Bono 1,000 Mbps x 12 Meses",
-          "fullClaroSpeed": "1,000 Mbps + Gigas Extra en Móvil",
-          "highlight": "Incluye L1 MAX + América tvGO",
+          "speed": "200 Mbps + TV Superior Pro + HBO",
+          "price": "S/ 190",
+          "fullClaroSpeed": "400 Mbps Para Toda la Vida",
+          "tag": "Dúo Premium",
+          "entretenimiento": "TV Superior Pro (135 canales) + HBO + L1 MAX",
+          "features": [
+            "Full Claro: 400 Mbps para toda la vida",
+            "TV Superior Pro con L1 MAX + HBO incluido",
+            "Decodificador Principal Soundbox incluido",
+            "Acceso a +80 canales en vivo via Claro-video"
+          ]
+        },
+        {
+          "speed": "400 Mbps + TV Estándar Pro",
+          "price": "S/ 109",
+          "priceNote": "x 6 meses",
+          "regularPrice": "S/ 170",
+          "fullClaroSpeed": "1,000 Mbps por 12 meses, luego 400 Mbps Para Toda la Vida",
           "tag": "Dúo Favorito",
-          "equipos": "Router Wi-Fi Dual Band + Deco Smart HD",
-          "cobertura": "Lima y Principales Ciudades",
-          "entretenimiento": "Claro TV+ con canales HD + L1 MAX Incluido",
+          "entretenimiento": "TV Estándar Pro (105 canales IPTV) + L1 MAX",
           "features": [
-            "Bono de velocidad de 1,000 Mbps por 12 meses completos",
-            "Parrilla Claro TV+ con canales HD y Liga 1 MAX para fútbol en vivo",
-            "Decodificador Smart HD compatible con apps de streaming",
-            "Beneficio Full Claro disponible para potenciar tu celular"
+            "Bono a 1,000 Mbps por 12 meses",
+            "Full Claro: 1,000 Mbps para toda la vida",
+            "TV Estándar Pro con L1 MAX incluido",
+            "1 Repetidor Wi-Fi incluido en FTTH"
           ]
         },
         {
-          "speed": "500 Mbps Dúo",
-          "bonoSpeed": "Bono 1,000 Mbps x 12 Meses",
-          "fullClaroSpeed": "1,000 Mbps Para Toda la Vida",
-          "highlight": "TV Estándar Pro + Soundbox",
-          "tag": "Dúo Pro",
-          "equipos": "Router Wi-Fi Dual Band + Deco Principal Soundbox",
-          "cobertura": "Zonas Coberturadas Lima y Provincias",
-          "entretenimiento": "TV Estándar Pro + L1 MAX + América tvGO",
-          "features": [
-            "Bono de 1,000 Mbps por 12 meses en conexión de Fibra",
-            "Parrilla de televisión Estándar Pro con canales HD exclusivos",
-            "Decodificador Principal Soundbox con sonido envolvente HD",
-            "Repetidor Wi-Fi sin costo adicional en oferta de campaña"
-          ]
-        },
-        {
-          "speed": "800 Mbps Dúo",
-          "bonoSpeed": "Bono 1,000 Mbps x 12 Meses",
-          "fullClaroSpeed": "1,000 Mbps + Beneficios Full Claro",
-          "highlight": "TV Superior Pro + Soundbox",
+          "speed": "400 Mbps + TV Superior Pro + HBO",
+          "price": "S/ 210",
+          "fullClaroSpeed": "1,000 Mbps por 12 meses, luego 400 Mbps Para Toda la Vida",
           "tag": "Dúo Superior",
-          "equipos": "Router Wi-Fi 6 + Deco Principal Soundbox HD",
-          "cobertura": "Red FTTH Nacional",
-          "entretenimiento": "TV Superior Pro + L1 MAX + HBO Max",
+          "entretenimiento": "TV Superior Pro (135 canales) + HBO + L1 MAX",
           "features": [
-            "Bono de 1,000 Mbps por 12 meses en Fibra Óptica Simétrica",
-            "Parrilla completa TV Superior Pro + L1 MAX + HBO Max",
-            "Decodificador Principal Soundbox para la mejor acústica de TV",
-            "Atención preferencial y soporte técnico capacitado 24/7"
+            "Bono a 1,000 Mbps por 12 meses",
+            "Full Claro: 1,000 Mbps para toda la vida",
+            "TV Superior Pro + L1 MAX + HBO Max",
+            "Decodificador Principal Soundbox incluido"
           ]
         },
         {
-          "speed": "1,000 Mbps Dúo",
-          "bonoSpeed": "1 Gbps Simétrico Dúo",
-          "fullClaroSpeed": "1 Gbps + Máximos Gigas Móviles",
-          "highlight": "Máxima Potencia 1 Gbps Dúo",
-          "tag": "Dúo Premium Ultra",
-          "equipos": "Router Mesh Wi-Fi 6 + Deco Principal Soundbox HD",
-          "cobertura": "A Nivel Nacional",
-          "entretenimiento": "TV Superior Pro + L1 MAX + HBO Max + América tvGO",
+          "speed": "800 Mbps + TV Estándar Pro",
+          "price": "S/ 185",
+          "fullClaroSpeed": "1,000 Mbps por 12 meses, luego 800 Mbps Para Toda la Vida",
+          "tag": "Dúo Pro",
+          "entretenimiento": "TV Estándar Pro (105 canales IPTV) + L1 MAX",
           "features": [
-            "Internet 1,000 Mbps Simétrico + Televisión Digital HD",
-            "Decodificador Soundbox de sonido en alta fidelidad",
-            "Parrilla completa TV Superior Pro con contenidos premium",
-            "Beneficio Full Claro con incremento máximo en tu línea móvil"
+            "Bono a 1,000 Mbps por 12 meses",
+            "Full Claro: 1,000 Mbps para toda la vida",
+            "TV Estándar Pro con L1 MAX incluido",
+            "Router Wi-Fi 6 de ultima generacion"
+          ]
+        },
+        {
+          "speed": "800 Mbps + TV Superior Pro + HBO",
+          "price": "S/ 155",
+          "priceNote": "x 6 meses",
+          "regularPrice": "S/ 225",
+          "fullClaroSpeed": "1,000 Mbps por 12 meses, luego 800 Mbps Para Toda la Vida",
+          "tag": "Dúo Premium Pro",
+          "entretenimiento": "TV Superior Pro (135 canales) + HBO + L1 MAX",
+          "features": [
+            "Bono a 1,000 Mbps por 12 meses",
+            "Full Claro: 1,000 Mbps para toda la vida",
+            "TV Superior Pro + L1 MAX + HBO Max",
+            "Decodificador Principal Soundbox incluido"
+          ]
+        },
+        {
+          "speed": "1,000 Mbps + TV Estándar Pro",
+          "price": "S/ 230",
+          "fullClaroSpeed": "1 Gbps Para Toda la Vida + Gigas en tu Movil",
+          "tag": "Dúo Premium Ultra",
+          "entretenimiento": "TV Estándar Pro (105 canales IPTV) + L1 MAX",
+          "features": [
+            "Internet 1 Gbps Simetrico + TV Estándar Pro",
+            "Full Claro: 1 Gbps + Gigas en tu linea movil",
+            "TV Estándar Pro con L1 MAX incluido",
+            "Router Wi-Fi 6 Mesh de alta capacidad"
+          ]
+        },
+        {
+          "speed": "1,000 Mbps + TV Superior Pro + HBO",
+          "price": "S/ 200",
+          "priceNote": "x 6 meses",
+          "regularPrice": "S/ 270",
+          "fullClaroSpeed": "1 Gbps Para Toda la Vida + Gigas en tu Movil",
+          "tag": "Máximo Dúo",
+          "entretenimiento": "TV Superior Pro (135 canales) + HBO + L1 MAX",
+          "features": [
+            "Internet 1 Gbps Simetrico + TV Superior Pro",
+            "Full Claro: 1 Gbps + Gigas en tu linea movil",
+            "TV Superior Pro + L1 MAX + HBO Max",
+            "Decodificador Principal Soundbox incluido"
+          ]
+        },
+        {
+          "speed": "1,500 Mbps + TV Estándar Pro",
+          "price": "S/ 285",
+          "fullClaroSpeed": "Maximos Beneficios en Movil",
+          "tag": "Exclusivo FTTH Dúo",
+          "entretenimiento": "TV Estándar Pro (105 canales IPTV) + L1 MAX",
+          "cobertura": "Solo Fibra Optica (FTTH)",
+          "features": [
+            "Velocidad simetrica 1,500 Mbps + TV Estándar Pro",
+            "Full Claro: Maximos beneficios en tu linea movil",
+            "TV Estándar Pro con L1 MAX incluido",
+            "Solo disponible en zonas FTTH"
+          ]
+        },
+        {
+          "speed": "1,500 Mbps + TV Superior Pro + HBO",
+          "price": "S/ 255",
+          "priceNote": "x 6 meses",
+          "regularPrice": "S/ 325",
+          "fullClaroSpeed": "Maximos Beneficios en Movil",
+          "tag": "Exclusivo FTTH Dúo Max",
+          "entretenimiento": "TV Superior Pro (135 canales) + HBO + L1 MAX",
+          "cobertura": "Solo Fibra Optica (FTTH)",
+          "features": [
+            "Velocidad simetrica 1,500 Mbps + TV Superior Pro",
+            "Full Claro: Maximos beneficios en tu linea movil",
+            "TV Superior Pro + L1 MAX + HBO Max",
+            "Decodificador Principal Soundbox incluido"
+          ]
+        },
+        {
+          "speed": "200 Mbps + Telefonía",
+          "price": "S/ 74",
+          "fullClaroSpeed": "400 Mbps Para Toda la Vida",
+          "tag": "Dúo Fijo",
+          "entretenimiento": "5,000 minutos a fijos nacionales + LDI",
+          "features": [
+            "Full Claro: 400 Mbps para toda la vida",
+            "5,000 minutos a fijos nacionales",
+            "100 minutos de Larga Distancia Internacional",
+            "Minutos ilimitados a todo Claro Peru"
+          ]
+        },
+        {
+          "speed": "400 Mbps + Telefonía",
+          "price": "S/ 74",
+          "priceNote": "x 6 meses",
+          "regularPrice": "S/ 94",
+          "fullClaroSpeed": "1,000 Mbps por 12 meses, luego 400 Mbps Para Toda la Vida",
+          "tag": "Dúo Fijo Favorito",
+          "entretenimiento": "5,000 minutos a fijos nacionales + LDI",
+          "features": [
+            "Bono a 1,000 Mbps por 12 meses",
+            "Full Claro: 1,000 Mbps para toda la vida",
+            "5,000 minutos a fijos nacionales",
+            "Minutos ilimitados a todo Claro Peru"
+          ]
+        },
+        {
+          "speed": "500 Mbps + Telefonía",
+          "price": "S/ 90",
+          "priceNote": "x 6 meses",
+          "regularPrice": "S/ 115",
+          "fullClaroSpeed": "1,000 Mbps por 12 meses, luego 500 Mbps Para Toda la Vida",
+          "tag": "Dúo Fijo Pro",
+          "entretenimiento": "5,000 minutos a fijos nacionales + LDI",
+          "features": [
+            "Bono a 1,000 Mbps por 12 meses",
+            "Full Claro: 1,000 Mbps para toda la vida",
+            "5,000 minutos a fijos nacionales",
+            "1 Repetidor Wi-Fi incluido en FTTH"
+          ]
+        },
+        {
+          "speed": "800 Mbps + Telefonía",
+          "price": "S/ 105",
+          "fullClaroSpeed": "1,000 Mbps por 12 meses, luego 800 Mbps Para Toda la Vida",
+          "tag": "Dúo Fijo Pro+",
+          "entretenimiento": "5,000 minutos a fijos nacionales + LDI",
+          "features": [
+            "Bono a 1,000 Mbps por 12 meses",
+            "Full Claro: 1,000 Mbps para toda la vida",
+            "5,000 minutos a fijos nacionales",
+            "Router Wi-Fi 6 de ultima generacion"
+          ]
+        },
+        {
+          "speed": "1,000 Mbps + Telefonía",
+          "price": "S/ 150",
+          "fullClaroSpeed": "1 Gbps Para Toda la Vida + Gigas en tu Movil",
+          "tag": "Dúo Fijo Premium",
+          "entretenimiento": "5,000 minutos a fijos nacionales + LDI",
+          "features": [
+            "Internet 1 Gbps Simetrico + Telefonia Fija",
+            "Full Claro: 1 Gbps + Gigas en tu linea movil",
+            "5,000 minutos a fijos nacionales",
+            "Router Wi-Fi 6 Mesh de alta capacidad"
+          ]
+        },
+        {
+          "speed": "1,500 Mbps + Telefonía",
+          "price": "S/ 205",
+          "fullClaroSpeed": "Maximos Beneficios en Movil",
+          "tag": "Exclusivo FTTH Dúo Fijo",
+          "entretenimiento": "5,000 minutos a fijos nacionales + LDI",
+          "cobertura": "Solo Fibra Optica (FTTH)",
+          "features": [
+            "Velocidad simetrica 1,500 Mbps + Telefonia Fija",
+            "Full Claro: Maximos beneficios en tu linea movil",
+            "5,000 minutos a fijos nacionales",
+            "Solo disponible en zonas FTTH"
           ]
         }
       ]
@@ -201,89 +389,179 @@
     {
       "id": "3play",
       "tabName": "3 Play (Trío Completo)",
-      "title": "3 Play — Trío Completo (Internet + TV + Telefonía)",
-      "desc": "La experiencia de conectividad y entretenimiento más completa: Internet Fibra Óptica + Claro TV+ + Línea Telefónica Fija con 5,000 minutos.",
-      "promoGeneralTitle": "PROMO DESTACADA 3 PLAY: TRÍO COMPLETO FIBRA + TV SUPERIOR + FIJO 5,000 MIN",
-      "promoGeneralText": "La solución 3 en 1 ideal con TV Superior Pro, L1 MAX, HBO Max, Deco Soundbox HD, 5,000 minutos libres para llamadas nacionales y Repetidor Wi-Fi Gratis en FTTH.",
+      "title": "3 Play - Trío Completo (Internet + TV + Telefonía)",
+      "desc": "La experiencia completa: Internet Fibra Optica + Claro TV+ + Telefonía Fija con 5,000 minutos.",
+      "promoGeneralTitle": "Trío completo con el mejor ahorro",
+      "promoGeneralText": "Solución 3 en 1 con TV, L1 MAX, HBO Max, 5,000 minutos libres y Repetidor Wi-Fi Gratis en FTTH.",
       "planes": [
         {
           "speed": "200 Mbps Trío",
-          "bonoSpeed": "Bono 400 Mbps x 6 Meses",
-          "fullClaroSpeed": "400 Mbps + Gigas en tu Móvil",
-          "highlight": "Solución 3 en 1 para el Hogar",
+          "price": "S/ 89",
+          "priceNote": "x 6 meses",
+          "regularPrice": "S/ 150",
+          "fullClaroSpeed": "400 Mbps Para Toda la Vida",
           "tag": "Trío Esencial",
-          "equipos": "Router Wi-Fi Dual Band + Deco Smart HD + Fijo",
-          "cobertura": "Lima Metropolitano y Provincias",
-          "entretenimiento": "Claro TV+ HD + América tvGO + 5,000 Minutos Fijos",
+          "entretenimiento": "TV Estándar Pro + 5,000 Min Fijos + L1 MAX",
           "features": [
-            "Internet Fibra Óptica + Claro TV+ HD + Telefonía Fija 5,000 min",
-            "Bono duplicado a 400 Mbps por 6 meses en Fibra",
-            "Acceso a América tvGO en smartphone, tablet y Android TV",
-            "Router Wi-Fi Dual Band + Decodificador Smart HD"
+            "Internet + TV Estándar Pro + Telefonía Fija",
+            "Bono a 400 Mbps por 6 meses",
+            "Full Claro: 400 Mbps para toda la vida",
+            "5,000 minutos a fijos nacionales"
           ]
         },
         {
           "speed": "400 Mbps Trío",
-          "bonoSpeed": "Bono 1,000 Mbps x 12 Meses",
-          "fullClaroSpeed": "1,000 Mbps + Gigas Extra en Móvil",
-          "highlight": "Trío con L1 MAX Incluido",
+          "price": "S/ 109",
+          "priceNote": "x 6 meses",
+          "regularPrice": "S/ 170",
+          "fullClaroSpeed": "1,000 Mbps por 12 meses, luego 400 Mbps Para Toda la Vida",
           "tag": "Trío Popular",
-          "equipos": "Router Wi-Fi Dual Band + Deco Smart HD + Fijo",
-          "cobertura": "Lima y Ciudades Principales",
-          "entretenimiento": "Claro TV+ HD + L1 MAX + 5,000 Minutos a Fijos",
+          "entretenimiento": "TV Estándar Pro + 5,000 Min Fijos + L1 MAX",
           "features": [
-            "Bono de 1,000 Mbps por 12 meses en Fibra Óptica",
-            "Claro TV+ HD con L1 MAX para partidos del torneo local",
-            "Línea de telefonía fija con 5,000 minutos nacionales",
-            "Beneficio Full Claro con Gigas extras para tu smartphone"
+            "Bono a 1,000 Mbps por 12 meses",
+            "Full Claro: 1,000 Mbps para toda la vida",
+            "TV Estándar Pro con L1 MAX incluido",
+            "5,000 minutos a fijos nacionales"
           ]
         },
         {
           "speed": "500 Mbps Trío",
-          "bonoSpeed": "Bono 1,000 Mbps x 12 Meses",
-          "fullClaroSpeed": "1,000 Mbps Para Toda la Vida",
-          "highlight": "TV Estándar Pro + Soundbox",
+          "price": "S/ 90",
+          "priceNote": "x 6 meses",
+          "regularPrice": "S/ 115",
+          "fullClaroSpeed": "1,000 Mbps por 12 meses, luego 500 Mbps Para Toda la Vida",
           "tag": "Trío Avanzado",
-          "equipos": "Router Wi-Fi Dual Band + Deco Soundbox HD + Fijo",
-          "cobertura": "Zonas Coberturadas Lima y Regiones",
-          "entretenimiento": "TV Estándar Pro + L1 MAX + América tvGO + 5,000 Min",
+          "entretenimiento": "TV Estándar Pro + 5,000 Min Fijos + L1 MAX",
           "features": [
-            "Bono de 1,000 Mbps por 12 meses completos",
-            "TV Estándar Pro + L1 MAX + 5,000 minutos libres a teléfonos fijos",
-            "Decodificador Soundbox para audio envolvente de alta fidelidad",
-            "Instalación técnica especializada en tiempo récord"
+            "Bono a 1,000 Mbps por 12 meses",
+            "Full Claro: 1,000 Mbps para toda la vida",
+            "TV Estándar Pro con L1 MAX incluido",
+            "1 Repetidor Wi-Fi incluido en FTTH"
           ]
         },
         {
           "speed": "800 Mbps Trío",
-          "bonoSpeed": "Bono 1,000 Mbps x 12 Meses",
-          "fullClaroSpeed": "1,000 Mbps + Beneficios Full Claro",
-          "highlight": "TV Superior Pro + Soundbox",
+          "price": "S/ 105",
+          "fullClaroSpeed": "1,000 Mbps por 12 meses, luego 800 Mbps Para Toda la Vida",
           "tag": "Trío Pro",
-          "equipos": "Router Wi-Fi 6 + Deco Soundbox HD + Fijo",
-          "cobertura": "Red FTTH Nacional",
-          "entretenimiento": "TV Superior Pro + L1 MAX + HBO Max + 5,000 Min",
+          "entretenimiento": "TV Superior Pro + 5,000 Min Fijos + HBO + L1 MAX",
           "features": [
-            "Bono de 1,000 Mbps por 12 meses en Fibra Óptica",
-            "TV Superior Pro + L1 MAX + HBO Max + 5,000 min a fijos",
-            "Decodificador Principal Soundbox de sonido superior",
-            "Conexión de máxima capacidad para hogares hiperconectados"
+            "Bono a 1,000 Mbps por 12 meses",
+            "Full Claro: 1,000 Mbps para toda la vida",
+            "TV Superior Pro + L1 MAX + HBO Max",
+            "5,000 minutos a fijos nacionales"
           ]
         },
         {
           "speed": "1,000 Mbps Trío",
-          "bonoSpeed": "1 Gbps Simétrico Trío",
-          "fullClaroSpeed": "1 Gbps + Máximos Gigas Móviles",
-          "highlight": "Máximo Trío 1 Gbps",
-          "tag": "Trío Premium Ultra",
-          "equipos": "Router Mesh Wi-Fi 6 + Deco Soundbox HD + Fijo",
-          "cobertura": "A Nivel Nacional",
-          "entretenimiento": "TV Superior Pro + L1 MAX + HBO Max + América tvGO + Fijo",
+          "price": "S/ 150",
+          "fullClaroSpeed": "1 Gbps Para Toda la Vida + Gigas en tu Movil",
+          "tag": "Trío Premium",
+          "entretenimiento": "TV Superior Pro + 5,000 Min Fijos + HBO + L1 MAX",
           "features": [
-            "Máxima potencia 1,000 Mbps Simétrico + TV Superior Pro + Fijo",
-            "Decodificador Principal Soundbox de sonido en alta fidelidad",
-            "Parrilla completa HD con L1 MAX y plataformas de streaming",
-            "Atención y soporte técnico preferencial VIP 24/7"
+            "Internet 1 Gbps + TV Superior Pro + Telefonía",
+            "Full Claro: 1 Gbps + Gigas en tu linea movil",
+            "TV Superior Pro + L1 MAX + HBO Max",
+            "5,000 minutos a fijos nacionales"
+          ]
+        },
+        {
+          "speed": "1,500 Mbps Trío",
+          "price": "S/ 205",
+          "fullClaroSpeed": "Maximos Beneficios en Movil",
+          "tag": "Exclusivo FTTH Trío",
+          "entretenimiento": "TV Superior Pro + 5,000 Min Fijos + L1 MAX",
+          "cobertura": "Solo Fibra Optica (FTTH)",
+          "features": [
+            "Velocidad simetrica 1,500 Mbps + TV + Telefonía",
+            "Full Claro: Maximos beneficios en tu linea movil",
+            "TV Superior Pro con L1 MAX incluido",
+            "Solo disponible en zonas FTTH"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "focalizada",
+      "tabName": "Ofertas Focalizadas",
+      "title": "Ofertas Focalizadas — Promociones por Zonas",
+      "desc": "Promociones especiales con precios reducidos para clientes en zonas seleccionadas. Sujeto a cobertura.",
+      "promoGeneralTitle": "Ofertas especiales por tiempo limitado",
+      "promoGeneralText": "Precios reducidos en zonas determinadas. Incluye más de 30 canales en vivo y beneficio Full Claro.",
+      "planes": [
+        {
+          "speed": "200 Mbps",
+          "price": "S/ 49",
+          "priceNote": "x 6 meses",
+          "regularPrice": "S/ 69",
+          "fullClaroSpeed": "400 Mbps Para Toda la Vida",
+          "tag": "Promo Básico",
+          "entretenimiento": "Más de 30 Canales en Vivo + Universal+",
+          "features": [
+            "Precio especial de S/ 49 por 6 meses",
+            "Más de 30 canales en vivo incluidos",
+            "Full Claro: 400 Mbps para toda la vida",
+            "Aplica en zonas seleccionadas"
+          ]
+        },
+        {
+          "speed": "400 Mbps",
+          "price": "S/ 1",
+          "priceNote": "x 2 meses",
+          "regularPrice": "S/ 89",
+          "fullClaroSpeed": "1,000 Mbps Para Toda la Vida",
+          "tag": "Promo 1 Sol",
+          "entretenimiento": "Más de 30 Canales en Vivo + Universal+",
+          "features": [
+            "Internet a S/ 1 por 2 meses",
+            "1,000 Mbps para toda la vida con Full Claro",
+            "Incluye Repetidor Wi-Fi",
+            "Más de 30 canales en vivo incluidos"
+          ]
+        },
+        {
+          "speed": "500 Mbps",
+          "price": "S/ 55",
+          "priceNote": "x 4 meses",
+          "regularPrice": "S/ 110",
+          "fullClaroSpeed": "1,000 Mbps Para Toda la Vida",
+          "tag": "Oferta Ataque",
+          "entretenimiento": "L1 MAX + Más de 30 Canales en Vivo + Universal+",
+          "features": [
+            "Precio especial de S/ 55 por 4 meses",
+            "1,000 Mbps por 12 meses con bono",
+            "Full Claro: 1,000 Mbps para toda la vida",
+            "1 Repetidor Wi-Fi incluido en FTTH"
+          ]
+        },
+        {
+          "speed": "150 Mbps (HFC)",
+          "price": "S/ 30",
+          "priceNote": "x 12 meses",
+          "regularPrice": "S/ 44",
+          "fullClaroSpeed": "300 Mbps Para Toda la Vida",
+          "tag": "HFC Puro",
+          "entretenimiento": "Más de 30 Canales en Vivo + Universal+",
+          "features": [
+            "Fibra Coaxial a precio especial",
+            "300 Mbps por 12 meses con bono",
+            "Full Claro: 300 Mbps para toda la vida",
+            "Solo en zonas HFC puro"
+          ]
+        },
+        {
+          "speed": "150 Mbps + TV (HFC)",
+          "price": "S/ 69",
+          "priceNote": "x 12 meses",
+          "regularPrice": "S/ 99",
+          "fullClaroSpeed": "300 Mbps Para Toda la Vida",
+          "tag": "HFC Puro + TV",
+          "entretenimiento": "80 Canales + L1 MAX + Universal+",
+          "features": [
+            "Internet 150 Mbps + TV por coaxial",
+            "300 Mbps por 12 meses con bono",
+            "102 canales SD + 17 HD + L1 MAX",
+            "Full Claro: 300 Mbps para toda la vida"
           ]
         }
       ]

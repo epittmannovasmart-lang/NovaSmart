@@ -302,24 +302,29 @@ const areas = [
 </style>
 
 <script>
-  const filterBtns = document.querySelectorAll('.filter-chip');
-  const cards = document.querySelectorAll('.galeria-card');
+  function initGaleria() {
+    const filterBtns = document.querySelectorAll('.filter-chip');
+    const cards = document.querySelectorAll('.galeria-card');
 
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      filterBtns.forEach(b => b.classList.remove('active'));
-      const target = e.currentTarget as HTMLElement;
-      target.classList.add('active');
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        const target = e.currentTarget as HTMLElement;
+        target.classList.add('active');
 
-      const filter = target.getAttribute('data-filter');
-      cards.forEach(card => {
-        const cat = card.getAttribute('data-category');
-        if (filter === 'all' || filter === cat) {
-          (card as HTMLElement).style.display = 'flex';
-        } else {
-          (card as HTMLElement).style.display = 'none';
-        }
+        const filter = target.getAttribute('data-filter');
+        cards.forEach(card => {
+          const cat = card.getAttribute('data-category');
+          if (filter === 'all' || filter === cat) {
+            (card as HTMLElement).style.display = 'flex';
+          } else {
+            (card as HTMLElement).style.display = 'none';
+          }
+        });
       });
     });
-  });
+  }
+
+  document.addEventListener('DOMContentLoaded', initGaleria);
+  document.addEventListener('astro:page-load', initGaleria);
 </script>
