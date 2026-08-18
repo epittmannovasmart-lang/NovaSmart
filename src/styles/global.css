@@ -2022,8 +2022,8 @@ body:has(.hero-carousel) .hero-carousel {
   .discounts__item b { font-size: 12px; }
 }
 
-/* Primera vista: más protagonismo para la campaña y buscador más compacto. */
-body:has(.hero-carousel) .hero-carousel { height: clamp(700px, 76svh, 860px); }
+/* Primera vista: la campaña ocupa el protagonismo completo. */
+body:has(.hero-carousel) .hero-carousel { height: clamp(780px, 88svh, 960px); }
 .service-finder { min-height: 110px; padding: 13px 0 15px; }
 .service-finder__intro { margin-bottom: 9px; }
 .service-finder__intro h2 { display: block; font-size: clamp(24px, 2vw, 30px); text-align: center; white-space: nowrap; }
@@ -2031,7 +2031,7 @@ body:has(.hero-carousel) .hero-carousel { height: clamp(700px, 76svh, 860px); }
 .service-finder__form button { display: grid; width: 46px; height: 46px; place-items: center; padding: 0; }
 .service-finder__form button b { margin: 0; }
 @media (max-width: 700px) {
-  body:has(.hero-carousel) .hero-carousel { height: 570px; }
+  body:has(.hero-carousel) .hero-carousel { height: 650px; }
   .service-finder { min-height: 125px; padding: 18px 0; }
   .service-finder__intro h2 { white-space: normal; }
   .service-finder__form button b { display: block; }
@@ -2266,8 +2266,7 @@ body:has(.hero-carousel) .hero-carousel { height: clamp(700px, 76svh, 860px); }
 .promo-grid--expanded .promo-card:hover button::after,
 .promo-grid--expanded .promo-card button:focus-visible::after { margin-left: 9px; transform: translateX(2px); }
 
-/* Recupera las ilustraciones de servicio originales: cada tarjeta conserva
-   una escena propia en lugar de repetir los fondos del carrusel. */
+/* Escenas propias para cada servicio, manteniendo el texto y el hover de las tarjetas. */
 .promo-grid--expanded .promo-card:nth-child(2),
 .promo-grid--expanded .promo-card:nth-child(4) { background: #090b10; }
 .promo-grid--expanded .promo-card:nth-child(2) img,
@@ -2282,18 +2281,18 @@ body:has(.hero-carousel) .hero-carousel { height: clamp(700px, 76svh, 860px); }
   pointer-events: none;
 }
 .promo-grid--expanded .promo-card:nth-child(2)::before {
-  background-image: url('/images/servicios/fibra-hogar-tall.png');
-  background-size: auto 92%;
-  background-position: right -26px top 4px;
+  background-image: url('/images/promociones/promo-fibra-familia.png');
+  background-size: cover;
+  background-position: center;
 }
 .promo-grid--expanded .promo-card:nth-child(3) img {
-  content: url('/images/promociones/novasmart-portabilidad.png');
+  content: url('/images/promociones/promo-linea-sim.png');
   opacity: .78;
 }
 .promo-grid--expanded .promo-card:nth-child(4)::before {
-  background-image: url('/images/servicios/tienda-equipos.png');
-  background-size: auto 88%;
-  background-position: right -12px bottom -8px;
+  background-image: url('/images/promociones/promo-instalacion-familia.png');
+  background-size: cover;
+  background-position: center;
 }
 
 /* Las tres ofertas principales se presentan como tarjetas visuales completas. */
