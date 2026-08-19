@@ -39,6 +39,7 @@ a {
   backdrop-filter: blur(15px);
   border-bottom: 1px solid #10182f12;
 }
+#movil, #celulares, #entregas, #tiendas, #preguntas { scroll-margin-top: 96px; }
 .nav {
   display: flex;
   align-items: center;
@@ -64,11 +65,79 @@ nav {
   gap: 25px;
   margin-left: auto;
 }
-nav a,
+.nav-item {
+  position: static;
+  display: flex;
+  align-items: center;
+}
+.nav-item > a,
 .nav-cta {
   font-size: 13px;
   font-weight: 700;
 }
+.nav-flyout {
+  position: absolute;
+  z-index: 8;
+  top: 100%;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  transition: opacity .18s ease, transform .18s ease, visibility .18s ease;
+  background: #fff;
+  border-bottom: 1px solid #10182f12;
+  box-shadow: 0 24px 40px rgba(16, 24, 47, .12);
+}
+.nav-item:hover .nav-flyout,
+.nav-item:focus-within .nav-flyout {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.nav-flyout__inner {
+  width: min(1180px, calc(100% - 48px));
+  margin: auto;
+  padding: 32px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 48px;
+}
+.nav-flyout__col { min-width: 190px; }
+.nav-flyout__title {
+  margin: 0 0 12px;
+  color: #9aa0ac;
+  font: 700 11px var(--sans);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.nav-flyout__col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.nav-flyout__col a { font: 600 13.5px var(--sans); color: #17191d; }
+.nav-flyout__col a:hover { color: var(--coral, #e4231b); }
+.nav-flyout__note {
+  align-self: flex-end;
+  margin: 0;
+  color: #777b85;
+  font: 600 12px/1.5 var(--sans);
+  max-width: 220px;
+}
+.nav-flyout__products {
+  display: flex;
+  gap: 22px;
+  flex: 1;
+}
+.nav-flyout__product { display: block; width: 130px; }
+.nav-flyout__product-img {
+  display: block;
+  aspect-ratio: 1;
+  border-radius: 16px;
+  background: #f4f4f6;
+  overflow: hidden;
+}
+.nav-flyout__product-img img { width: 100%; height: 100%; object-fit: contain; padding: 12px; transition: transform .3s ease; }
+.nav-flyout__product:hover .nav-flyout__product-img img { transform: scale(1.06); }
+.nav-flyout__product b { display: block; margin-top: 10px; color: #17191d; font: 700 12.5px/1.25 var(--sans); }
+.nav-flyout__product span { display: block; margin-top: 2px; color: #777b85; font: 700 12px var(--sans); }
 .nav-cta {
   border: 1px solid #cdd4e2;
   border-radius: 99px;
@@ -775,10 +844,14 @@ em {
     top: 81px;
     left: 0;
     width: 100%;
+    max-height: calc(100vh - 81px);
+    overflow-y: auto;
     padding: 24px;
     flex-direction: column;
     background: #fff;
   }
+  .nav-item { flex-direction: column; align-items: stretch; }
+  .nav-flyout { display: none; }
   .nav-cta {
     display: none;
   }
@@ -1960,8 +2033,11 @@ body:has(.hero-carousel) .hero-carousel {
 /* Localizador de tiendas. */
 .locations__panel--map { max-height: none; padding: 0; overflow: hidden; }
 .locations__panel--map .locations__panel-head { margin: 0 24px; }
-.stores-map-layout { display: grid; grid-template-columns: minmax(210px, .7fr) 1.3fr; min-height: 410px; }
+.stores-map-layout { display: grid; grid-template-columns: minmax(200px, .62fr) minmax(180px, .78fr) 1.4fr; min-height: 410px; }
 .stores-map-layout .location-list { overflow: auto; max-height: 410px; border-right: 1px solid var(--line); }
+.stores-photo { position: relative; overflow: hidden; min-height: 410px; border-right: 1px solid var(--line); background: #f5f6f8; }
+.stores-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.stores-photo__tag { position: absolute; left: 14px; bottom: 14px; padding: 7px 13px; border-radius: 999px; background: rgba(16,24,47,.72); backdrop-filter: blur(4px); color: #fff; font: 800 12px var(--sans); }
 .location-list .store-map-link {
   width: 100%;
   padding: 14px 18px;
@@ -1987,6 +2063,7 @@ body:has(.hero-carousel) .hero-carousel {
 @media (max-width: 780px) {
   .stores-map-layout { grid-template-columns: 1fr; }
   .stores-map-layout .location-list { max-height: 220px; border-right: 0; border-bottom: 1px solid var(--line); }
+  .stores-photo { min-height: 220px; border-right: 0; border-bottom: 1px solid var(--line); }
   .stores-map, .stores-map iframe { min-height: 330px; }
 }
 
@@ -1995,12 +2072,12 @@ body:has(.hero-carousel) .hero-carousel {
 .discounts h2 { margin: 0 0 38px; color: var(--ink); text-align: center; font: 800 clamp(32px, 3.5vw, 48px)/1 var(--serif); letter-spacing: -1.6px; }
 .discounts h2 em { color: var(--coral); font-style: normal; }
 .discounts__carousel { display: grid; grid-template-columns: 46px 1fr 46px; gap: 14px; align-items: center; }
-.discounts__track { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(130px, 1fr); gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.discounts__track { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(130px, 1fr); gap: 12px; padding: 16px 0 8px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
 .discounts__track::-webkit-scrollbar { display: none; }
 .discounts__item { display: grid; justify-items: center; gap: 13px; padding: 5px 4px 9px; border: 0; background: transparent; color: var(--ink); cursor: pointer; scroll-snap-align: start; }
 .discounts__item b { font: 700 14px var(--sans); transition: color .25s ease, transform .25s ease; }
 .discounts__visual { width: 112px; height: 112px; display: grid; place-items: center; overflow: hidden; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(255,255,255,.75), 0 9px 19px rgba(18,24,40,.08); transition: transform .34s cubic-bezier(.2,.8,.2,1), box-shadow .34s ease; }
-.discounts__visual img { width: 100%; height: 100%; object-fit: cover; transition: transform .45s ease; }
+.discounts__visual img { width: 84%; height: 84%; object-fit: contain; transition: transform .45s ease; }
 .discounts__visual--coral { background: #ffe7e4; }
 .discounts__visual--ink { background: #e9edf8; }
 .discounts__visual--yellow { background: #fff4ce; }
@@ -2038,7 +2115,7 @@ body:has(.hero-carousel) .hero-carousel { height: clamp(780px, 88svh, 960px); }
 }
 
 /* Opciones de entrega para equipos y accesorios. */
-.delivery-options { padding: 88px 0; background: #fff; text-align: center; }
+.delivery-options { padding: 56px 0; background: #fff; text-align: center; }
 .delivery-options > .container > .eyebrow { justify-content: center; }
 .delivery-options h2 { margin: 12px 0 33px; color: var(--ink); font: 800 clamp(34px, 3.6vw, 48px)/1 var(--serif); letter-spacing: -1.6px; }
 .delivery-options h2 em { color: var(--coral); font-style: normal; }
@@ -2050,7 +2127,7 @@ body:has(.hero-carousel) .hero-carousel { height: clamp(780px, 88svh, 960px); }
 .delivery-options h3 { margin: 2px 0 8px; color: #07586a; font: 800 21px/1.1 var(--serif); }
 .delivery-options p { margin: 0; color: #126275; font-size: 15px; line-height: 1.5; }
 @media (max-width: 780px) {
-  .delivery-options { padding: 64px 0; }
+  .delivery-options { padding: 56px 0; }
   .delivery-options__grid { grid-template-columns: 1fr; }
   .delivery-options__grid article { padding: 27px 24px; }
   .delivery-options__grid article + article::before { top: 0; bottom: auto; left: 24px; right: 24px; width: auto; height: 1px; }
@@ -2078,7 +2155,7 @@ body:has(.hero-carousel) .hero-carousel { height: clamp(780px, 88svh, 960px); }
 /* Escena de ayuda: centro legible, mensajes en órbita. */
 .faq-live {
   position: relative;
-  min-height: 620px;
+  min-height: 740px;
   background:
     radial-gradient(circle at 50% 51%, rgba(228, 35, 27, .09), transparent 28%),
     linear-gradient(135deg, #fff 0%, #fff5f4 48%, #fff 100%);
@@ -2308,7 +2385,7 @@ body:has(.hero-carousel) .hero-carousel { height: clamp(780px, 88svh, 960px); }
   box-shadow: 0 16px 34px rgba(48, 14, 12, .15);
   transform: none;
 }
-.fibre .plans-track .plan-card:nth-child(-n + 3) > * { display: none; }
+.fibre .plans-track .plan-card:nth-child(-n + 3) > * { display: none !important; }
 .fibre .plans-track .plan-card:nth-child(1) { background-image: url('/images/planes/plan-200-mbps-card-v2.png'); }
 .fibre .plans-track .plan-card:nth-child(2) { background-image: url('/images/planes/plan-300-mbps-card-v2.png'); }
 .fibre .plans-track .plan-card:nth-child(3) { background-image: url('/images/planes/plan-400-mbps-card-v2.png'); }
@@ -2361,26 +2438,28 @@ body:has(.hero-carousel) .hero-carousel { height: clamp(780px, 88svh, 960px); }
 }
 
 /* Mapa de tiendas: más área para explorar las ubicaciones. */
-.locations { padding: 132px 0; }
+.locations { padding: 72px 0 132px; }
 .locations .container { width: min(1360px, calc(100% - 64px)); }
-.locations__grid { grid-template-columns: minmax(310px, .72fr) minmax(620px, 1.65fr); gap: 84px; align-items: stretch; }
-.locations__copy { display: flex; flex-direction: column; justify-content: center; }
-.locations__panel--map { min-height: 600px; }
+.locations__heading { max-width: 640px; margin: 0 0 40px; }
+.locations__panel--map { min-height: 612px; }
 .locations__panel--map .locations__panel-head { height: 82px; margin: 0 30px; }
-.stores-map-layout { min-height: 518px; grid-template-columns: minmax(250px, .62fr) 1.38fr; }
-.stores-map-layout .location-list { max-height: 518px; }
-.stores-map, .stores-map iframe { min-height: 518px; }
+.stores-map-layout { min-height: 530px; grid-template-columns: minmax(220px, .5fr) minmax(340px, .82fr) 1.3fr; }
+.stores-map-layout .location-list { max-height: 530px; }
+.stores-photo { min-height: 530px; }
+.stores-map, .stores-map iframe { min-height: 530px; }
 .location-list .store-map-link { padding: 17px 22px; }
-@media (max-width: 980px) {
+@media (max-width: 1280px) {
   .locations .container { width: min(1180px, calc(100% - 48px)); }
-  .locations__grid { grid-template-columns: 1fr; gap: 42px; }
-  .locations__panel--map { min-height: 570px; }
+  .locations__panel--map { min-height: auto; }
+  .stores-map-layout .location-list { max-height: 260px; }
+  .stores-photo { min-height: 260px; }
+  .stores-map, .stores-map iframe { min-height: 420px; }
 }
 @media (max-width: 780px) {
   .locations { padding: 76px 0; }
   .locations .container { width: min(100% - 32px, 1180px); }
-  .locations__panel--map { min-height: auto; }
   .stores-map-layout .location-list { max-height: 235px; }
+  .stores-photo { min-height: 220px; }
   .stores-map, .stores-map iframe { min-height: 390px; }
 }
 
@@ -2404,6 +2483,8 @@ body:has(.hero-carousel) .hero-carousel { height: clamp(780px, 88svh, 960px); }
 .hero-carousel__slide > img { object-fit: cover; object-position: center; background: #070707; transform: none; }
 .hero-carousel__slide.is-active > img { transform: none; }
 .promo-heading { grid-template-columns: minmax(0, 1.15fr) minmax(270px, .85fr); align-items: center; gap: 70px; margin-bottom: 38px; }
+.promo-heading--single { grid-template-columns: 1fr; }
+.promo-heading--single h2 { max-width: none; white-space: nowrap; font-size: clamp(2rem, 9vw, 4.6rem); }
 .promo-heading__title .eyebrow { margin-bottom: 16px; }
 .promo-heading h2 { margin: 0; max-width: 510px; font-size: clamp(2.5rem, 4.2vw, 4.6rem); line-height: .96; letter-spacing: -2.8px; }
 .promo-heading > p:last-child { max-width: 390px; margin: 0; font-size: 1.02rem; }
@@ -2429,3 +2510,621 @@ body:has(.hero-carousel) .hero-carousel { height: clamp(780px, 88svh, 960px); }
   .contact-whatsapp__visual { height: 310px; overflow: visible; }
   .contact-whatsapp__visual img { width: 300px; height: 310px; }
 }
+
+/* Accesibilidad responsive: cada plan y cada bloque debe permanecer visible. */
+.fibre .plans-track .plan-card,
+.fibre .plans-track .plan-card:nth-child(n + 4) {
+  display: block;
+  min-height: 500px;
+  padding: 28px 24px 22px;
+  overflow: visible;
+  border: 1px solid #e5e5e8;
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 14px 30px rgba(23, 24, 31, .1);
+  aspect-ratio: auto;
+}
+.fibre .plans-track .plan-card:nth-child(-n + 3) > * { display: revert; }
+.fibre .plans-track .plan-card:nth-child(-n + 3) { background: #fff; }
+.fibre .plans-track .plan-card__visual { display: block !important; }
+.fibre .plans-track .plan-card__flag { display: inline-flex !important; }
+.fibre .plans-track .plan-card__kind,
+.fibre .plans-track .plan-card h3,
+.fibre .plans-track .plan-card__tier,
+.fibre .plans-track .plan-card__price,
+.fibre .plans-track .plan-card ul { max-width: 56%; }
+.fibre .plans-track .plan-card a { display: flex !important; }
+
+/* Evita secciones transparentes si el observador no llega a inicializarse. */
+.reveal-section { opacity: 1; transform: none; }
+
+@media (max-width: 780px) {
+  .plans-track { grid-auto-columns: minmax(280px, 84vw); padding-inline: 2px; }
+  .fibre .plans-track .plan-card { min-height: 500px; }
+}
+
+@media (max-width: 520px) {
+  .plans-track { grid-auto-columns: minmax(280px, calc(100vw - 48px)); gap: 14px; }
+  .fibre .plans-track .plan-card { min-height: 490px; padding: 25px 20px 20px; }
+  .fibre .plans-track .plan-card__visual { width: 132px; height: 116px; right: 12px; }
+  .fibre .plans-track .plan-card__kind,
+  .fibre .plans-track .plan-card h3,
+  .fibre .plans-track .plan-card__tier,
+  .fibre .plans-track .plan-card__price,
+  .fibre .plans-track .plan-card ul { max-width: 54%; }
+  .fibre .plans-track .plan-card ul { padding-left: 17px; font-size: 12px; }
+  .promo-grid--expanded .promo-card,
+  .promo-grid--expanded .promo-card--featured { min-height: 340px; }
+  .locations .container { width: calc(100% - 32px); }
+  .stores-map-layout { grid-template-columns: 1fr; }
+}
+
+/* El layout móvil debe ocupar todo el ancho incluso en previsualizadores/tablets estrechos. */
+@media (max-width: 1280px) {
+  .container,
+  .locations .container { width: min(100% - 32px, 720px); }
+  .section-heading--split,
+  .locations__grid,
+  .mobile-offer__grid,
+  .contact-whatsapp,
+  .stores-map-layout { grid-template-columns: minmax(0, 1fr) !important; }
+  .service-grid,
+  .promo-grid--expanded,
+  .phone-catalog__grid,
+  .delivery-options__grid { grid-template-columns: minmax(0, 1fr) !important; }
+  .service-card,
+  .service-card--1 { grid-column: auto; grid-row: auto; min-height: 220px; }
+  .phone-card,
+  .phone-card--iphone,
+  .phone-card--samsung,
+  .phone-card--xiaomi,
+  .phone-card--oppo,
+  .phone-card--pixel,
+  .promo-grid--expanded .promo-card,
+  .promo-grid--expanded .promo-card--featured { grid-column: auto; grid-row: auto; }
+  .locations__panel--map,
+  .stores-map,
+  .stores-map iframe { min-width: 0; }
+  .contact-whatsapp__visual { width: 100%; }
+}
+
+/* Restaurar la vitrina de fibra aprobada: tres cards gráficas, sin las tarjetas adicionales. */
+.fibre .plans-track .plan-card:nth-child(n + 4) { display: none; }
+.fibre .plans-track .plan-card:nth-child(-n + 3) {
+  min-height: 0;
+  padding: 0;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  border: 0;
+  border-radius: 22px;
+  background: #fff center / cover no-repeat;
+  box-shadow: 0 16px 34px rgba(48, 14, 12, .15);
+  transform: none;
+}
+.fibre .plans-track .plan-card:nth-child(-n + 3) > * { display: none; }
+.fibre .plans-track .plan-card:nth-child(1) { background-image: url('/images/planes/plan-200-mbps-card-v2.png'); }
+.fibre .plans-track .plan-card:nth-child(2) { background-image: url('/images/planes/plan-300-mbps-card-v2.png'); }
+.fibre .plans-track .plan-card:nth-child(3) { background-image: url('/images/planes/plan-400-mbps-card-v2.png'); }
+@media (max-width: 1024px) {
+  .plans-track { grid-auto-columns: minmax(220px, 46vw); }
+}
+@media (max-width: 600px) {
+  .plans-track { grid-auto-columns: minmax(250px, calc(100vw - 64px)); }
+  .contact-whatsapp__copy { padding: 34px 20px 8px; }
+  .contact-whatsapp__visual { height: 260px; }
+  .contact-whatsapp__visual img { width: 260px; height: 270px; }
+  .stores-map-layout .location-list { max-height: 250px; }
+}
+
+/* Composiciones completas y lectura vertical en pantallas compactas. */
+@media (max-width: 1280px) {
+  .mobile-offer__image { min-height: 0; }
+  .mobile-offer__image img {
+    position: relative;
+    display: block;
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    object-position: center;
+  }
+  .join-team__banner {
+    min-height: 0;
+    aspect-ratio: auto;
+    background: #fff;
+  }
+  .join-team__banner > img {
+    position: relative;
+    display: block;
+    height: auto;
+    object-fit: contain;
+    object-position: center;
+  }
+  .hero-carousel__slide > img {
+    object-fit: contain;
+    object-position: center;
+  }
+  .faq-live { min-height: 0; padding: 70px 0; }
+  .faq-live .container { display: block; min-height: 0; }
+  .faq-live__heading {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: auto;
+    max-width: 620px;
+    margin: 0 auto 32px;
+    padding: 0;
+    transform: none;
+  }
+  .faq-live__heading::after { display: none; }
+  .faq-live__messages {
+    position: relative;
+    inset: auto;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    min-height: 0;
+  }
+  .faq-live .message,
+  .faq-live .message--one,
+  .faq-live .message--two,
+  .faq-live .message--three,
+  .faq-live .message--four,
+  .faq-live .message--five,
+  .faq-live .message--six,
+  .faq-live .message--seven,
+  .faq-live .message--eight {
+    position: relative;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    width: auto;
+    max-width: none;
+    min-height: 0;
+    transform: none;
+    animation: none;
+  }
+}
+@media (max-width: 640px) {
+  .faq-live__messages { grid-template-columns: 1fr; }
+  .hero-carousel__content { left: 24px; right: 24px; }
+  .hero-carousel__content h1,
+  .hero-carousel__content h2 { font-size: clamp(2.2rem, 10vw, 3.2rem); }
+}
+
+/* Iconografía de acción unificada. */
+:where(.button, .nav-cta, .service-card__cta) b,
+.plan-card a > span {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  margin-left: 8px;
+  overflow: hidden;
+  color: transparent;
+  vertical-align: middle;
+  background: url('/images/ic_flecha.png') center / contain no-repeat;
+}
+.button--light b,
+.button--dark b,
+.nav-cta b { filter: invert(1); }
+.button--light b { filter: none; }
+.service-card__cta b { width: 14px; height: 14px; margin-left: 4px; }
+
+.carousel-arrow,
+.plans-arrow,
+.discounts__arrow {
+  color: transparent;
+  font-size: 0;
+  background-image: url('/images/ic_flecha.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 18px;
+}
+.carousel-arrow { filter: none; background-color: #fff; border-color: #fff; }
+.plans-arrow--prev,
+.discounts__arrow--prev { transform: rotate(180deg); }
+.plans-arrow--prev:hover,
+.discounts__arrow--prev:hover { transform: rotate(180deg) translateX(3px); }
+
+.phone-card button,
+.promo-grid--expanded .promo-card button {
+  color: transparent;
+  font-size: 0;
+}
+.phone-card button::before,
+.promo-grid--expanded .promo-card button::after {
+  content: '';
+  display: block;
+  width: 18px;
+  height: 18px;
+  max-width: none;
+  opacity: 1;
+  background: url('/images/ic_flecha.png') center / contain no-repeat;
+}
+
+/* La imagen móvil llena su escena sin perder al personaje ni dejar una franja vacía. */
+@media (max-width: 1280px) {
+  .mobile-offer__image { min-height: clamp(280px, 52vw, 430px); }
+  .mobile-offer__image img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    aspect-ratio: auto;
+    object-fit: cover;
+    object-position: 27% center;
+  }
+}
+
+/* La flecha se colorea con contraste y se invierte solo cuando es «anterior». */
+:where(.button, .nav-cta, .service-card__cta) b,
+.plan-card a > span {
+  background: currentColor;
+  -webkit-mask: url('/images/ic_flecha.png') center / contain no-repeat;
+  mask: url('/images/ic_flecha.png') center / contain no-repeat;
+}
+
+/* Contraste fijo del icono sobre superficies oscuras. */
+.button--dark b,
+.nav-cta b,
+.service-card--1 .service-card__cta b {
+  color: #fff;
+  background-color: #fff !important;
+  background-image: none !important;
+  filter: none;
+}
+
+/* CTA de equipos: texto e ícono con medidas estables al desplegarse. */
+.phone-card button {
+  width: 38px;
+  padding: 0 10px;
+  gap: 6px;
+}
+.phone-card button::before {
+  display: none;
+  width: 0;
+  min-width: 0;
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.phone-card:hover button,
+.phone-card button:hover,
+.phone-card button:focus-visible { width: 146px; padding: 0 12px; }
+.phone-card:hover button::before,
+.phone-card button:hover::before,
+.phone-card button:focus-visible::before {
+  display: block;
+  position: absolute;
+  left: 14px;
+  top: 55%;
+  width: auto;
+  min-width: 0;
+  max-width: none;
+  opacity: 1;
+  transform: translateY(-50%);
+}
+.phone-card button { position: absolute; }
+.phone-card:hover button,
+.phone-card button:hover,
+.phone-card button:focus-visible { justify-content: center; }
+.phone-card:hover button::after,
+.phone-card button:hover::after,
+.phone-card button:focus-visible::after {
+  position: absolute;
+  right: 13px;
+  margin-left: 0;
+}
+@media (hover: none) {
+  .phone-card:hover button { width: 38px; padding: 0 10px; }
+  .phone-card:hover button::before { display: none; width: 0; min-width: 0; max-width: 0; opacity: 0; }
+}
+
+/* Oculta el carácter → del markup; solo queda el icono de la derecha. */
+.phone-card button { color: transparent !important; font-size: 0 !important; line-height: 0; }
+.phone-card button::before {
+  color: #101114 !important;
+  font-size: .78rem !important;
+  line-height: 1 !important;
+  background: none !important;
+  -webkit-mask: none !important;
+  mask: none !important;
+}
+
+/* Promociones: flecha fija en el círculo; el texto se despliega hacia la izquierda. */
+.promo-grid--expanded .promo-card button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.promo-grid--expanded .promo-card button::after {
+  content: '' !important;
+  display: block !important;
+  flex: 0 0 18px;
+  width: 18px !important;
+  height: 18px !important;
+  margin-left: 0;
+  opacity: 1 !important;
+  background-color: #17191d !important;
+  background-image: none !important;
+  -webkit-mask: url('/images/ic_flecha.png') center / contain no-repeat !important;
+  mask: url('/images/ic_flecha.png') center / contain no-repeat !important;
+}
+.promo-grid--expanded .promo-card:hover button,
+.promo-grid--expanded .promo-card button:focus-visible {
+  justify-content: flex-start;
+}
+.promo-grid--expanded .promo-card:hover button::after,
+.promo-grid--expanded .promo-card button:focus-visible::after { margin-left: 2px; }
+
+/* Estado inicial de promociones: flecha siempre visible; texto solo al expandirse. */
+.promo-grid--expanded .promo-card button::after {
+  content: '→' !important;
+  width: auto !important;
+  height: auto !important;
+  flex: 0 0 auto;
+  color: #17191d !important;
+  background: none !important;
+  -webkit-mask: none !important;
+  mask: none !important;
+  font: 900 22px/1 var(--sans) !important;
+}
+.promo-grid--expanded .promo-card button {
+  background-color: #fff7dc !important;
+  color: transparent;
+}
+.promo-grid--expanded .promo-card:hover button,
+.promo-grid--expanded .promo-card button:focus-visible {
+  background-color: #ffc400 !important;
+  color: #17191d !important;
+}
+
+/* Reset visual de la acción de promociones: sin bloque negro del PNG. */
+.promo-grid--expanded .promo-card button {
+  width: 46px !important;
+  height: 46px !important;
+  padding: 0 !important;
+  overflow: hidden;
+  background: #fff7dc !important;
+  color: transparent !important;
+  font-size: 0 !important;
+}
+.promo-grid--expanded .promo-card button::after {
+  content: '→' !important;
+  display: grid !important;
+  width: 100% !important;
+  height: 100% !important;
+  flex: 0 0 100% !important;
+  place-items: center;
+  margin: 0 !important;
+  padding: 0 !important;
+  color: #17191d !important;
+  background: transparent !important;
+  -webkit-mask: none !important;
+  mask: none !important;
+  font: 900 22px/1 Arial, sans-serif !important;
+}
+.promo-grid--expanded .promo-card:hover button,
+.promo-grid--expanded .promo-card button:focus-visible {
+  width: 154px !important;
+  padding: 0 15px 0 18px !important;
+  background: #ffc400 !important;
+  color: #17191d !important;
+  font-size: .78rem !important;
+}
+.promo-grid--expanded .promo-card:hover button::after,
+.promo-grid--expanded .promo-card button:focus-visible::after {
+  width: 18px !important;
+  height: 18px !important;
+  flex: 0 0 18px !important;
+  margin-left: auto !important;
+}
+
+/* Flecha y texto centrados como un solo grupo. */
+.promo-grid--expanded .promo-card button {
+  position: relative;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.promo-grid--expanded .promo-card button::after { display: none !important; }
+.promo-grid--expanded .promo-card button::before {
+  content: '' !important;
+  position: static;
+  display: block !important;
+  order: 2;
+  flex: 0 0 18px;
+  width: 18px;
+  height: 11px;
+  transform: none;
+  color: transparent !important;
+  background: url('/images/ic_flecha.png') center / 100% 100% no-repeat !important;
+  -webkit-mask: none !important;
+  mask: none !important;
+  font-size: 0 !important;
+}
+.promo-grid--expanded .promo-card:hover button,
+.promo-grid--expanded .promo-card button:focus-visible { padding-right: 18px !important; }
+
+/* Controles del carrusel separados del borde inferior y de la imagen. */
+.hero-carousel__controls { bottom: clamp(52px, 5vw, 78px); }
+@media (max-width: 700px) {
+  .hero-carousel__controls { bottom: 54px; }
+}
+
+/* Flechas de descuentos centradas respecto a los círculos, no al texto inferior. */
+.discounts__arrow { align-self: start; margin-top: 39px; }
+@media (max-width: 650px) {
+  .discounts__arrow { margin-top: 34px; }
+}
+.button--light b { color: #17191d; }
+.button--dark b,
+.nav-cta b { color: #fff; }
+.button:hover b,
+.nav-cta:hover b { color: #fff; }
+
+.carousel-arrow,
+.plans-arrow,
+.discounts__arrow {
+  display: grid;
+  place-items: center;
+  background-image: none;
+}
+.carousel-arrow::after,
+.plans-arrow::after,
+.discounts__arrow::after {
+  content: '';
+  display: block;
+  width: 18px;
+  height: 18px;
+  background: #17191d;
+  -webkit-mask: url('/images/ic_flecha.png') center / contain no-repeat;
+  mask: url('/images/ic_flecha.png') center / contain no-repeat;
+}
+.carousel-arrow:hover::after,
+.plans-arrow:hover::after,
+.discounts__arrow:hover::after { background: #fff; }
+.carousel-arrow--prev,
+.plans-arrow--prev,
+.discounts__arrow--prev { transform: none; }
+.carousel-arrow--prev::after,
+.plans-arrow--prev::after,
+.discounts__arrow--prev::after { transform: rotate(180deg); }
+.plans-arrow--prev:hover,
+.discounts__arrow--prev:hover { transform: translateY(-3px); }
+
+/* Las tarjetas de equipos conservan su texto al expandirse. */
+.phone-card button { font-size: 0; color: #101114; }
+.phone-card button::before {
+  content: 'Conoce más';
+  max-width: 0;
+  opacity: 0;
+  font: 800 .78rem/1 var(--sans);
+  transition: max-width .22s ease, opacity .16s ease;
+}
+.phone-card button::after {
+  content: '';
+  display: block;
+  flex: none;
+  width: 18px;
+  height: 18px;
+  background: #101114;
+  -webkit-mask: url('/images/ic_flecha.png') center / contain no-repeat;
+  mask: url('/images/ic_flecha.png') center / contain no-repeat;
+}
+.phone-card:hover button::before,
+.phone-card button:hover::before,
+.phone-card button:focus-visible::before { max-width: 82px; opacity: 1; }
+.promo-grid--expanded .promo-card button { font-size: .78rem; }
+.promo-grid--expanded .promo-card button::after {
+  content: url('/images/ic_flecha.png') !important;
+  display: block;
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin-left: 0;
+  opacity: 1;
+  background: none !important;
+  -webkit-mask: none;
+  mask: none;
+}
+
+/* Acción de promociones: el icono queda centrado de forma real dentro del círculo. */
+.promo-grid--expanded .promo-card button {
+  display: grid !important;
+  place-items: center;
+  padding: 0 !important;
+}
+.promo-grid--expanded .promo-card button::before { display: none !important; }
+.promo-grid--expanded .promo-card button::after {
+  content: '' !important;
+  display: block !important;
+  width: 18px !important;
+  height: 18px !important;
+  margin: 0 !important;
+  place-self: center;
+  background: url('/images/ic_flecha.png') center / contain no-repeat !important;
+}
+.promo-grid--expanded .promo-card:hover button,
+.promo-grid--expanded .promo-card button:focus-visible {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 154px !important;
+  padding: 0 16px !important;
+}
+
+/* Ajuste óptico del texto dentro de la CTA, sin desplazar la flecha. */
+.phone-card button::before {
+  transform: translate(-14px, 14px);
+}
+
+/* Centrado óptico de las flechas dentro de los controles circulares del carrusel. */
+.carousel-arrow::after { transform: translateY(-4px); }
+.carousel-arrow--prev::after { transform: translateY(-4px) rotate(180deg); }
+
+/* Encabezados simplificados: se muestran solo los títulos principales solicitados. */
+.plans-intro .eyebrow,
+#servicios .eyebrow,
+.mobile-offer .eyebrow,
+.promo-heading__title .eyebrow,
+.delivery-options .eyebrow,
+.locations__heading .eyebrow,
+.contact-whatsapp__copy .eyebrow,
+.faq-live__heading .eyebrow {
+  display: none;
+}
+
+/* Ajuste óptico solo para el estado contraído (círculo) de promociones. */
+.promo-grid--expanded .promo-card button::after {
+  transform: translateY(-8px) !important;
+}
+.promo-grid--expanded .promo-card:hover button::after,
+.promo-grid--expanded .promo-card button:focus-visible::after {
+  transform: translateY(0) !important;
+}
+
+/* Sombra de las cards de planes: profundidad sutil, sin bloque rectangular. */
+.fibre .plans-track .plan-card:nth-child(-n + 3) {
+  box-shadow: none;
+}
+.fibre .plans-track .plan-card:nth-child(-n + 3):hover {
+  box-shadow: 0 16px 26px -18px rgba(58, 16, 13, .48);
+}
+
+/* Centrado óptico del ícono dentro de las flechas laterales de planes. */
+.plans-arrow::after { transform: translateY(-5px); }
+.plans-arrow--prev::after { transform: translateY(-5px) rotate(180deg); }
+
+/* Solo el ícono interno de las flechas de descuentos se ajusta; el círculo no se mueve. */
+.discounts__arrow::after { transform: translateY(-4px); }
+.discounts__arrow--prev::after { transform: translateY(-4px) rotate(180deg); }
+
+/* Navegación de planes a los costados de las cards en escritorio. */
+@media (min-width: 801px) {
+  .plans-carousel__controls {
+    position: absolute;
+    inset: 0 -58px;
+    z-index: 4;
+    display: block;
+    margin: 0;
+    pointer-events: none;
+  }
+  .plans-carousel__controls span { display: none; }
+  .plans-carousel__controls .plans-arrow {
+    position: absolute;
+    top: 50%;
+    pointer-events: auto;
+    transform: translateY(-50%);
+  }
+  .plans-carousel__controls .plans-arrow--prev { left: 0; }
+  .plans-carousel__controls .plans-arrow--next { right: 0; }
+  .plans-carousel__controls .plans-arrow:hover { transform: translateY(calc(-50% - 3px)); }
+}
+
+.contact-whatsapp__copy .button { margin-top: 22px; }

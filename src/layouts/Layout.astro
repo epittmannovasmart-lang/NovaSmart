@@ -3,22 +3,53 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
 
-interface Props { title?: string; description?: string; minimalHeader?: boolean; }
-const { title = 'NovaSmart | Conectamos lo que importa', description = 'Fibra para el hogar, servicios móviles, tecnología y soporte de NovaSmart.', minimalHeader = false } = Astro.props;
+interface FaqItem { question: string; answer: string; }
+interface Props { title?: string; description?: string; minimalHeader?: boolean; noindex?: boolean; faq?: FaqItem[]; }
+const { title = 'NovaSmart | Conectamos lo que importa', description = 'Fibra para el hogar, servicios móviles, tecnología y soporte de NovaSmart.', minimalHeader = false, noindex = false, faq = [] } = Astro.props;
+const site = 'https://novasmartpe.com';
+const canonical = new URL(Astro.url.pathname, site).href;
+const shouldNoindex = noindex || Astro.url.pathname.startsWith('/page/');
+const gaId = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID;
+const gscVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
+const localBusiness = { '@context': 'https://schema.org', '@type': 'LocalBusiness', name: 'NovaSmart', url: site, logo: `${site}/images/logo_ns.png`, image: `${site}/images/logo_ns.png`, telephone: '+51 983 985 748', priceRange: '$$', address: { '@type': 'PostalAddress', addressLocality: 'Lima', addressRegion: 'Lima', addressCountry: 'PE' }, areaServed: ['Lima', 'Callao'], description: 'Servicios de fibra para el hogar, líneas móviles, equipos y atención en tiendas NovaSmart.' };
+const homepageFaq = Astro.url.pathname === '/' ? [
+  { question: '¿Puedo conservar mi número al cambiarme?', answer: 'Sí. Un asesor de NovaSmart puede orientarte sobre el proceso de portabilidad.' },
+  { question: '¿Cómo verifico la cobertura de fibra?', answer: 'Compártenos tu distrito y dirección para revisar la disponibilidad del servicio.' },
+  { question: '¿Cuánto demora la instalación?', answer: 'La visita se coordina contigo de acuerdo con la disponibilidad de tu zona.' },
+  { question: '¿Tienen entrega de equipos?', answer: 'Contamos con retiro en tienda, delivery programado y delivery express en zonas seleccionadas.' },
+] : [];
+const faqSchemaItems = faq.length ? faq : homepageFaq;
+const faqSchema = faqSchemaItems.length ? { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqSchemaItems.map(({ question, answer }) => ({ '@type': 'Question', name: question, acceptedAnswer: { '@type': 'Answer', text: answer } })) } : null;
 ---
 <!doctype html>
-<html lang="es">
+<html lang="es-PE">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#10182f" />
     <meta name="description" content={description} />
-    <link rel="icon" type="image/png" href="/images/logo_ns.png" />
-    <link rel="apple-touch-icon" href="/images/logo_ns.png" />
+    <meta name="robots" content={shouldNoindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large'} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:locale" content="es_PE" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="NovaSmart" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={`${site}/images/logo_ns.png`} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {gscVerification && <meta name="google-site-verification" content={gscVerification} />}
+    <link rel="icon" type="image/png" href="/favicon-ns.png" />
+    <link rel="apple-touch-icon" href="/favicon-ns.png" />
     <title>{title}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet" />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(localBusiness)} />
+    {faqSchema && <script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)} />}
+    {gaId && <><script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}></script><script is:inline define:vars={{ gaId }}>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', gaId);</script></>}
   </head>
   <body><Header minimal={minimalHeader} /><main><slot /></main><Footer /></body>
 </html>

@@ -1,8 +1,94 @@
 ---
 interface Props { minimal?: boolean; }
 const { minimal = false } = Astro.props;
+
+const phonePreview = [
+  { name: 'Apple iPhone 15', price: 'S/ 2,799', image: '/images/equipos/iphone-15-cutout.png' },
+  { name: 'Samsung Galaxy A55', price: 'S/ 1,799', image: '/images/equipos/samsung-galaxy-a55-cutout.png' },
+  { name: 'Xiaomi Redmi Note 13 Pro', price: 'S/ 1,599', image: '/images/equipos/xiaomi-redmi-note-13-pro.png' },
+  { name: 'Google Pixel 8', price: 'S/ 2,399', image: '/images/equipos/google-pixel-8-cutout.png' },
+];
+
+const navItems = [
+  {
+    href: '#fibra', label: 'Planes',
+    columns: [
+      { title: 'Internet hogar', links: [
+        { label: '200 Mbps · Plan inicio', href: '#fibra' },
+        { label: '500 Mbps · Recomendado', href: '#fibra' },
+        { label: '1,000 Mbps · Premium', href: '#fibra' },
+      ] },
+      { title: 'Servicios móviles', links: [
+        { label: 'Portabilidad: conserva tu número', href: '#movil' },
+        { label: 'Chips y líneas nuevas', href: '#movil' },
+        { label: 'Planes Nova Max / Plus / Pro', href: '#movil' },
+      ] },
+      { title: 'Entregas', links: [
+        { label: 'Retiro en tienda', href: '#entregas' },
+        { label: 'Delivery programado', href: '#entregas' },
+        { label: 'Delivery express', href: '#entregas' },
+      ] },
+    ],
+  },
+  {
+    href: '#celulares', label: 'Productos',
+    columns: [
+      { title: 'Marcas', links: [
+        { label: 'Apple', href: '#celulares' },
+        { label: 'Samsung', href: '#celulares' },
+        { label: 'Xiaomi', href: '#celulares' },
+        { label: 'Google', href: '#celulares' },
+        { label: 'OPPO', href: '#celulares' },
+      ] },
+      { title: 'Categorías', links: [
+        { label: 'Celulares', href: '#celulares' },
+        { label: 'Accesorios', href: '#celulares' },
+        { label: 'Audio', href: '#celulares' },
+      ] },
+      { title: 'Tiendas cerca de ti', links: [
+        { label: 'Parque Industrial', href: '#tiendas' },
+        { label: 'Centro Cívico', href: '#tiendas' },
+        { label: 'Surco', href: '#tiendas' },
+        { label: 'Mall Aventura — Isla SJL', href: '#tiendas' },
+      ] },
+    ],
+    products: phonePreview,
+  },
+  {
+    href: '#equipo', label: 'Reclutamiento',
+    columns: [
+      { title: 'Áreas con vacantes', links: [
+        { label: 'Ventas y atención al cliente', href: '#equipo' },
+        { label: 'Soporte técnico', href: '#equipo' },
+        { label: 'Logística y delivery', href: '#equipo' },
+        { label: 'Tecnología', href: '#equipo' },
+      ] },
+      { title: 'Beneficios', links: [
+        { label: 'Línea de carrera', href: '#equipo' },
+        { label: 'Capacitación continua', href: '#equipo' },
+        { label: 'Bonos por desempeño', href: '#equipo' },
+      ] },
+    ],
+  },
+  {
+    href: '#preguntas', label: 'Ayuda',
+    columns: [
+      { title: 'Preguntas frecuentes', links: [
+        { label: '¿Puedo mantener mi número?', href: '#preguntas' },
+        { label: '¿Cómo verifico cobertura?', href: '#preguntas' },
+        { label: '¿Cuánto demora la instalación?', href: '#preguntas' },
+        { label: '¿Tienen delivery de equipos?', href: '#preguntas' },
+      ] },
+      { title: 'Canales de atención', links: [
+        { label: 'WhatsApp 24/7', href: '#contacto' },
+        { label: 'Central telefónica', href: '#preguntas' },
+        { label: 'Chat en vivo', href: '#preguntas' },
+      ] },
+    ],
+  },
+];
 ---
-<header class="site-header"><div class="container nav"><a class="wordmark" href="/" aria-label="NovaSmart, inicio"><img src="/images/logo_ns-cutout.png" alt="NovaSmart" /></a>{!minimal && <><button class="nav-toggle" aria-label="Abrir menú" aria-controls="primary-nav">Menú <span>☰</span></button><nav id="primary-nav"><a href="#fibra">Fibra hogar</a><a href="#movil">Móvil</a><a href="#celulares">Tienda</a><a href="#entregas">Entregas</a><a href="#tiendas">Tiendas</a><a href="#preguntas">Ayuda</a></nav><a class="nav-cta" href="#contacto">Hablar con un asesor <b>→</b></a></>}</div></header>
+<header class="site-header"><div class="container nav"><a class="wordmark" href="/" aria-label="NovaSmart, inicio"><img src="/images/logo_ns-cutout.png" alt="NovaSmart" /></a>{!minimal && <><button class="nav-toggle" aria-label="Abrir menú" aria-controls="primary-nav">Menú <span>☰</span></button><nav id="primary-nav">{navItems.map(item=><div class="nav-item"><a href={item.href}>{item.label}</a><div class="nav-flyout"><div class="nav-flyout__inner">{item.columns.map(col=><div class="nav-flyout__col"><p class="nav-flyout__title">{col.title}</p><ul>{col.links.map(l=><li><a href={l.href}>{l.label}</a></li>)}</ul></div>)}{item.products && <div class="nav-flyout__products">{item.products.map(p=><a class="nav-flyout__product" href="#celulares"><span class="nav-flyout__product-img"><img src={p.image} alt={p.name} loading="lazy" /></span><b>{p.name}</b><span>{p.price}</span></a>)}</div>}{item.note && <p class="nav-flyout__note">{item.note}</p>}</div></div></div>)}</nav></>}</div></header>
 <script>
   document.querySelector('.nav-toggle')?.addEventListener('click', () => document.querySelector('.site-header')?.classList.toggle('menu-open'));
   document.querySelectorAll('.site-header nav a').forEach(link => link.addEventListener('click', () => document.querySelector('.site-header')?.classList.remove('menu-open')));

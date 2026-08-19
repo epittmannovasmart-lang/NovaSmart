@@ -1,0 +1,8 @@
+{
+  "headers": [
+    {
+      "source": "/page/(.*)",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+    }
+  ]
+}
