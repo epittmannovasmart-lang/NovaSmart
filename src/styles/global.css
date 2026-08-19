@@ -2526,7 +2526,7 @@ body:has(.hero-carousel) .hero-carousel { height: clamp(780px, 88svh, 960px); }
 }
 .fibre .plans-track .plan-card:nth-child(-n + 3) > * { display: revert; }
 .fibre .plans-track .plan-card:nth-child(-n + 3) { background: #fff; }
-.fibre .plans-track .plan-card__visual { display: block !important; }
+.fibre .plans-track .plan-card__visual { display: none !important; }
 .fibre .plans-track .plan-card__flag { display: none !important; }
 .fibre .plans-track .plan-card__kind,
 .fibre .plans-track .plan-card h3,
