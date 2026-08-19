@@ -2533,7 +2533,7 @@ body:has(.hero-carousel) .hero-carousel { height: clamp(780px, 88svh, 960px); }
 .fibre .plans-track .plan-card__tier,
 .fibre .plans-track .plan-card__price,
 .fibre .plans-track .plan-card ul { max-width: 56%; }
-.fibre .plans-track .plan-card a { display: flex !important; }
+.fibre .plans-track .plan-card a { display: none !important; }
 
 /* Evita secciones transparentes si el observador no llega a inicializarse. */
 .reveal-section { opacity: 1; transform: none; }
