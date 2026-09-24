@@ -1057,7 +1057,7 @@ em {
   *, *::before, *::after { animation-duration: 1ms !important; transition-duration: 1ms !important; }
 }
 
-.novi-hero{position:absolute;width:190px;right:-5px;bottom:0;z-index:4;filter:drop-shadow(0 20px 20px #0005);animation:noviFloat 4.5s ease-in-out infinite}.scroll-progress{position:fixed;top:0;left:0;height:4px;width:100%;background:#e4231b;transform-origin:left;z-index:100;box-shadow:0 2px 10px #e4231b88}.quick-nav{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:10;display:flex;align-items:center;gap:4px;padding:7px;border-radius:999px;background:#ffffffed;border:1px solid #ddd;box-shadow:0 12px 35px #0003;backdrop-filter:blur(10px)}.quick-nav a{padding:10px 13px;border-radius:999px;font-size:12px;font-weight:700}.quick-nav a:hover{background:#111;color:#fff}.quick-nav__novi{display:flex;align-items:center;background:#e4231b;color:#fff}.quick-nav__novi img{width:24px;height:24px;object-fit:contain;margin-right:5px}.novi-help{position:fixed;right:24px;bottom:25px;z-index:11;border:0;border-radius:999px;background:#111;color:#fff;display:flex;align-items:center;gap:9px;padding:8px 15px 8px 8px;font:700 12px var(--sans);box-shadow:0 10px 28px #0004;cursor:pointer}.novi-help img{width:38px;height:38px;object-fit:contain}.novi-help:hover{background:#e4231b;transform:translateY(-4px)}.reveal-section{opacity:0;transform:translateY(34px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1)}.reveal-section.is-visible{opacity:1;transform:none}@keyframes noviFloat{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-17px) rotate(3deg)}}@media(max-width:700px){.quick-nav{bottom:14px;max-width:calc(100% - 28px);overflow:auto}.quick-nav a{padding:9px 10px}.quick-nav__novi{display:none}.novi-help{right:14px;bottom:66px;padding:7px}.novi-help span{display:none}.novi-help img{width:42px;height:42px}.novi-hero{width:130px;right:-15px}.device-card{margin-left:-80px}}
+.novi-hero{position:absolute;width:190px;right:-5px;bottom:0;z-index:4;filter:drop-shadow(0 20px 20px #0005);animation:noviFloat 4.5s ease-in-out infinite}.scroll-progress{position:fixed;top:0;left:0;height:4px;width:100%;background:#e4231b;transform-origin:left;z-index:100;box-shadow:0 2px 10px #e4231b88}.quick-nav{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:10;display:flex;align-items:center;gap:4px;padding:7px;border-radius:999px;background:#ffffffed;border:1px solid #ddd;box-shadow:0 12px 35px #0003;backdrop-filter:blur(10px)}.quick-nav a{padding:10px 13px;border-radius:999px;font-size:12px;font-weight:700}.quick-nav a:hover{background:#111;color:#fff}.quick-nav__novi{display:flex;align-items:center;background:#e4231b;color:#fff}.quick-nav__novi img{width:24px;height:24px;object-fit:contain;margin-right:5px}.reveal-section{opacity:0;transform:translateY(34px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1)}.reveal-section.is-visible{opacity:1;transform:none}@keyframes noviFloat{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-17px) rotate(3deg)}}@media(max-width:700px){.quick-nav{bottom:14px;max-width:calc(100% - 28px);overflow:auto}.quick-nav a{padding:9px 10px}.quick-nav__novi{display:none}.novi-hero{width:130px;right:-15px}.device-card{margin-left:-80px}}
 :root {
   --ink: #111;
   --muted: #5e5e5e;
@@ -2358,16 +2358,16 @@ body:has(.hero-carousel) .hero-carousel { height: clamp(780px, 88svh, 960px); }
   pointer-events: none;
 }
 .promo-grid--expanded .promo-card:nth-child(2)::before {
-  background-image: url('/images/promociones/promo-fibra-familia.png');
+  background-image: url('/images/promociones/promo-fibra-familia.webp');
   background-size: cover;
   background-position: center;
 }
 .promo-grid--expanded .promo-card:nth-child(3) img {
-  content: url('/images/promociones/promo-linea-sim.png');
+  content: url('/images/promociones/promo-linea-sim.webp');
   opacity: .78;
 }
 .promo-grid--expanded .promo-card:nth-child(4)::before {
-  background-image: url('/images/promociones/promo-instalacion-familia.png');
+  background-image: url('/images/promociones/promo-instalacion-familia.webp');
   background-size: cover;
   background-position: center;
 }
@@ -2386,9 +2386,9 @@ body:has(.hero-carousel) .hero-carousel { height: clamp(780px, 88svh, 960px); }
   transform: none;
 }
 .fibre .plans-track .plan-card:nth-child(-n + 3) > * { display: none !important; }
-.fibre .plans-track .plan-card:nth-child(1) { background-image: url('/images/planes/plan-200-mbps-card-v2.png'); }
-.fibre .plans-track .plan-card:nth-child(2) { background-image: url('/images/planes/plan-300-mbps-card-v2.png'); }
-.fibre .plans-track .plan-card:nth-child(3) { background-image: url('/images/planes/plan-400-mbps-card-v2.png'); }
+.fibre .plans-track .plan-card:nth-child(1) { background-image: url('/images/planes/plan-200-mbps-card-v2.webp'); }
+.fibre .plans-track .plan-card:nth-child(2) { background-image: url('/images/planes/plan-300-mbps-card-v2.webp'); }
+.fibre .plans-track .plan-card:nth-child(3) { background-image: url('/images/planes/plan-400-mbps-card-v2.webp'); }
 .fibre .plans-track .plan-card:nth-child(-n + 3):hover {
   transform: translateY(-8px) scale(1.015);
   box-shadow: 0 23px 42px rgba(203, 33, 26, .23);
@@ -2602,9 +2602,9 @@ body:has(.hero-carousel) .hero-carousel { height: clamp(780px, 88svh, 960px); }
   transform: none;
 }
 .fibre .plans-track .plan-card:nth-child(-n + 3) > * { display: none; }
-.fibre .plans-track .plan-card:nth-child(1) { background-image: url('/images/planes/plan-200-mbps-card-v2.png'); }
-.fibre .plans-track .plan-card:nth-child(2) { background-image: url('/images/planes/plan-300-mbps-card-v2.png'); }
-.fibre .plans-track .plan-card:nth-child(3) { background-image: url('/images/planes/plan-400-mbps-card-v2.png'); }
+.fibre .plans-track .plan-card:nth-child(1) { background-image: url('/images/planes/plan-200-mbps-card-v2.webp'); }
+.fibre .plans-track .plan-card:nth-child(2) { background-image: url('/images/planes/plan-300-mbps-card-v2.webp'); }
+.fibre .plans-track .plan-card:nth-child(3) { background-image: url('/images/planes/plan-400-mbps-card-v2.webp'); }
 @media (max-width: 1024px) {
   .plans-track { grid-auto-columns: minmax(220px, 46vw); }
 }
@@ -2703,7 +2703,7 @@ body:has(.hero-carousel) .hero-carousel { height: clamp(780px, 88svh, 960px); }
   overflow: hidden;
   color: transparent;
   vertical-align: middle;
-  background: url('/images/ic_flecha.png') center / contain no-repeat;
+  background: url('/images/ic_flecha.webp') center / contain no-repeat;
 }
 .button--light b,
 .button--dark b,
@@ -2716,7 +2716,7 @@ body:has(.hero-carousel) .hero-carousel { height: clamp(780px, 88svh, 960px); }
 .discounts__arrow {
   color: transparent;
   font-size: 0;
-  background-image: url('/images/ic_flecha.png');
+  background-image: url('/images/ic_flecha.webp');
   background-repeat: no-repeat;
   background-position: center;
   background-size: 18px;
@@ -2740,7 +2740,7 @@ body:has(.hero-carousel) .hero-carousel { height: clamp(780px, 88svh, 960px); }
   height: 18px;
   max-width: none;
   opacity: 1;
-  background: url('/images/ic_flecha.png') center / contain no-repeat;
+  background: url('/images/ic_flecha.webp') center / contain no-repeat;
 }
 
 /* La imagen móvil llena su escena sin perder al personaje ni dejar una franja vacía. */
@@ -2762,8 +2762,8 @@ body:has(.hero-carousel) .hero-carousel { height: clamp(780px, 88svh, 960px); }
 :where(.button, .nav-cta, .service-card__cta) b,
 .plan-card a > span {
   background: currentColor;
-  -webkit-mask: url('/images/ic_flecha.png') center / contain no-repeat;
-  mask: url('/images/ic_flecha.png') center / contain no-repeat;
+  -webkit-mask: url('/images/ic_flecha.webp') center / contain no-repeat;
+  mask: url('/images/ic_flecha.webp') center / contain no-repeat;
 }
 
 /* Contraste fijo del icono sobre superficies oscuras. */
@@ -2850,8 +2850,8 @@ body:has(.hero-carousel) .hero-carousel { height: clamp(780px, 88svh, 960px); }
   opacity: 1 !important;
   background-color: #17191d !important;
   background-image: none !important;
-  -webkit-mask: url('/images/ic_flecha.png') center / contain no-repeat !important;
-  mask: url('/images/ic_flecha.png') center / contain no-repeat !important;
+  -webkit-mask: url('/images/ic_flecha.webp') center / contain no-repeat !important;
+  mask: url('/images/ic_flecha.webp') center / contain no-repeat !important;
 }
 .promo-grid--expanded .promo-card:hover button,
 .promo-grid--expanded .promo-card button:focus-visible {
@@ -2942,7 +2942,7 @@ body:has(.hero-carousel) .hero-carousel { height: clamp(780px, 88svh, 960px); }
   height: 11px;
   transform: none;
   color: transparent !important;
-  background: url('/images/ic_flecha.png') center / 100% 100% no-repeat !important;
+  background: url('/images/ic_flecha.webp') center / 100% 100% no-repeat !important;
   -webkit-mask: none !important;
   mask: none !important;
   font-size: 0 !important;
@@ -2982,8 +2982,8 @@ body:has(.hero-carousel) .hero-carousel { height: clamp(780px, 88svh, 960px); }
   width: 18px;
   height: 18px;
   background: #17191d;
-  -webkit-mask: url('/images/ic_flecha.png') center / contain no-repeat;
-  mask: url('/images/ic_flecha.png') center / contain no-repeat;
+  -webkit-mask: url('/images/ic_flecha.webp') center / contain no-repeat;
+  mask: url('/images/ic_flecha.webp') center / contain no-repeat;
 }
 .carousel-arrow:hover::after,
 .plans-arrow:hover::after,
@@ -3013,15 +3013,15 @@ body:has(.hero-carousel) .hero-carousel { height: clamp(780px, 88svh, 960px); }
   width: 18px;
   height: 18px;
   background: #101114;
-  -webkit-mask: url('/images/ic_flecha.png') center / contain no-repeat;
-  mask: url('/images/ic_flecha.png') center / contain no-repeat;
+  -webkit-mask: url('/images/ic_flecha.webp') center / contain no-repeat;
+  mask: url('/images/ic_flecha.webp') center / contain no-repeat;
 }
 .phone-card:hover button::before,
 .phone-card button:hover::before,
 .phone-card button:focus-visible::before { max-width: 82px; opacity: 1; }
 .promo-grid--expanded .promo-card button { font-size: .78rem; }
 .promo-grid--expanded .promo-card button::after {
-  content: url('/images/ic_flecha.png') !important;
+  content: url('/images/ic_flecha.webp') !important;
   display: block;
   flex: none;
   width: 18px;
@@ -3047,7 +3047,7 @@ body:has(.hero-carousel) .hero-carousel { height: clamp(780px, 88svh, 960px); }
   height: 18px !important;
   margin: 0 !important;
   place-self: center;
-  background: url('/images/ic_flecha.png') center / contain no-repeat !important;
+  background: url('/images/ic_flecha.webp') center / contain no-repeat !important;
 }
 .promo-grid--expanded .promo-card:hover button,
 .promo-grid--expanded .promo-card button:focus-visible {

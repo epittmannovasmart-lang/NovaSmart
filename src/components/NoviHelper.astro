@@ -1,0 +1,312 @@
+---
+/**
+ * Mascota flotante con "nubes de pensamiento" de preguntas frecuentes.
+ * - mascot: ruta de la mascota animada (GIF / WebP / APNG). Reemplázala cuando tengas el archivo final.
+ * - whatsapp: número en formato internacional sin "+" ni espacios (ej. 51987654321).
+ */
+interface Props {
+  mascot?: string;
+  whatsapp?: string;
+}
+
+// TODO: reemplazar por el número definitivo del asesor y la mascota animada final.
+const { mascot = '/images/novi/smarti-logo-a.webp', whatsapp = '51983985748' } = Astro.props;
+
+const faqs = [
+  { q: '¿Puedo mantener mi número?', a: 'Sí. Te guiamos paso a paso con tu portabilidad para que conserves tu número.', link: '#movil', cta: 'Ver planes móviles' },
+  { q: '¿Cómo verifico cobertura?', a: 'Déjanos tu distrito y lo revisamos contigo en minutos.', link: '#contacto', cta: 'Consultar cobertura' },
+  { q: '¿Qué planes de fibra tienen?', a: 'Tenemos planes de fibra 100% simétrica desde S/ 69 con router Wi‑Fi Dual Band.', link: '#fibra', cta: 'Ver planes de fibra' },
+  { q: '¿Cuánto demora la instalación?', a: 'Coordinamos la visita técnica contigo, en el día y horario que te acomode.', link: '#contacto', cta: 'Agendar instalación' },
+  { q: '¿Tienen delivery de equipos?', a: 'Sí: retiro en tienda, envío programado y express.', link: '#entregas', cta: 'Ver opciones de entrega' },
+  { q: '¿Dónde están sus tiendas?', a: 'Encuentra la tienda NovaSmart más cercana con su ubicación en el mapa.', link: '#tiendas', cta: 'Ver tiendas' },
+];
+
+const waBase = `https://wa.me/${whatsapp}?text=`;
+const waOther = waBase + encodeURIComponent('Hola Smarti, tengo otra consulta sobre NovaSmart.');
+---
+<div class="novi" data-wa-base={waBase}>
+  <div id="novi-think" class="novi-think" popover aria-label="Preguntas frecuentes de Smarti">
+    <div class="novi-think__view" data-view="list">
+      <p class="novi-cloud novi-cloud--hello">¡Hola! Soy <b>Smarti</b> 👋 ¿Qué te gustaría saber?</p>
+      <ul class="novi-think__list">
+        {faqs.map((item, i) => (
+          <li style={`--i:${i + 1}`}>
+            <button class="novi-cloud novi-cloud--q" type="button" data-q={item.q} data-a={item.a} data-link={item.link} data-cta={item.cta}>{item.q}</button>
+          </li>
+        ))}
+        <li style={`--i:${faqs.length + 1}`}>
+          <a class="novi-cloud novi-cloud--other" href={waOther} target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7a11.4 11.4 0 0 1-4.5-4c-.4-.5-1-1.5-1-2.8s.7-2 .9-2.2c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c0 .2.1.4 0 .6l-.4.6-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.6 2 1.1 1 2 1.3 2.3 1.4.3.2.5.1.6 0l.9-1.1c.2-.3.4-.2.6-.1l2 1c.3.1.5.2.5.3.1.1.1.7-.2 1.3Z"/></svg>
+            Otros · Escríbenos
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="novi-think__view" data-view="answer" hidden>
+      <div class="novi-cloud novi-cloud--answer" aria-live="polite">
+        <p class="novi-answer__q"></p>
+        <p class="novi-answer__a"></p>
+        <div class="novi-answer__actions">
+          <a class="novi-answer__link" href="#">Ver más</a>
+          <a class="novi-answer__wa" target="_blank" rel="noopener" href={waOther}>Hablar con un asesor</a>
+        </div>
+      </div>
+      <button class="novi-cloud novi-cloud--back" type="button">← Otras preguntas</button>
+    </div>
+
+    <span class="novi-think__dot novi-think__dot--lg" aria-hidden="true"></span>
+    <span class="novi-think__dot novi-think__dot--sm" aria-hidden="true"></span>
+  </div>
+
+  <button class="novi-mascot" type="button" popovertarget="novi-think" aria-label="Abrir preguntas frecuentes de Smarti" aria-controls="novi-think">
+    <span class="novi-mascot__tag">¿Te ayudo?</span>
+    <img class="novi-mascot__img" src={mascot} alt="" width="96" height="96" />
+  </button>
+</div>
+
+<style>
+  .novi {
+    --novi-red: #e4231b;
+    --novi-ink: #111;
+    --novi-cloud: #fff;
+    --novi-line: #f1d6d3;
+    position: fixed;
+    right: 20px;
+    bottom: 18px;
+    z-index: 40;
+  }
+
+  /* ——— Mascota ——— */
+  .novi-mascot {
+    position: relative;
+    display: grid;
+    justify-items: end;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .novi-mascot__img {
+    width: 96px;
+    height: 96px;
+    object-fit: contain;
+    filter: drop-shadow(0 12px 14px #0004);
+    animation: noviBob 3.6s ease-in-out infinite;
+    transform-origin: 50% 100%;
+    transition: transform .25s ease;
+  }
+  .novi-mascot:hover .novi-mascot__img,
+  .novi-mascot:focus-visible .novi-mascot__img { animation: noviWiggle .6s ease-in-out; }
+  .novi-mascot__tag {
+    position: absolute;
+    right: 78px;
+    bottom: 34px;
+    white-space: nowrap;
+    padding: 9px 14px;
+    border-radius: 999px;
+    background: var(--novi-ink);
+    color: #fff;
+    font: 700 12px var(--sans);
+    box-shadow: 0 10px 24px #0003;
+    transition: opacity .2s ease, transform .2s ease;
+  }
+  .novi-mascot:hover .novi-mascot__tag { background: var(--novi-red); }
+  .novi-mascot:focus-visible { outline: none; }
+  .novi-mascot:focus-visible .novi-mascot__img { outline: 3px solid var(--novi-red); outline-offset: 4px; border-radius: 50%; }
+  .novi:has(.novi-think:popover-open) .novi-mascot__tag,
+  .novi.is-open .novi-mascot__tag { opacity: 0; transform: translateX(8px); pointer-events: none; }
+
+  /* ——— Contenedor de pensamientos ——— */
+  .novi-think {
+    position: fixed;
+    inset: auto 20px 128px auto;
+    width: min(330px, calc(100vw - 32px));
+    max-height: calc(100dvh - 160px);
+    margin: 0;
+    padding: 4px 4px 40px;
+    border: 0;
+    background: transparent;
+    overflow: visible;
+    color: var(--novi-ink);
+  }
+  .novi-think::backdrop { background: transparent; }
+  .novi-think[hidden] { display: none; }
+  .novi-think__view { display: grid; justify-items: end; gap: 8px; }
+  .novi-think__view[hidden] { display: none; }
+  .novi-think__list {
+    display: grid;
+    justify-items: end;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    max-height: calc(100dvh - 260px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: none;
+  }
+
+  /* Nubecita base */
+  .novi-cloud {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 100%;
+    margin: 0;
+    padding: 11px 18px;
+    border: 1.5px solid var(--novi-line);
+    border-radius: 26px 26px 26px 26px / 22px 22px 22px 22px;
+    background: var(--novi-cloud);
+    color: var(--novi-ink);
+    font: 600 14px/1.35 var(--sans);
+    text-align: left;
+    text-decoration: none;
+    box-shadow: 0 8px 22px #7a120d1f;
+  }
+  .novi-cloud--hello { display: block; font-weight: 500; }
+  .novi-cloud--hello b { color: var(--novi-red); }
+
+  button.novi-cloud,
+  a.novi-cloud { cursor: pointer; transition: transform .2s ease, border-color .2s ease, background .2s ease, color .2s ease; }
+  button.novi-cloud:hover,
+  a.novi-cloud:hover { transform: translateY(-2px) scale(1.02); border-color: var(--novi-red); }
+  button.novi-cloud:focus-visible,
+  a.novi-cloud:focus-visible,
+  .novi-answer__actions a:focus-visible { outline: 3px solid var(--novi-red); outline-offset: 2px; }
+
+  .novi-cloud--other { background: #25d366; border-color: #25d366; color: #fff; font-weight: 700; }
+  .novi-cloud--other:hover { background: #1ebe5b; }
+  .novi-cloud--other svg { width: 18px; height: 18px; flex: none; }
+
+  .novi-cloud--answer { display: block; padding: 16px 18px; }
+  .novi-answer__q { margin: 0 0 6px; color: var(--novi-red); font-weight: 800; }
+  .novi-answer__a { margin: 0 0 12px; font-weight: 500; }
+  .novi-answer__actions { display: flex; flex-wrap: wrap; gap: 8px; }
+  .novi-answer__actions a { padding: 8px 12px; border-radius: 999px; font: 700 12px var(--sans); text-decoration: none; }
+  .novi-answer__link { background: var(--novi-ink); color: #fff; }
+  .novi-answer__wa { background: #25d366; color: #fff; }
+  .novi-cloud--back { padding: 8px 14px; font-size: 13px; }
+
+  /* Burbujitas de "pensamiento" hacia la mascota */
+  .novi-think__dot {
+    position: absolute;
+    border: 1.5px solid var(--novi-line);
+    border-radius: 50%;
+    background: var(--novi-cloud);
+    box-shadow: 0 4px 10px #7a120d1f;
+  }
+  .novi-think__dot--lg { width: 18px; height: 18px; right: 46px; bottom: 16px; }
+  .novi-think__dot--sm { width: 10px; height: 10px; right: 38px; bottom: 0; }
+
+  /* ——— Animaciones de aparición ——— */
+  .novi-think:popover-open .novi-think__dot--sm,
+  .novi.is-open .novi-think__dot--sm { animation: noviPop .3s ease-out both; }
+  .novi-think:popover-open .novi-think__dot--lg,
+  .novi.is-open .novi-think__dot--lg { animation: noviPop .3s .08s ease-out both; }
+  .novi-think:popover-open .novi-cloud--hello,
+  .novi.is-open .novi-cloud--hello { animation: noviPop .4s .14s cubic-bezier(.3,1.5,.5,1) both; }
+  .novi-think:popover-open .novi-think__list li,
+  .novi.is-open .novi-think__list li { animation: noviPop .4s calc(.14s + var(--i) * .06s) cubic-bezier(.3,1.5,.5,1) both; }
+  .novi-think__view[data-view='answer']:not([hidden]) > * { animation: noviPop .35s cubic-bezier(.3,1.5,.5,1) both; }
+  .novi-think__list li:nth-child(odd) .novi-cloud { animation: noviDrift 5s ease-in-out infinite; }
+  .novi-think__list li:nth-child(even) .novi-cloud { animation: noviDrift 5s 1.2s ease-in-out infinite reverse; }
+
+  @keyframes noviPop {
+    from { opacity: 0; transform: translate(12px, 14px) scale(.6); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes noviDrift {
+    0%, 100% { translate: 0 0; }
+    50% { translate: -3px -3px; }
+  }
+  @keyframes noviBob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+  @keyframes noviWiggle {
+    0%, 100% { transform: rotate(0); }
+    25% { transform: rotate(-8deg) scale(1.05); }
+    75% { transform: rotate(8deg) scale(1.05); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .novi *, .novi-think * { animation: none !important; }
+  }
+
+  @media (max-width: 700px) {
+    .novi { right: 10px; bottom: 70px; }
+    .novi-mascot__img { width: 72px; height: 72px; }
+    .novi-mascot__tag { display: none; }
+    .novi-think { inset: auto 12px 150px auto; }
+    .novi-cloud { font-size: 13.5px; padding: 10px 15px; }
+    .novi-think__dot--lg { right: 36px; bottom: 18px; }
+    .novi-think__dot--sm { right: 30px; bottom: 2px; }
+  }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('.novi');
+  const think = document.querySelector<HTMLElement>('#novi-think');
+  const trigger = document.querySelector<HTMLButtonElement>('.novi-mascot');
+
+  if (root && think && trigger) {
+    const list = think.querySelector<HTMLElement>('[data-view="list"]')!;
+    const answer = think.querySelector<HTMLElement>('[data-view="answer"]')!;
+    const q = answer.querySelector<HTMLElement>('.novi-answer__q')!;
+    const a = answer.querySelector<HTMLElement>('.novi-answer__a')!;
+    const link = answer.querySelector<HTMLAnchorElement>('.novi-answer__link')!;
+    const wa = answer.querySelector<HTMLAnchorElement>('.novi-answer__wa')!;
+    const waBase = root.dataset.waBase || '';
+    const supportsPopover = 'popover' in HTMLElement.prototype;
+
+    const showList = (focus = false) => {
+      answer.hidden = true;
+      list.hidden = false;
+      if (focus) list.querySelector<HTMLElement>('.novi-cloud--q')?.focus();
+    };
+
+    const close = () => {
+      if (supportsPopover) think.hidePopover();
+      else { think.hidden = true; root.classList.remove('is-open'); }
+    };
+
+    const syncState = (open: boolean) => {
+      trigger.setAttribute('aria-expanded', String(open));
+      if (!open) showList();
+    };
+
+    if (supportsPopover) {
+      think.addEventListener('toggle', (event) => syncState((event as ToggleEvent).newState === 'open'));
+    } else {
+      // Respaldo para navegadores sin Popover API
+      think.hidden = true;
+      trigger.addEventListener('click', () => {
+        const open = think.hidden;
+        think.hidden = !open;
+        root.classList.toggle('is-open', open);
+        syncState(open);
+      });
+      document.addEventListener('keydown', (e) => e.key === 'Escape' && !think.hidden && close());
+    }
+    trigger.setAttribute('aria-expanded', 'false');
+
+    think.querySelectorAll<HTMLButtonElement>('.novi-cloud--q').forEach((btn) =>
+      btn.addEventListener('click', () => {
+        q.textContent = btn.dataset.q || '';
+        a.textContent = btn.dataset.a || '';
+        link.href = btn.dataset.link || '#contacto';
+        link.textContent = btn.dataset.cta || 'Ver más';
+        wa.href = waBase + encodeURIComponent(`Hola Smarti, tengo una consulta: ${btn.dataset.q}`);
+        list.hidden = true;
+        answer.hidden = false;
+        answer.querySelector<HTMLElement>('.novi-cloud--back')?.focus();
+      })
+    );
+
+    answer.querySelector('.novi-cloud--back')?.addEventListener('click', () => showList(true));
+    link.addEventListener('click', close);
+  }
+</script>

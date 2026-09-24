@@ -11,7 +11,7 @@ const canonical = new URL(Astro.url.pathname, site).href;
 const shouldNoindex = noindex || Astro.url.pathname.startsWith('/page/');
 const gaId = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID;
 const gscVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
-const localBusiness = { '@context': 'https://schema.org', '@type': 'LocalBusiness', name: 'NovaSmart', url: site, logo: `${site}/images/logo_ns.png`, image: `${site}/images/logo_ns.png`, telephone: '+51 983 985 748', priceRange: '$$', address: { '@type': 'PostalAddress', addressLocality: 'Lima', addressRegion: 'Lima', addressCountry: 'PE' }, areaServed: ['Lima', 'Callao'], description: 'Servicios de fibra para el hogar, líneas móviles, equipos y atención en tiendas NovaSmart.' };
+const localBusiness = { '@context': 'https://schema.org', '@type': 'LocalBusiness', name: 'NovaSmart', url: site, logo: `${site}/images/logo_ns.webp`, image: `${site}/images/logo_ns.webp`, telephone: '+51 983 985 748', priceRange: '$$', address: { '@type': 'PostalAddress', addressLocality: 'Lima', addressRegion: 'Lima', addressCountry: 'PE' }, areaServed: ['Lima', 'Callao'], description: 'Servicios de fibra para el hogar, líneas móviles, equipos y atención en tiendas NovaSmart.' };
 const homepageFaq = Astro.url.pathname === '/' ? [
   { question: '¿Puedo conservar mi número al cambiarme?', answer: 'Sí. Un asesor de NovaSmart puede orientarte sobre el proceso de portabilidad.' },
   { question: '¿Cómo verifico la cobertura de fibra?', answer: 'Compártenos tu distrito y dirección para revisar la disponibilidad del servicio.' },
@@ -36,7 +36,7 @@ const faqSchema = faqSchemaItems.length ? { '@context': 'https://schema.org', '@
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={`${site}/images/logo_ns.png`} />
+    <meta property="og:image" content={`${site}/images/logo_ns.webp`} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
