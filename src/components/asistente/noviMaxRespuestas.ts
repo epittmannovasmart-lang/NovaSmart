@@ -1,20 +1,20 @@
 /**
- * Temas, preguntas y respuestas predefinidas de Maxi, el asistente de la web.
+ * Temas, preguntas y respuestas predefinidas de NoviMax, el asistente de la web.
  *
- * Es el mismo Maxi de la intranet, pero hablando con clientes: cada tema tiene
+ * Es el asistente de la intranet (allí, Maxi), pero hablando con clientes: cada tema tiene
  * sus preguntas y, si quiere, un acceso a su sección de la página. Para sumar un
- * tema nuevo basta con agregar otra entrada a `TEMAS_MAXI`; la interfaz no cambia.
+ * tema nuevo basta con agregar otra entrada a `TEMAS_NOVIMAX`; la interfaz no cambia.
  *
  * Los datos (planes, entregas, tiendas) salen de `pages/index.astro`: si cambia
  * algo allí, hay que corregir el texto aquí.
  */
 
 /** Mascota a 360 px de alto para el asistente. La completa (893×1200) es `images/mascota_oficial.webp`. */
-export const MASCOTA_SRC = '/images/mascota_maxi.webp'
+export const MASCOTA_SRC = '/images/mascota_novimax.webp'
 
 const TELEFONO = '51983985748'
 
-/** Asesoría humana para lo que Maxi no resuelve, sea del tema que sea. */
+/** Asesoría humana para lo que NoviMax no resuelve, sea del tema que sea. */
 export const SOPORTE = {
   nombre: 'un asesor NovaSmart',
   numero: '+51 983 985 748',
@@ -27,7 +27,7 @@ export interface SeccionTema {
   href: string
 }
 
-export interface PreguntaMaxi {
+export interface PreguntaNoviMax {
   id: string
   pregunta: string
   /** Texto corto antes de los pasos. */
@@ -36,18 +36,18 @@ export interface PreguntaMaxi {
   nota?: string
 }
 
-export interface TemaMaxi {
+export interface TemaNoviMax {
   id: string
   titulo: string
   /** Emoji del chip del tema. */
   icono: string
-  /** Lo primero que dice Maxi al entrar al tema. Sin esto, un saludo genérico. */
+  /** Lo primero que dice NoviMax al entrar al tema. Sin esto, un saludo genérico. */
   intro?: string
   seccion?: SeccionTema
-  preguntas: PreguntaMaxi[]
+  preguntas: PreguntaNoviMax[]
 }
 
-export const TEMAS_MAXI: TemaMaxi[] = [
+export const TEMAS_NOVIMAX: TemaNoviMax[] = [
   {
     id: 'fibra',
     titulo: 'Fibra hogar',

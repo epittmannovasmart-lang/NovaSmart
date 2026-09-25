@@ -1,0 +1,172 @@
+/* NoviMax: mascota flotante y chat. Rojo y negro de la marca; en celular sube
+   para no tapar el botón fijo de WhatsApp (.mobile-cta). */
+.novimax-lanzador,
+.novimax-chat {
+  --novimax-rojo: #e4231b;
+  --novimax-rojo-oscuro: #b8160f;
+  --novimax-tinta: #111;
+  --novimax-gris: #64748b;
+  --novimax-borde: #e2e8f0;
+  --novimax-verde: #1ea952;
+  font-family: var(--sans, system-ui, sans-serif);
+}
+
+.novimax-mascota { object-fit: contain; }
+.novimax-mascota--vacia {
+  display: flex; aspect-ratio: 1; align-items: center; justify-content: center;
+  border-radius: 999px; background: #e4231b; color: #fff; font-weight: 800;
+}
+
+/* Cerrado */
+.novimax-lanzador {
+  position: fixed; right: 12px; bottom: 12px; z-index: 40;
+  display: flex; align-items: flex-end; gap: 4px;
+  padding: 0; border: 0; background: none; cursor: pointer;
+}
+.novimax-lanzador:focus-visible { outline: 3px solid var(--novimax-rojo); outline-offset: 4px; border-radius: 16px; }
+.novimax-lanzador__burbuja {
+  margin-bottom: 20px; padding: 10px 16px; border-radius: 999px;
+  background: var(--novimax-tinta); color: #fff; font-size: 14px; font-weight: 700;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, .25); transition: transform .2s;
+}
+.novimax-lanzador__mascota {
+  height: 96px; width: auto; transform-origin: bottom;
+  filter: drop-shadow(0 16px 18px rgba(0, 0, 0, .28));
+  transition: scale .2s;
+}
+.novimax-lanzador:hover .novimax-lanzador__burbuja { transform: scale(1.05); }
+.novimax-lanzador:hover .novimax-lanzador__mascota { scale: 1.1; }
+
+/* Abierto */
+.novimax-chat {
+  position: fixed; z-index: 90; left: 8px; right: 8px;
+  bottom: max(8px, env(safe-area-inset-bottom)); height: min(72dvh, 560px);
+  display: flex; flex-direction: column; overflow: hidden;
+  border: 1px solid var(--novimax-borde); border-radius: 16px; background: #f8fafc;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, .35);
+  animation: novimax-subir .25s ease-out;
+}
+.novimax-chat__cabecera {
+  display: flex; flex-shrink: 0; align-items: center; gap: 12px; padding: 12px 14px;
+  background: linear-gradient(90deg, #990000, #cc0000, #b91c1c); color: #fff;
+}
+.novimax-chat__titulo { min-width: 0; flex: 1; }
+.novimax-chat__titulo p { margin: 0; }
+.novimax-chat__titulo p:first-child { font-size: 14px; font-weight: 900; line-height: 1.2; }
+.novimax-chat__titulo p:last-child {
+  display: flex; align-items: center; gap: 6px; font-size: 11px; color: rgba(254, 226, 226, .9);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.novimax-chat__titulo p:last-child span { width: 6px; height: 6px; flex-shrink: 0; border-radius: 999px; background: #34d399; }
+.novimax-chat__accion {
+  display: flex; width: 36px; height: 36px; align-items: center; justify-content: center;
+  border: 0; border-radius: 8px; background: none; color: #fff; font-size: 17px; cursor: pointer;
+}
+.novimax-chat__accion:hover { background: rgba(255, 255, 255, .15); }
+
+.novimax-avatar {
+  display: flex; flex-shrink: 0; align-items: flex-end; justify-content: center; overflow: hidden;
+  border: 1px solid var(--novimax-borde); border-radius: 999px; background: #fff;
+}
+.novimax-avatar .novimax-mascota { height: 115%; width: auto; transform: translateY(8%); }
+.novimax-avatar--chico { width: 28px; height: 28px; }
+.novimax-avatar--grande { width: 40px; height: 40px; border-color: rgba(255, 255, 255, .4); }
+
+.novimax-chat__lista {
+  min-height: 0; flex: 1; overflow-y: auto; scroll-padding-top: 12px; padding: 16px 12px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.novimax-fila { display: flex; align-items: flex-end; gap: 8px; }
+.novimax-fila--usuario { justify-content: flex-end; }
+.novimax-burbuja {
+  min-width: 0; max-width: 85%; margin: 0; padding: 10px 14px;
+  border: 1px solid var(--novimax-borde); border-radius: 16px 16px 16px 6px; background: #fff;
+  color: #334155; font-size: 14px; line-height: 1.4; box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+}
+.novimax-burbuja p { margin: 0; }
+.novimax-burbuja b { color: #0f172a; }
+.novimax-burbuja .novimax-marca { color: var(--novimax-rojo); }
+.novimax-burbuja--usuario {
+  max-width: 80%; border: 0; border-radius: 16px 16px 6px 16px;
+  background: var(--novimax-rojo); color: #fff; font-weight: 500;
+}
+.novimax-pasos { margin: 8px 0 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+.novimax-pasos li { display: flex; gap: 8px; }
+.novimax-pasos span {
+  display: flex; width: 18px; height: 18px; flex-shrink: 0; margin-top: 1px;
+  align-items: center; justify-content: center; border-radius: 999px;
+  background: var(--novimax-rojo); color: #fff; font-size: 10px; font-weight: 700;
+}
+.novimax-burbuja .novimax-nota { margin-top: 10px; padding: 8px 10px; border-radius: 8px; background: #f8fafc; color: var(--novimax-gris); font-size: 12px; }
+
+.novimax-escribiendo { display: flex; gap: 4px; padding: 4px 0; }
+.novimax-escribiendo i { width: 6px; height: 6px; border-radius: 999px; background: #94a3b8; animation: novimax-rebote 1s infinite; }
+.novimax-escribiendo i:nth-child(2) { animation-delay: .15s; }
+.novimax-escribiendo i:nth-child(3) { animation-delay: .3s; }
+
+.novimax-soporte { margin-top: 10px; display: grid; gap: 10px; }
+.novimax-soporte__boton {
+  display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px;
+  border-radius: 12px; background: var(--novimax-verde); color: #fff; font-size: 13px; font-weight: 700; text-decoration: none;
+}
+.novimax-soporte__boton:hover { background: #178a43; }
+.novimax-burbuja .novimax-soporte__numero {
+  display: none; padding: 8px 10px; border: 1px solid var(--novimax-borde); border-radius: 12px;
+  background: #f8fafc; color: var(--novimax-gris); font-size: 12px;
+}
+
+.novimax-chat__pie { flex-shrink: 0; padding: 10px 12px 12px; border-top: 1px solid var(--novimax-borde); background: #fff; }
+.novimax-chat__pie-titulo { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
+.novimax-chat__pie-titulo p {
+  margin: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+  color: #94a3b8; font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+}
+.novimax-chat__pie-titulo button {
+  flex-shrink: 0; padding: 2px 8px; border: 0; border-radius: 999px; background: none;
+  color: var(--novimax-gris); font: inherit; font-size: 11px; font-weight: 700; cursor: pointer;
+}
+.novimax-chat__pie-titulo button:hover { background: #f1f5f9; color: #1e293b; }
+.novimax-chips { display: flex; flex-wrap: wrap; gap: 6px; max-height: 128px; overflow-y: auto; }
+.novimax-chip {
+  display: flex; align-items: center; gap: 6px; padding: 6px 12px;
+  border: 1px solid #fecaca; border-radius: 999px; background: #fff; color: var(--novimax-rojo-oscuro);
+  font: inherit; font-size: 12px; font-weight: 600; text-align: left; cursor: pointer; transition: background .2s;
+}
+.novimax-chip:hover { background: #fef2f2; }
+.novimax-chip--neutro { border-color: #cbd5e1; color: #475569; }
+.novimax-chip--neutro:hover { background: #f8fafc; }
+.novimax-seccion {
+  display: flex; width: 100%; align-items: center; justify-content: center; gap: 6px; margin-top: 10px; padding: 8px;
+  border: 0; border-radius: 12px; background: var(--novimax-rojo); color: #fff; font: inherit; font-size: 12px; font-weight: 700; cursor: pointer;
+}
+.novimax-seccion:hover { background: var(--novimax-rojo-oscuro); }
+.novimax-otra-duda {
+  display: flex; align-items: center; gap: 4px; margin: 8px auto 0; padding: 0; border: 0; background: none;
+  color: var(--novimax-gris); font: inherit; font-size: 11px; font-weight: 600; cursor: pointer;
+}
+.novimax-otra-duda svg { color: var(--novimax-verde); width: 13px; height: 13px; }
+.novimax-otra-duda:hover { color: #178a43; }
+.novimax-chat button:disabled { opacity: .5; cursor: default; }
+
+@keyframes novimax-subir { from { opacity: 0; transform: translateY(16px); } }
+@keyframes novimax-rebote { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+
+@media (max-width: 700px) {
+  /* Sobre el botón fijo «Hablar por WhatsApp». */
+  .novimax-lanzador { bottom: 72px; }
+}
+
+@media (min-width: 640px) {
+  .novimax-lanzador { right: 20px; bottom: 20px; }
+  .novimax-lanzador__mascota { height: 128px; }
+  .novimax-chat { left: auto; right: 20px; bottom: 20px; width: 380px; height: min(640px, calc(100dvh - 2.5rem)); }
+  .novimax-burbuja .novimax-soporte__numero { display: block; }
+}
+
+@media (min-width: 640px) and (max-width: 700px) {
+  .novimax-lanzador { bottom: 72px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .novimax-escribiendo i, .novimax-chat { animation: none; }
+}

@@ -2270,7 +2270,7 @@ body:has(.hero-carousel) .hero-carousel { height: clamp(780px, 88svh, 960px); }
   .contact-whatsapp__visual img { width: 280px; height: 300px; }
 }
 
-/* La ilustración de WhatsApp debe mostrar a Maxi completo. */
+/* La ilustración de WhatsApp debe mostrar a NoviMax completo. */
 .contact--whatsapp { padding: 20px 0; }
 .contact-whatsapp { min-height: 410px; }
 .contact-whatsapp__visual { height: 410px; overflow: visible; }
