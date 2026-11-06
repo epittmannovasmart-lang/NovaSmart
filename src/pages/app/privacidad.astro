@@ -201,9 +201,28 @@ const lastUpdated = "6 de noviembre de 2026";
 </Layout>
 
 <style>
+  /* Tokens locales: estas páginas legales usan nombres de variable que no
+     existen en global.css (--color-dark, --color-primary, etc.) — se
+     definen aquí, mapeadas a los tokens reales del sitio (--ink, --coral…). */
+  .privacy-page {
+    --color-dark: var(--ink);
+    --font-heading: var(--serif);
+    --color-primary: var(--coral);
+    --color-text-muted: var(--muted);
+    --color-text-body: #333333;
+    --color-dark-heading: var(--ink);
+    --color-bg-white: #ffffff;
+    --color-border: var(--line);
+    --color-primary-light: rgba(228, 35, 27, 0.08);
+    --color-primary-border: rgba(228, 35, 27, 0.25);
+    --radius-sm: 10px;
+    --radius-md: 16px;
+    --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.08);
+  }
+
   /* ============ HERO ============ */
   .privacy-hero {
-    background: linear-gradient(135deg, var(--color-dark) 0%, #1a1f2e 100%);
+    background: linear-gradient(135deg, var(--ink) 0%, #1a1f2e 100%);
     padding: 5rem 0 4rem;
     text-align: center;
     position: relative;
@@ -228,7 +247,7 @@ const lastUpdated = "6 de noviembre de 2026";
   }
 
   .privacy-hero__title {
-    font-family: var(--font-heading);
+    font-family: var(--serif);
     font-size: clamp(2.2rem, 5vw, 3.2rem);
     font-weight: 800;
     color: #FFFFFF;
@@ -358,6 +377,9 @@ const lastUpdated = "6 de noviembre de 2026";
     font-weight: 700;
     color: var(--color-dark-heading);
     margin-bottom: 0.75rem;
+    /* global.css trae un h1,h2 { letter-spacing: -3.5px } pensado para el
+       hero de la home; se anula acá para que no aplaste este título. */
+    letter-spacing: normal;
   }
 
   .privacy-card p {
