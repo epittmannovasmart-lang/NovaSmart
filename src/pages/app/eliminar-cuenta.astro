@@ -1,0 +1,360 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const lastUpdated = '6 de noviembre de 2026';
+
+const secciones = [
+  {
+    id: 'intro',
+    num: '01',
+    titulo: 'Eliminación de cuenta y datos',
+    cuerpo: [
+      'Esta página explica cómo solicitar la eliminación de tu cuenta y tus datos personales en <strong>Nova App</strong> (<code>com.novasmart.app</code>), la aplicación interna de gestión operativa de <strong>PC Telecom S.A.C.</strong> (Nova Smart) para su personal.',
+    ],
+  },
+  {
+    id: 'como-funciona',
+    num: '02',
+    titulo: 'Cómo funcionan las cuentas en Nova App',
+    cuerpo: [
+      'A diferencia de una app de uso público, las cuentas de Nova App no se crean ni se eliminan desde la propia app: las crea el área de Sistemas al ingresar un colaborador a la empresa, y se desactivan cuando termina su relación laboral o contractual. Por eso la eliminación de cuenta se solicita directamente a Sistemas, no hay un botón de autoservicio dentro de la app.',
+    ],
+  },
+  {
+    id: 'que-se-elimina',
+    num: '03',
+    titulo: 'Qué se elimina y qué se conserva',
+    lede: 'Al procesar una solicitud de eliminación:',
+    lista: [
+      ['Se desactiva el acceso', 'la cuenta deja de poder iniciar sesión en Nova App de inmediato.'],
+      ['Se elimina o anonimiza', 'los datos personales que no estemos obligados a conservar: foto de perfil, datos de contacto no requeridos legalmente, y similares.'],
+      ['Se conservan por obligación legal', 'los registros vinculados a la relación laboral (asistencia, liquidaciones, movimientos de inventario a su cargo, comprobantes) durante el plazo que exigen las normas laborales, tributarias y contables del Perú — no podemos borrarlos antes sin incumplir esas normas.'],
+    ],
+  },
+  {
+    id: 'como-solicitar',
+    num: '04',
+    titulo: 'Cómo solicitar la eliminación',
+    cuerpo: [
+      'Escríbenos indicando tu nombre completo, DNI y el motivo de la solicitud (renuncia, cese, u otro). Puedes hacerlo tú mismo o, si ya no tienes acceso a tus medios de contacto registrados, a través de tu antiguo supervisor o del área de Recursos Humanos.',
+    ],
+  },
+  {
+    id: 'plazos',
+    num: '05',
+    titulo: 'Plazos de respuesta',
+    lista: [
+      ['Confirmación de recepción', 'dentro de las 48 horas hábiles siguientes a tu solicitud.'],
+      ['Desactivación del acceso', 'inmediata si la cuenta corresponde a personal ya cesado.'],
+      ['Eliminación/anonimización de los datos aplicables', 'hasta 15 días hábiles, una vez descontados los datos que debemos conservar por ley (ver sección 3).'],
+    ],
+  },
+];
+---
+
+<Layout
+  title="Eliminar cuenta de Nova App | NovaSmart"
+  description="Cómo solicitar la eliminación de tu cuenta y tus datos personales en Nova App, la aplicación interna de Nova Smart (PC Telecom S.A.C.)."
+  noindex={true}
+>
+  <div class="legal-doc">
+    <header class="legal-doc__head">
+      <div class="container legal-doc__head-inner">
+        <h1 class="legal-doc__title">Eliminar cuenta de Nova App</h1>
+      </div>
+    </header>
+
+    <div class="container legal-doc__body">
+      <nav class="legal-doc__index" aria-label="Contenido">
+        <ol>
+          {secciones.map((s) => (
+            <li><a href={`#${s.id}`} data-idx={s.num}>{s.titulo}</a></li>
+          ))}
+          <li><a href="#contacto" data-idx="06">Contacto</a></li>
+        </ol>
+      </nav>
+
+      <div class="legal-doc__sections">
+        {secciones.map((s) => (
+          <section id={s.id} class="legal-doc__section">
+            <span class="legal-doc__num" aria-hidden="true">{s.num}</span>
+            <h2>{s.titulo}</h2>
+            {s.cuerpo && s.cuerpo.map((p) => <p set:html={p} />)}
+            {s.lede && <p>{s.lede}</p>}
+            {s.lista && (
+              <dl class="legal-doc__deflist">
+                {s.lista.map(([t, d]) => (
+                  <>
+                    <dt>{t}</dt>
+                    <dd>{d}</dd>
+                  </>
+                ))}
+              </dl>
+            )}
+          </section>
+        ))}
+
+        <section id="contacto" class="legal-doc__section legal-doc__contact">
+          <span class="legal-doc__num legal-doc__num--light" aria-hidden="true">06</span>
+          <h2>Contacto</h2>
+          <p>Para solicitar la eliminación de tu cuenta o tus datos, escríbenos a:</p>
+          <address>
+            <strong>PC Telecom S.A.C. — Área de Sistemas</strong><br />
+            Av. Alfredo Benavides Nro. 1180, Int. 1102, Urb. Prolongación Benavides, Lima — Perú<br />
+            <a href="tel:+51983985748">+51 983 985 748</a>
+          </address>
+        </section>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .legal-doc {
+    --rule: var(--line);
+    --accent: var(--coral);
+    background: var(--cream);
+  }
+
+  .legal-doc__head {
+    border-bottom: 1px solid var(--rule);
+    padding: 3.5rem 0 2.75rem;
+  }
+
+  .legal-doc__head-inner {
+    max-width: 720px;
+  }
+
+  .legal-doc__title {
+    font: 800 clamp(2.1rem, 4.4vw, 3rem) / 1.05 var(--serif);
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  .legal-doc__body {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 4.5rem;
+    padding: 3.25rem 0 5rem;
+    align-items: start;
+  }
+
+  .legal-doc__index {
+    position: sticky;
+    top: calc(82px + 1.75rem);
+  }
+
+  .legal-doc__index ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-left: 1px solid var(--rule);
+  }
+
+  .legal-doc__index a {
+    display: flex;
+    gap: 0.6rem;
+    padding: 0.4rem 0 0.4rem 0.9rem;
+    margin-left: -1px;
+    border-left: 2px solid transparent;
+    font-size: 0.86rem;
+    line-height: 1.35;
+    color: #555;
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+
+  .legal-doc__index a[data-active] {
+    border-left-color: var(--accent);
+    color: var(--ink);
+    font-weight: 700;
+  }
+
+  .legal-doc__index a:hover {
+    color: var(--ink);
+  }
+
+  .legal-doc__index a::before {
+    content: attr(data-idx);
+    font: 600 0.72rem/1.3 var(--sans);
+    color: #b7b7b7;
+  }
+
+  .legal-doc__index a[data-active]::before {
+    color: var(--accent);
+  }
+
+  .legal-doc__sections {
+    max-width: 680px;
+  }
+
+  .legal-doc__section {
+    position: relative;
+    padding: 2.4rem 0 2.4rem 0;
+    border-top: 1px solid var(--rule);
+    scroll-margin-top: 1.5rem;
+  }
+
+  .legal-doc__sections .legal-doc__section:first-child {
+    border-top: none;
+    padding-top: 0;
+  }
+
+  .legal-doc__num {
+    display: block;
+    font: 800 0.78rem/1 var(--sans);
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    margin-bottom: 0.6rem;
+  }
+
+  .legal-doc__section h2 {
+    font: 800 1.45rem/1.2 var(--serif);
+    letter-spacing: normal;
+    color: var(--ink);
+    margin: 0 0 0.9rem;
+  }
+
+  .legal-doc__section p {
+    font-size: 0.98rem;
+    line-height: 1.75;
+    color: #333;
+    margin: 0 0 0.9rem;
+  }
+
+  .legal-doc__section p:last-child {
+    margin-bottom: 0;
+  }
+
+  .legal-doc__section code {
+    font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+    font-size: 0.88em;
+    background: #ece9e3;
+    padding: 0.1em 0.4em;
+    border-radius: 4px;
+  }
+
+  .legal-doc__deflist {
+    margin: 0 0 1rem;
+    display: grid;
+    gap: 1rem;
+  }
+
+  .legal-doc__deflist dt {
+    font: 700 0.95rem/1.3 var(--sans);
+    color: var(--ink);
+  }
+
+  .legal-doc__deflist dd {
+    margin: 0.2rem 0 0;
+    font-size: 0.96rem;
+    line-height: 1.65;
+    color: #3c3c3c;
+  }
+
+  .legal-doc__contact {
+    margin-top: 1rem;
+    padding: 2.25rem 2rem;
+    background: var(--ink);
+    border-radius: 14px;
+    border-top: none;
+  }
+
+  .legal-doc__contact .legal-doc__num--light {
+    color: #ff9a92;
+  }
+
+  .legal-doc__contact h2,
+  .legal-doc__contact p {
+    color: #fff;
+  }
+
+  .legal-doc__contact p {
+    color: #c7c7cf;
+  }
+
+  .legal-doc__contact address {
+    font-style: normal;
+    margin-top: 1rem;
+    font-size: 0.96rem;
+    line-height: 1.8;
+    color: #e4e4e8;
+  }
+
+  .legal-doc__contact address a {
+    color: #fff;
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-underline-offset: 3px;
+  }
+
+  @media (max-width: 860px) {
+    .legal-doc__body {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .legal-doc__index {
+      position: static;
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 1.5rem;
+    }
+
+    .legal-doc__index ol {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem 0;
+      border-left: none;
+    }
+
+    .legal-doc__index a {
+      border-left: none;
+      padding: 0.3rem 0.8rem 0.3rem 0;
+    }
+  }
+</style>
+
+<script>
+  const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('.legal-doc__index a'));
+  const targets = links
+    .map((a) => document.querySelector(a.getAttribute('href') || ''))
+    .filter((el): el is Element => !!el);
+
+  links.forEach((link) => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href') || '');
+      target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  if (targets.length) {
+    const REF_LINE = 140;
+    let ticking = false;
+
+    function actualizarActivo() {
+      ticking = false;
+      let actual = targets[0];
+      for (const t of targets) {
+        if (t.getBoundingClientRect().top - REF_LINE <= 0) actual = t;
+        else break;
+      }
+      links.forEach((l) => l.removeAttribute('data-active'));
+      const link = links.find((l) => l.getAttribute('href') === `#${actual.id}`);
+      link?.setAttribute('data-active', 'true');
+    }
+
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (!ticking) {
+          requestAnimationFrame(actualizarActivo);
+          ticking = true;
+        }
+      },
+      { passive: true }
+    );
+    actualizarActivo();
+  }
+</script>
